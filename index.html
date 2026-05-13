@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>
+      Special Message — Onedev
+    </title>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&amp;family=Inter:wght@400;700;900&amp;display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js">
+    </script>
+    <style>
+      :root{
+  --bg:#ffccd5; --accent:#ff3366; --black:#1a1a1a; --white:#ffffff;
+  --mono:&#39;Share Tech Mono&#39;, monospace;
+}
+html,body{ height:100%; margin:0; background:var(--bg); font-family:&#39;Inter&#39;, sans-serif; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+
+/* --- BACKGROUND LOPE --- */
+#bg-hearts { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+.b-heart { position: absolute; color: var(--accent); opacity: 0.4; animation: b-float 4s linear infinite; }
+@keyframes b-float { 0% { transform: translateY(110vh) rotate(0deg); } 100% { transform: translateY(-10vh) rotate(360deg); } }
+
+/* --- POPUP --- */
+#modalSalah {
+  position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0);
+  background: white; border: 4px solid var(--black); border-radius: 20px;
+  padding: 20px; width: 220px; z-index: 1000; text-align: center;
+  transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: 8px 8px 0px var(--black);
+}
+#modalSalah.show { transform: translate(-50%, -50%) scale(1); }
+
+/* --- CONTAINER UTAMA --- */
+#env-stage { position: relative; z-index: 10; display: flex; flex-direction: column; align-items: center; margin-top: 100px; }
+
+/* --- BERUANG --- */
+.bear-wrap { 
+  position: absolute; width: 100px; height: 140px; 
+  bottom: 120px; right: -35px;
+  transform: rotate(-15deg);
+  z-index: 25;
+  transition: 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+  pointer-events: none;
+}
+.bear-head { position: relative; width: 80px; height: 70px; background: #96616b; border: 3px solid var(--black); border-radius: 50% 50% 40% 40%; z-index: 2; }
+.bear-head::before, .bear-head::after { content: &#34;&#34;; position: absolute; width: 25px; height: 25px; background: #96616b; border: 3px solid var(--black); border-radius: 50%; top: -8px; z-index: -1; }
+.bear-head::before { left: -5px; } .bear-head::after { right: -5px; }
+.eye { position: absolute; width: 7px; height: 7px; background: var(--black); border-radius: 50%; top: 28px; }
+.eye.l { left: 22px; } .eye.r { right: 22px; }
+.muzzle { position: absolute; width: 20px; height: 14px; background: #dfb4b4; border-radius: 50%; top: 38px; left: 50%; transform: translateX(-50%); }
+.nose { position: absolute; width: 8px; height: 5px; background: #5d3a41; border-radius: 50%; top: 4px; left: 50%; transform: translateX(-50%); }
+.bear-body { position: absolute; width: 70px; height: 60px; background: #96616b; border: 3px solid var(--black); border-radius: 50% 50% 30% 30%; top: 55px; left: 5px; z-index: 1; }
+
+/* --- AMPLOP --- */
+.envelope { position: relative; width: 260px; height: 160px; background: var(--white); border: 4px solid var(--black); border-radius: 12px; cursor: pointer; z-index: 5; transition: 0.3s; }
+.envelope::before { content: &#34;&#34;; position: absolute; top: 0; left: 0; border-left: 130px solid transparent; border-right: 130px solid transparent; border-top: 95px solid #f9f9f9; z-index: 8; transition: 0.5s; transform-origin: top; }
+.envelope.open::before { transform: rotateX(180deg); z-index: 2; }
+.letter { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 220px; height: 100px; background: white; border: 3px solid var(--black); z-index: 6; opacity: 0; transition: 0.8s ease-in-out; display: flex; align-items: center; justify-content: center; border-radius: 8px; }
+.envelope.open .letter { bottom: 100px; height: 160px; opacity: 1; }
+.seal { position: absolute; top: 40%; left: 50%; transform: translate(-50%, -50%); width: 45px; height: 45px; background: var(--accent); border-radius: 50%; border: 3px solid var(--black); z-index: 10; display: flex; align-items: center; justify-content: center; color: white; transition: 0.3s; }
+.envelope.open .seal { opacity: 0; }
+
+/* --- CARD --- */
+.container { background: var(--white); border: 4px solid var(--black); border-radius: 24px; padding: 30px; width: 280px; text-align: center; box-shadow: 10px 10px 0px var(--black); z-index: 100; position: absolute; display: none; }
+.active { display: block; animation: popUp 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+@keyframes popUp { from { opacity: 0; transform: scale(0.9) translateY(20px); } }
+
+/* --- SAKLAR --- */
+.switch-box { margin: 25px 0; display: none; flex-direction: column; align-items: center; gap: 15px; }
+.pill-switch { position: relative; display: inline-block; width: 74px; height: 38px; }
+.pill-switch input { opacity: 0; width: 0; height: 0; }
+.slider { position: absolute; cursor: pointer; inset: 0; background-color: #eee; transition: .4s; border-radius: 40px; border: 3px solid var(--black); }
+.slider:before { position: absolute; content: &#34;&#34;; height: 24px; width: 24px; left: 4px; bottom: 4px; background-color: white; transition: .4s; border-radius: 50%; border: 3px solid var(--black); box-shadow: 0 2px 0 var(--black); }
+input:checked + .slider { background-color: var(--accent); }
+input:checked + .slider:before { transform: translateX(36px); }
+
+.msg-text { font-size: 16px; font-weight: 700; color: var(--black); min-height: 70px; line-height: 1.6; margin-bottom: 10px; }
+.btn-style { width: 100%; margin: 10px 0; padding: 14px; font-family: var(--mono); font-weight: 900; cursor: pointer; border: 3px solid var(--black); border-radius: 15px; box-shadow: 4px 4px 0px var(--black); background: var(--white); transition: 0.2s; outline: none; position: relative; }
+.btn-accent { background: var(--accent); color: white; }
+.btn-wa { background: #25d366; color: white; }
+.btn-style:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0px var(--black); }
+
+.blocks { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin: 20px 0; }
+.block { width: 44px; height: 44px; border: 3px solid var(--black); border-radius: 12px; background: #fff; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 20px; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 0 var(--black); }
+.block.sel { background: var(--accent); color: white; transform: translateY(2px); box-shadow: none; border-color: var(--black); }
+
+#noBtn { background: #ffeded; position: absolute; left: 50%; transform: translateX(-50%); top: 85px; border-color: #ff3366; color: #ff3366; box-shadow: 4px 4px 0 #ff3366; }
+#yesBtn { background: #00f5d4; position: absolute; left: 50%; transform: translateX(-50%); top: 5px; color: #1a1a1a; }
+
+.wa-input { width: 100%; padding: 12px; border: 3px solid var(--black); border-radius: 10px; font-family: var(--mono); font-weight: 900; text-align: center; margin-bottom: 10px; outline: none; box-sizing: border-box; }
+    </style>
+  </head>
+  <body>
+    <audio id="myMusic" loop="" preload="auto">
+      <source src="https://i.imgur.com/Pkitc1Z.mp4" type="audio/mpeg" />
+    </audio>
+    <div id="bg-hearts">
+    </div>
+    <div id="modalSalah">
+      <i class="fas fa-heart-broken" style="font-size: 40px; color: var(--accent); margin-bottom: 10px;"></i>
+      <p style="font-weight: 900;">
+        Aduh! Susunannya salah. Pelan-pelan aja sayang!
+      </p>
+      <button class="btn-style btn-accent" onclick="closePopup()">
+        ULANGI
+      </button>
+    </div>
+    <div id="env-stage">
+      <div class="bear-wrap" id="bear">
+        <div class="bear-head">
+          <div class="eye l">
+          </div>
+          <div class="eye r">
+          </div>
+          <div class="muzzle">
+            <div class="nose">
+            </div>
+          </div>
+        </div>
+        <div class="bear-body">
+        </div>
+      </div>
+      <div class="envelope" id="mainEnv" onclick="openSurprise()">
+        <div class="letter">
+          <i class="fas fa-heart" style="color:var(--accent); font-size: 40px;"></i>
+        </div>
+        <div class="seal">
+          <i class="fas fa-heart"></i>
+        </div>
+      </div>
+      <p style="margin-top:25px; font-weight:900; color:var(--black); font-family:var(--mono);">
+        BUAT KAMU 🩷
+      </p>
+    </div>
+    <div class="container" id="stageMsg">
+      <div class="msg-text" id="typewriter">
+      </div>
+      <div class="switch-box" id="musicToggle">
+        <p style="font-size: 13px; font-weight: 900; color: #666;">
+          On in dulu tombol ini👇:
+        </p>
+        <label class="pill-switch">
+          <input type="checkbox" id="musicCheck" onchange="toggleMusic()" />
+          <span class="slider"></span>
+        </label>
+        <div id="statusLabel" style="font-family:var(--mono); font-weight:900; font-size:12px; margin-top:8px;">
+          OFF
+        </div>
+      </div>
+      <button class="btn-style btn-accent" id="nextBtn" onclick="flow()" style="display:none">
+        LANJUT ⮕
+      </button>
+    </div>
+    <div class="container" id="game1">
+      <p style="font-weight: 900; color: #888; font-size: 12px;">
+        MISI 1
+      </p>
+      <p style="font-weight: 700; font-size: 14px;">
+        Susun Kata &#34;SAYANG&#34; :
+      </p>
+      <div class="blocks">
+        <div class="block" onclick="sel(this)">
+          S
+        </div>
+        <div class="block" onclick="sel(this)">
+          Y
+        </div>
+        <div class="block" onclick="sel(this)">
+          A
+        </div>
+        <div class="block" onclick="sel(this)">
+          N
+        </div>
+        <div class="block" onclick="sel(this)">
+          G
+        </div>
+        <div class="block" onclick="sel(this)">
+          A
+        </div>
+      </div>
+      <p id="p-stat" style="font-weight:900; color:var(--accent); font-size: 22px; margin-top: 10px;">
+      </p>
+    </div>
+    <div class="container" id="gameNyebelin">
+      <p id="q-title" style="font-weight: 900; color: #888; font-size: 12px;">
+        MISI 2 (1/3)
+      </p>
+      <p id="q-text" style="font-weight: 700; font-size: 16px; margin: 15px 0;">
+        Siapa cowok paling ganteng di mata kamu?
+      </p>
+      <div id="q-options">
+        <button class="btn-style btn-accent" id="ansBtn" onclick="ansBenar()">
+          Pastinya Kamu ❤️
+        </button>
+        <button class="btn-style" id="btnEror" onmouseover="erorTombol()">
+          Artis Korea
+        </button>
+      </div>
+    </div>
+    <div class="container" id="gameFinal">
+      <p style="font-weight:900; color: #888; font-size: 12px;">
+        PERTANYAAN TERAKHIR
+      </p>
+      <p style="font-size: 18px;">
+        <b>        Will you be my Valentine? ❤️
+</b>
+      </p>
+      <div style="position:relative; height:150px; margin-top:25px;">
+        <button class="btn-style" id="yesBtn" onclick="finish()">
+          MAU BANGET! 😍
+        </button>
+        <button class="btn-style" id="noBtn" onmouseover="moveNo()">
+          Nggak
+        </button>
+      </div>
+    </div>
+    <div class="container" id="stageWA">
+      <p style="font-weight:900; color: #888; font-size: 12px;">
+        LAST BOSS!
+      </p>
+      <p style="font-weight: 700; font-size: 14px;">
+        Kamu inget gak nomor WA pacar kamu? Coba isi dong kalo emang sayang!
+      </p>
+      <input type="tel" id="nomorWA" class="wa-input" placeholder="08xxxxxxxxxx" />
+      <button class="btn-style btn-wa" onclick="kirimWA()">
+        Kirim Kasih Sayang ❤️
+      </button>
+    </div>
+    <script>
+      setInterval(() =&gt; {
+  const h = document.createElement(&#39;i&#39;);
+  h.className = &#39;fas fa-heart b-heart&#39;;
+  h.style.left = Math.random() * 100 + &#34;vw&#34;;
+  h.style.fontSize = (Math.random() * 15 + 10) + &#34;px&#34;;
+  document.getElementById(&#39;bg-hearts&#39;).appendChild(h);
+  setTimeout(() =&gt; h.remove(), 4000);
+}, 400);
+
+let step = 0;
+const messages = [&#34;Haii, Cieee dapet surat nih🙈&#34;, &#34;Makasih udah mau bertahan sejauh ini sama aku.&#34;, &#34;Kamu itu rumah, tempat aku pulang paling nyaman.&#34;, &#34;Ikutin misi ini, tolong jujur jawabnya cinta❤...&#34;];
+
+function openSurprise() {
+  document.getElementById(&#39;mainEnv&#39;).classList.add(&#39;open&#39;);
+  document.getElementById(&#39;bear&#39;).style.bottom = &#34;190px&#34;;
+  setTimeout(() =&gt; {
+    document.getElementById(&#39;env-stage&#39;).style.display = &#39;none&#39;;
+    document.getElementById(&#39;stageMsg&#39;).classList.add(&#39;active&#39;);
+    type();
+  }, 1500);
+}
+
+function type() {
+  const t = messages[step]; let i = 0;
+  const el = document.getElementById(&#39;typewriter&#39;); el.innerHTML = &#34;&#34;;
+  document.getElementById(&#39;nextBtn&#39;).style.display = &#34;none&#34;;
+  document.getElementById(&#39;musicToggle&#39;).style.display = &#34;none&#34;;
+  const timer = setInterval(() =&gt; {
+    el.innerHTML += t.charAt(i); i++;
+    if (i &gt;= t.length) { 
+      clearInterval(timer); 
+      if (step === 0) document.getElementById(&#39;musicToggle&#39;).style.display = &#34;flex&#34;;
+      else document.getElementById(&#39;nextBtn&#39;).style.display = &#34;block&#34;;
+    }
+  }, 40);
+}
+
+function toggleMusic() {
+  const audio = document.getElementById(&#39;myMusic&#39;);
+  if(document.getElementById(&#39;musicCheck&#39;).checked) {
+    document.getElementById(&#39;statusLabel&#39;).innerText = &#34;ON&#34;;
+    document.getElementById(&#39;statusLabel&#39;).style.color = &#34;var(--accent)&#34;;
+    audio.play();
+    setTimeout(() =&gt; flow(), 1200);
+  } else {
+    document.getElementById(&#39;statusLabel&#39;).innerText = &#34;OFF&#34;;
+    document.getElementById(&#39;statusLabel&#39;).style.color = &#34;var(--black)&#34;;
+    audio.pause();
+  }
+}
+
+function flow() {
+  step++;
+  if (step &lt; messages.length) type();
+  else {
+    document.getElementById(&#39;stageMsg&#39;).classList.remove(&#39;active&#39;);
+    document.getElementById(&#39;game1&#39;).classList.add(&#39;active&#39;);
+  }
+}
+
+let word = &#34;&#34;;
+function sel(e) {
+  if(e.classList.contains(&#39;sel&#39;)) return;
+  e.classList.add(&#39;sel&#39;); word += e.innerText;
+  document.getElementById(&#39;p-stat&#39;).innerText = word;
+  if(word === &#34;SAYANG&#34;) {
+    setTimeout(() =&gt; {
+      document.getElementById(&#39;game1&#39;).classList.remove(&#39;active&#39;);
+      document.getElementById(&#39;gameNyebelin&#39;).classList.add(&#39;active&#39;);
+    }, 800);
+  } else if (word.length &gt;= 6) {
+    document.getElementById(&#39;modalSalah&#39;).classList.add(&#39;show&#39;);
+  }
+}
+function closePopup() {
+  document.getElementById(&#39;modalSalah&#39;).classList.remove(&#39;show&#39;);
+  word = &#34;&#34;; document.querySelectorAll(&#39;.block&#39;).forEach(b =&gt; b.classList.remove(&#39;sel&#39;));
+  document.getElementById(&#39;p-stat&#39;).innerText = &#34;&#34;;
+}
+
+let qStep = 1;
+function erorTombol() {
+  const btn = document.getElementById(&#39;btnEror&#39;);
+  if(qStep === 1) { 
+    btn.style.position = &#39;absolute&#39;;
+    btn.style.left = Math.random() * 80 + &#39;%&#39;; btn.style.top = Math.random() * 80 + &#39;%&#39;;
+    btn.innerText = &#34;Gak Bisa! 😝&#34;;
+  } else if(qStep === 2) { 
+    btn.style.transform = &#34;scale(0.5)&#34;;
+    btn.innerText = &#34;Eits Gak Bisa 🥺&#34;;
+  } else { 
+    btn.style.left = Math.random() * 50 + &#39;px&#39;;
+    btn.innerText = &#34;Salah klik! 🙄&#34;;
+  }
+}
+
+// UPDATE BAGIAN INI: Ganti teks tombol sesuai pertanyaan
+function ansBenar() {
+  confetti({ particleCount: 30, spread: 50 });
+  qStep++;
+  const btnEror = document.getElementById(&#39;btnEror&#39;);
+  const btnBetul = document.getElementById(&#39;ansBtn&#39;);
+  
+  btnEror.style = &#34;&#34;; // Reset posisi tombol kabur
+  
+  if(qStep === 2) {
+    document.getElementById(&#39;q-title&#39;).innerText = &#34;MISI 2 (2/3)&#34;;
+    document.getElementById(&#39;q-text&#39;).innerText = &#34;Kamu punya siapa?&#34;;
+    btnBetul.innerText = &#34;Punya Kamu Dong! 👩‍❤️‍👨&#34;; // Teks tombol baru
+    btnEror.innerText = &#34;Gk tau&#34;;
+  } else if(qStep === 3) {
+    document.getElementById(&#39;q-title&#39;).innerText = &#34;MISI 2 (3/3)&#34;;
+    document.getElementById(&#39;q-text&#39;).innerText = &#34;Janji jangan pernah pergi ya?&#34;;
+    btnBetul.innerText = &#34;Janji Sayang! 💖&#34;; // Teks tombol baru
+    btnEror.innerText = &#34;Gak janji&#34;;
+  } else {
+    document.getElementById(&#39;gameNyebelin&#39;).classList.remove(&#39;active&#39;);
+    document.getElementById(&#39;gameFinal&#39;).classList.add(&#39;active&#39;);
+  }
+}
+
+function moveNo() {
+  const b = document.getElementById(&#39;noBtn&#39;);
+  b.style.position = &#39;fixed&#39;;
+  b.style.left = Math.random() * (window.innerWidth - 100) + &#39;px&#39;;
+  b.style.top = Math.random() * (window.innerHeight - 50) + &#39;px&#39;;
+}
+
+function finish() {
+  confetti({ particleCount: 200, spread: 80, origin: { y: 0.6 } });
+  document.getElementById(&#39;gameFinal&#39;).innerHTML = `
+    &lt;h2 style=&#34;color:var(--accent)&#34;&gt;I LOVE YOU TOO! ❤️&lt;/h2&gt;
+    &lt;p style=&#34;font-weight:700&#34;&gt;Seneng banget dengernya!&lt;/p&gt;
+    &lt;button class=&#34;btn-style btn-accent&#34; onclick=&#34;goWA()&#34;&gt;MAU LANJUT? ✨&lt;/button&gt;
+  `;
+}
+
+function goWA() {
+  document.getElementById(&#39;gameFinal&#39;).classList.remove(&#39;active&#39;);
+  document.getElementById(&#39;stageWA&#39;).classList.add(&#39;active&#39;);
+}
+
+function kirimWA() {
+  const nomor = document.getElementById(&#39;nomorWA&#39;).value;
+  if(nomor.length &lt; 10) {
+    alert(&#34;Masukin nomor yang bener dong!&#34;);
+    return;
+  }
+  let formatted = nomor;
+  if(formatted.startsWith(&#39;0&#39;)) formatted = &#39;62&#39; + formatted.slice(1);
+  const pesan = encodeURIComponent(&#34;I LOVE YOU! ❤️&#34;);
+  window.location.href = `https://wa.me/${formatted}?text=${pesan}`;
+}
+    </script>
+  </body>
+</html>
