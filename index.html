@@ -7,79 +7,249 @@
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            user-select: none;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; }
+        
         body {
             min-height: 100vh;
-            background: radial-gradient(ellipse at 20% 30%, #0a0a0f, #050508);
             font-family: 'Poppins', sans-serif;
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 2rem;
             position: relative;
-            overflow-x: hidden;
+            background: #0a0a0f;
+            overflow: hidden;
         }
-
-        /* Background Fire Particles */
+        
+        /* ==================== LOADING SCREEN ==================== */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #0a0a0f, #1a0505, #0a0a0f);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+        
+        .loading-screen.fade-out {
+            opacity: 0;
+            visibility: hidden;
+        }
+        
+        .loader-container {
+            text-align: center;
+            animation: fadeInUp 0.6s ease;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .loader-logo {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #ff3300, #ff6600);
+            border-radius: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            box-shadow: 0 0 30px rgba(255, 51, 0, 0.5);
+            animation: logoPulse 1.5s ease-in-out infinite;
+        }
+        
+        @keyframes logoPulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 30px rgba(255,51,0,0.5); }
+            50% { transform: scale(1.05); box-shadow: 0 0 60px rgba(255,51,0,0.8); }
+        }
+        
+        .loader-logo i {
+            font-size: 3.5rem;
+            color: #fff;
+            filter: drop-shadow(0 0 10px rgba(0,0,0,0.5));
+        }
+        
+        .loader-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 2rem;
+            background: linear-gradient(135deg, #ff6600, #ff3300);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: 4px;
+            margin-bottom: 1rem;
+        }
+        
+        .loader-sub {
+            color: rgba(255,255,255,0.5);
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            margin-bottom: 2rem;
+        }
+        
+        .loader-sub span {
+            color: #ff6600;
+            font-weight: bold;
+        }
+        
+        /* LOADING BAR */
+        .loader-bar-container {
+            width: 250px;
+            height: 3px;
+            background: rgba(255,51,0,0.2);
+            border-radius: 10px;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+        
+        .loader-bar {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, #ff3300, #ff6600);
+            border-radius: 10px;
+            animation: loadingBar 4s ease-out forwards;
+            box-shadow: 0 0 10px #ff3300;
+        }
+        
+        @keyframes loadingBar {
+            0% { width: 0%; }
+            20% { width: 20%; }
+            40% { width: 45%; }
+            60% { width: 65%; }
+            80% { width: 85%; }
+            100% { width: 100%; }
+        }
+        
+        .loader-percent {
+            font-family: 'Orbitron', monospace;
+            color: #ff6600;
+            font-size: 0.8rem;
+            margin-top: 10px;
+        }
+        
+        .loader-dots {
+            margin-top: 20px;
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+        }
+        
+        .dot {
+            width: 8px;
+            height: 8px;
+            background: #ff6600;
+            border-radius: 50%;
+            animation: dotPulse 1.5s ease-in-out infinite;
+        }
+        
+        .dot:nth-child(1) { animation-delay: 0s; }
+        .dot:nth-child(2) { animation-delay: 0.3s; }
+        .dot:nth-child(3) { animation-delay: 0.6s; }
+        
+        @keyframes dotPulse {
+            0%, 100% { opacity: 0.3; transform: scale(0.8); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+        
+        /* ==================== MAIN CONTENT ==================== */
+        .main-content {
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        
+        .main-content.visible {
+            opacity: 1;
+        }
+        
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://files.catbox.moe/dg70yk.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            opacity: 0.35;
+            z-index: -2;
+        }
+        
+        .cyber-grid {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(255, 51, 0, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 51, 0, 0.05) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: -1;
+            animation: gridMove 20s linear infinite;
+        }
+        
+        @keyframes gridMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+        
         .fire-bg {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: 0;
+            z-index: -1;
             pointer-events: none;
         }
-
+        
         .particle {
             position: absolute;
             background: radial-gradient(circle, #ff6600, #ff3300);
             border-radius: 50%;
             opacity: 0;
-            animation: fireFloat 4s infinite;
+            animation: fireFloat 5s infinite;
         }
-
+        
         @keyframes fireFloat {
-            0% {
-                transform: translateY(100vh) scale(0);
-                opacity: 0;
-            }
-            50% {
-                opacity: 0.6;
-            }
-            100% {
-                transform: translateY(-100px) scale(1);
-                opacity: 0;
-            }
+            0% { transform: translateY(100vh) scale(0); opacity: 0; }
+            50% { opacity: 0.4; }
+            100% { transform: translateY(-100px) scale(1); opacity: 0; }
         }
-
-        /* Container */
+        
         .container {
             position: relative;
             z-index: 10;
-            max-width: 580px;
+            max-width: 600px;
             width: 100%;
         }
-
-        /* Card Utama */
+        
         .key-card {
-            background: rgba(5, 5, 10, 0.75);
-            backdrop-filter: blur(20px);
+            background: rgba(5, 5, 10, 0.8);
+            backdrop-filter: blur(15px);
             border-radius: 48px;
-            padding: 2.5rem;
-            border: 1px solid rgba(255, 51, 0, 0.3);
-            box-shadow: 0 30px 50px rgba(0, 0, 0, 0.5), 0 0 30px rgba(255, 51, 0, 0.15);
-            transition: 0.4s;
+            padding: 2rem;
+            border: 1px solid rgba(255, 51, 0, 0.4);
+            box-shadow: 0 30px 50px rgba(0,0,0,0.5), 0 0 30px rgba(255,51,0,0.15);
             position: relative;
             overflow: hidden;
         }
-
+        
         .key-card::before {
             content: '';
             position: absolute;
@@ -87,266 +257,236 @@
             left: -50%;
             width: 200%;
             height: 200%;
-            background: radial-gradient(circle, rgba(255,51,0,0.08), transparent 70%);
+            background: radial-gradient(circle, rgba(255,51,0,0.05), transparent 70%);
             animation: rotateSlow 25s linear infinite;
             pointer-events: none;
         }
-
+        
         @keyframes rotateSlow {
             from { transform: rotate(0deg); }
             to { transform: rotate(360deg); }
         }
-
-        /* Header */
-        .header {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-
+        
+        .header { text-align: center; margin-bottom: 1.5rem; }
         .logo-icon {
-            width: 80px;
-            height: 80px;
+            width: 70px; height: 70px;
             background: linear-gradient(135deg, #ff3300, #ff6600);
-            border-radius: 30px;
+            border-radius: 25px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 1rem;
-            box-shadow: 0 10px 25px rgba(255, 51, 0, 0.3);
+            margin: 0 auto 0.8rem;
+            box-shadow: 0 10px 25px rgba(255,51,0,0.3);
         }
-
-        .logo-icon i {
-            font-size: 3rem;
-            color: #fff;
-            filter: drop-shadow(0 0 5px rgba(0,0,0,0.5));
-        }
-
+        .logo-icon i { font-size: 2.5rem; color: #fff; }
         .header h1 {
             font-family: 'Orbitron', monospace;
-            font-size: 2.4rem;
-            background: linear-gradient(135deg, #ff6600, #ff3300, #cc2200);
+            font-size: 2rem;
+            background: linear-gradient(135deg, #ff6600, #ff3300);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-        }
-
-        .header .dev-tag {
-            color: rgba(255, 255, 255, 0.5);
-            font-size: 0.8rem;
-            margin-top: 0.5rem;
             letter-spacing: 2px;
         }
-
-        .header .dev-tag span {
-            color: #ff6600;
-            font-weight: bold;
-        }
-
-        /* Select Style */
-        .select-wrapper {
-            position: relative;
-            margin-bottom: 1.5rem;
-        }
-
-        .select-wrapper i {
+        .header .dev-tag { color: rgba(255,255,255,0.5); font-size: 0.7rem; }
+        .header .dev-tag span { color: #ff6600; font-weight: bold; }
+        
+        .select-wrapper, .input-wrapper { position: relative; margin-bottom: 1rem; }
+        .select-wrapper i, .input-wrapper i, .key-display i {
             position: absolute;
-            left: 18px;
+            left: 15px;
             top: 50%;
             transform: translateY(-50%);
             color: #ff6600;
             z-index: 1;
-            font-size: 1.1rem;
         }
-
-        select {
+        select, #manualKeyInput, #hasilKey {
             width: 100%;
-            padding: 15px 20px 15px 50px;
-            background: rgba(15, 15, 25, 0.9);
-            border: 2px solid rgba(255, 51, 0, 0.4);
+            padding: 12px 15px 12px 45px;
+            background: rgba(15,15,25,0.9);
+            border: 2px solid rgba(255,51,0,0.4);
             border-radius: 30px;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             color: white;
             font-family: 'Poppins', sans-serif;
-            cursor: pointer;
             transition: 0.3s;
         }
-
-        select:hover, select:focus {
-            border-color: #ff3300;
+        select:focus, #manualKeyInput:focus {
             outline: none;
-            box-shadow: 0 0 15px rgba(255, 51, 0, 0.3);
+            border-color: #ff3300;
+            box-shadow: 0 0 15px rgba(255,51,0,0.3);
         }
-
         .select-wrapper::after {
             content: '\f078';
             font-family: 'Font Awesome 6 Free';
             font-weight: 900;
             position: absolute;
-            right: 18px;
+            right: 15px;
             top: 50%;
             transform: translateY(-50%);
             color: #ff6600;
         }
-
-        /* Input Key Manual */
-        .input-wrapper {
-            position: relative;
-            margin-bottom: 1.5rem;
-        }
-
-        .input-wrapper i {
-            position: absolute;
-            left: 18px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #ff6600;
-            z-index: 1;
-        }
-
-        #manualKeyInput {
+        
+        .btn-primary, .btn-secondary {
             width: 100%;
-            padding: 15px 20px 15px 50px;
-            background: rgba(15, 15, 25, 0.9);
-            border: 2px solid rgba(255, 51, 0, 0.4);
-            border-radius: 30px;
-            font-size: 0.95rem;
-            color: #ffaa66;
-            font-family: 'Poppins', sans-serif;
-            transition: 0.3s;
-        }
-
-        #manualKeyInput:focus {
-            outline: none;
-            border-color: #ff3300;
-            box-shadow: 0 0 15px rgba(255, 51, 0, 0.3);
-        }
-
-        #manualKeyInput::placeholder {
-            color: rgba(255, 255, 255, 0.3);
-        }
-
-        /* Tombol */
-        .btn-primary {
-            width: 100%;
-            padding: 15px;
-            background: linear-gradient(45deg, #ff3300, #ff6600);
-            border: none;
+            padding: 12px;
             border-radius: 40px;
-            font-size: 1rem;
-            font-weight: 700;
-            color: #fff;
-            cursor: pointer;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            transition: 0.3s;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(255, 51, 0, 0.4);
-        }
-
-        .btn-secondary {
-            width: 100%;
-            padding: 15px;
-            background: transparent;
-            border: 2px solid #ff6600;
-            border-radius: 40px;
-            font-size: 1rem;
+            font-size: 0.9rem;
             font-weight: 600;
-            color: #ff6600;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 10px;
             transition: 0.3s;
+            margin-bottom: 1rem;
         }
-
-        .btn-secondary:hover {
-            background: rgba(255, 102, 0, 0.15);
-            transform: translateY(-3px);
-            border-color: #ff3300;
-            color: #ffaa66;
+        .btn-primary {
+            background: linear-gradient(45deg, #ff3300, #ff6600);
+            border: none;
+            color: #fff;
+            text-transform: uppercase;
         }
-
-        /* Key Display */
-        .key-display {
-            position: relative;
-            margin: 1.5rem 0;
-        }
-
-        .key-display i {
-            position: absolute;
-            left: 18px;
-            top: 50%;
-            transform: translateY(-50%);
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(255,51,0,0.4); }
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid #ff6600;
             color: #ff6600;
-            z-index: 1;
         }
-
-        #hasilKey {
-            width: 100%;
-            padding: 15px 20px 15px 50px;
-            background: rgba(15, 15, 25, 0.9);
-            border: 2px solid rgba(255, 51, 0, 0.4);
-            border-radius: 30px;
-            font-size: 0.9rem;
+        .btn-secondary:hover { background: rgba(255,102,0,0.15); transform: translateY(-2px); }
+        
+        .key-display { margin: 1rem 0; }
+        #hasilKey { color: #ffaa66; font-family: 'Orbitron', monospace; text-align: center; }
+        
+        .key-list-section { margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid rgba(255,51,0,0.3); }
+        .key-list-title { color: #ff6600; font-size: 0.8rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 8px; justify-content: space-between; flex-wrap: wrap; }
+        .sync-btn {
+            background: rgba(255,102,0,0.2);
+            border: none;
+            padding: 4px 10px;
+            border-radius: 15px;
             color: #ffaa66;
-            text-align: center;
+            cursor: pointer;
+            font-size: 0.7rem;
+        }
+        .sync-btn:hover { background: #ff6600; color: #fff; }
+        .key-list { max-height: 300px; overflow-y: auto; padding-right: 5px; }
+        .key-list::-webkit-scrollbar { width: 4px; }
+        .key-list::-webkit-scrollbar-track { background: rgba(255,51,0,0.1); border-radius: 10px; }
+        .key-list::-webkit-scrollbar-thumb { background: #ff6600; border-radius: 10px; }
+        
+        .key-item {
+            background: rgba(25,25,35,0.7);
+            border-radius: 20px;
+            padding: 12px;
+            margin-bottom: 10px;
+            border-left: 4px solid #ff6600;
+            transition: 0.3s;
+        }
+        .key-item.expired { border-left-color: #ff4444; opacity: 0.6; }
+        .key-value {
             font-family: 'Orbitron', monospace;
-            letter-spacing: 1px;
             font-weight: bold;
-        }
-
-        /* Info Panel */
-        .info-panel {
-            margin-top: 1.5rem;
-            padding: 1.2rem;
-            background: rgba(255, 51, 0, 0.08);
-            border-radius: 25px;
-            text-align: center;
-            border: 1px solid rgba(255, 51, 0, 0.2);
-        }
-
-        .info-panel p {
-            color: rgba(255, 255, 255, 0.6);
+            color: #ffaa66;
             font-size: 0.8rem;
+            word-break: break-all;
+            margin-bottom: 5px;
         }
-
-        .info-panel span {
-            color: #ff6600;
-            font-weight: bold;
+        .key-info { display: flex; justify-content: space-between; align-items: center; font-size: 0.7rem; flex-wrap: wrap; gap: 8px; }
+        .key-type { color: #ff6600; }
+        .key-timer { font-family: monospace; color: #00ff00; }
+        .key-timer.expired { color: #ff4444; }
+        .key-copy-btn, .key-delete-btn {
+            background: rgba(255,102,0,0.2);
+            border: none;
+            padding: 4px 10px;
+            border-radius: 15px;
+            color: #ffaa66;
+            cursor: pointer;
+            font-size: 0.7rem;
+            transition: 0.2s;
         }
-
+        .key-delete-btn { background: rgba(255,0,0,0.2); color: #ff8888; }
+        .key-copy-btn:hover { background: #ff6600; color: #fff; }
+        .key-delete-btn:hover { background: #ff4444; color: #fff; }
+        
+        .info-panel {
+            margin-top: 1rem;
+            padding: 0.8rem;
+            background: rgba(255,51,0,0.08);
+            border-radius: 20px;
+            text-align: center;
+            font-size: 0.7rem;
+            color: rgba(255,255,255,0.6);
+        }
+        .info-panel span { color: #ff6600; font-weight: bold; }
         .developer-credit {
             text-align: center;
             margin-top: 1rem;
-            color: rgba(255, 255, 255, 0.3);
-            font-size: 0.7rem;
-            letter-spacing: 1px;
+            color: rgba(255,255,255,0.3);
+            font-size: 0.65rem;
         }
-
-        .developer-credit a {
-            color: #ff6600;
-            text-decoration: none;
-        }
-
-        /* Modal Password */
-        .modal-overlay {
+        
+        /* SUCCESS MODAL */
+        .success-modal {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(15px);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        .success-modal.active { opacity: 1; visibility: visible; }
+        .success-card {
+            background: linear-gradient(145deg, #1a1a1a, #0a0a0a);
+            border-radius: 60px;
+            padding: 2rem;
+            text-align: center;
+            max-width: 400px;
+            width: 85%;
+            border: 2px solid #ff6600;
+            box-shadow: 0 0 50px rgba(255,51,0,0.3);
+            animation: modalPop 0.4s ease;
+        }
+        @keyframes modalPop {
+            from { transform: scale(0.5); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        .success-card i { font-size: 3.5rem; color: #00ff00; margin-bottom: 1rem; }
+        .success-card h2 { font-family: 'Orbitron', monospace; font-size: 1.5rem; color: #ff6600; margin-bottom: 1rem; }
+        .success-card .generated-key {
+            background: rgba(255,51,0,0.15);
+            border: 1px solid #ff6600;
+            border-radius: 40px;
+            padding: 12px;
+            font-family: 'Orbitron', monospace;
+            font-size: 0.8rem;
+            color: #ffaa66;
+            margin: 1rem 0;
+        }
+        .success-card button {
+            background: linear-gradient(45deg, #ff3300, #ff6600);
+            border: none;
+            padding: 8px 25px;
+            border-radius: 40px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.95);
             backdrop-filter: blur(10px);
             z-index: 1000;
             display: flex;
@@ -356,70 +496,22 @@
             visibility: hidden;
             transition: 0.3s;
         }
-
-        .modal-overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
-
+        .modal-overlay.active { opacity: 1; visibility: visible; }
         .modal-card {
             background: linear-gradient(145deg, #1a1a1a, #0a0a0a);
             border-radius: 35px;
-            padding: 2rem;
+            padding: 1.5rem;
             width: 85%;
-            max-width: 350px;
+            max-width: 320px;
             text-align: center;
             border: 2px solid #ff3300;
-            animation: popIn 0.3s ease;
         }
-
-        @keyframes popIn {
-            from { transform: scale(0.8); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
-        }
-
-        .modal-card i {
-            font-size: 3rem;
-            color: #ff6600;
-            margin-bottom: 1rem;
-        }
-
-        .modal-card h3 {
-            color: white;
-            margin-bottom: 1rem;
-        }
-
-        .modal-card .key-type {
-            color: #ff6600;
-            margin-bottom: 1rem;
-            padding: 5px 15px;
-            background: rgba(255, 51, 0, 0.15);
-            display: inline-block;
-            border-radius: 20px;
-        }
-
-        .modal-card input {
-            width: 100%;
-            padding: 12px;
-            background: rgba(25, 25, 35, 0.9);
-            border: 2px solid #ff3300;
-            border-radius: 25px;
-            color: #ffaa66;
-            text-align: center;
-            margin-bottom: 1rem;
-        }
-
-        .modal-card button {
-            background: #ff3300;
-            border: none;
-            padding: 10px 25px;
-            border-radius: 25px;
-            font-weight: bold;
-            cursor: pointer;
-            margin: 5px;
-        }
-
-        /* Toast Notification */
+        .modal-card i { font-size: 2.5rem; color: #ff6600; margin-bottom: 1rem; }
+        .modal-card h3 { color: white; margin-bottom: 1rem; font-size: 1.2rem; }
+        .modal-card .key-type { color: #ff6600; margin-bottom: 1rem; padding: 4px 12px; background: rgba(255,51,0,0.15); display: inline-block; border-radius: 20px; font-size: 0.8rem; }
+        .modal-card input { width: 100%; padding: 10px; background: rgba(25,25,35,0.9); border: 2px solid #ff3300; border-radius: 25px; color: #ffaa66; text-align: center; margin-bottom: 1rem; }
+        .modal-card button { background: #ff3300; border: none; padding: 8px 20px; border-radius: 25px; font-weight: bold; cursor: pointer; margin: 5px; }
+        
         .toast-msg {
             position: fixed;
             bottom: 30px;
@@ -427,7 +519,7 @@
             right: 20px;
             background: #ff3300;
             color: #fff;
-            padding: 12px;
+            padding: 10px;
             border-radius: 30px;
             text-align: center;
             font-weight: bold;
@@ -436,20 +528,13 @@
             visibility: hidden;
             transition: 0.3s;
         }
-
-        .toast-msg.show {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        /* Loading */
+        .toast-msg.show { opacity: 1; visibility: visible; }
+        
         .loading {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.9);
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9);
             z-index: 1200;
             display: flex;
             align-items: center;
@@ -458,98 +543,113 @@
             visibility: hidden;
             transition: 0.3s;
         }
-
-        .loading.active {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .spinner {
-            width: 60px;
-            height: 60px;
-            border: 4px solid rgba(255, 51, 0, 0.2);
-            border-top: 4px solid #ff3300;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
+        .loading.active { opacity: 1; visibility: visible; }
+        .spinner { width: 50px; height: 50px; border: 4px solid rgba(255,51,0,0.2); border-top: 4px solid #ff3300; border-radius: 50%; animation: spin 1s linear infinite; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        
         @media (max-width: 550px) {
             .container { padding: 0.5rem; }
-            .key-card { padding: 1.8rem; }
-            .header h1 { font-size: 1.8rem; }
-            .logo-icon { width: 65px; height: 65px; }
-            .logo-icon i { font-size: 2.2rem; }
+            .key-card { padding: 1.2rem; }
+            .header h1 { font-size: 1.5rem; }
+            .loader-title { font-size: 1.3rem; }
+            .loader-bar-container { width: 200px; }
         }
     </style>
 </head>
 <body>
 
-<div class="fire-bg" id="fireBg"></div>
-
-<div class="container">
-    <div class="key-card">
-        <div class="header">
-            <div class="logo-icon">
-                <i class="fas fa-dragon"></i>
-            </div>
-            <h1>DRIP KEY</h1>
-            <div class="dev-tag">DEVELOPED BY <span>PUTZZDEV</span></div>
+<!-- LOADING SCREEN -->
+<div class="loading-screen" id="loadingScreen">
+    <div class="loader-container">
+        <div class="loader-logo">
+            <i class="fas fa-dragon"></i>
         </div>
-
-        <!-- Pilih Jenis Key -->
-        <div class="select-wrapper">
-            <i class="fas fa-calendar-alt"></i>
-            <select id="keyTypeSelect">
-                <option value="1 JAM">⏰ 1 JAM (FREE)</option>
-                <option value="1 HARI">📅 1 HARI (FREE)</option>
-                <option value="2 HARI">🔥 2 HARI (PROTECTED)</option>
-                <option value="3 HARI">🔥 3 HARI (PROTECTED)</option>
-                <option value="7 HARI">🔥 7 HARI (PROTECTED)</option>
-                <option value="30 HARI">🔥 30 HARI (PROTECTED)</option>
-                <option value="PERMANEN">⚡ PERMANEN (PROTECTED)</option>
-            </select>
+        <div class="loader-title">DRIP KEY</div>
+        <div class="loader-sub">DEVELOPED BY <span>PUTZZDEV</span></div>
+        <div class="loader-bar-container">
+            <div class="loader-bar" id="loaderBar"></div>
         </div>
-
-        <!-- Input Key Manual -->
-        <div class="input-wrapper">
-            <i class="fas fa-pencil-alt"></i>
-            <input type="text" id="manualKeyInput" placeholder="Atau ketik key kamu sendiri...">
-        </div>
-
-        <!-- Tombol Generate -->
-        <button class="btn-primary" id="generateBtn">
-            <i class="fas fa-magic"></i> GENERATE KEY
-        </button>
-
-        <!-- Display Key -->
-        <div class="key-display">
-            <i class="fas fa-id-card"></i>
-            <input type="text" id="hasilKey" placeholder="Key akan muncul disini" readonly>
-        </div>
-
-        <!-- Tombol Copy -->
-        <button class="btn-secondary" id="copyBtn">
-            <i class="fas fa-copy"></i> COPY KEY
-        </button>
-
-        <!-- Info Panel -->
-        <div class="info-panel">
-            <p><i class="fas fa-database"></i> KEY TERSIMPAN DI DATABASE: <span id="keyCount">0</span> key</p>
-            <p style="margin-top: 8px;"><i class="fas fa-lock"></i> Key Protected (2 Hari+) perlu password: <span style="color:#ff3300;">rahasia lah jmbod</span></p>
-        </div>
-
-        <div class="developer-credit">
-            <i class="fas fa-code"></i> DRIP CLIENT • CREATED BY PUTZZDEV
+        <div class="loader-percent" id="loaderPercent">0%</div>
+        <div class="loader-dots">
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
         </div>
     </div>
 </div>
 
-<!-- Modal Password -->
+<!-- MAIN CONTENT -->
+<div class="main-content" id="mainContent">
+    <div class="cyber-grid"></div>
+    <div class="fire-bg" id="fireBg"></div>
+
+    <div class="container">
+        <div class="key-card">
+            <div class="header">
+                <div class="logo-icon"><i class="fas fa-dragon"></i></div>
+                <h1>DRIP KEY</h1>
+                <div class="dev-tag">DEVELOPED BY <span>PUTZZDEV</span></div>
+            </div>
+
+            <div class="select-wrapper">
+                <i class="fas fa-calendar-alt"></i>
+                <select id="keyTypeSelect">
+                    <option value="1 JAM">⏰ 1 JAM</option>
+                    <option value="1 HARI">📅 1 HARI</option>
+                    <option value="2 HARI">🔥 2 HARI (PROTECTED)</option>
+                    <option value="3 HARI">🔥 3 HARI (PROTECTED)</option>
+                    <option value="7 HARI">🔥 7 HARI (PROTECTED)</option>
+                    <option value="30 HARI">🔥 30 HARI (PROTECTED)</option>
+                    <option value="PERMANEN">⚡ PERMANEN (PROTECTED)</option>
+                </select>
+            </div>
+
+            <div class="input-wrapper">
+                <i class="fas fa-pencil-alt"></i>
+                <input type="text" id="manualKeyInput" placeholder="Atau ketik key kamu sendiri...">
+            </div>
+
+            <button class="btn-primary" id="generateBtn"><i class="fas fa-magic"></i> GENERATE KEY</button>
+
+            <div class="key-display">
+                <i class="fas fa-id-card"></i>
+                <input type="text" id="hasilKey" placeholder="Key akan muncul disini" readonly>
+            </div>
+
+            <button class="btn-secondary" id="copyBtn"><i class="fas fa-copy"></i> COPY KEY</button>
+
+            <div class="key-list-section">
+                <div class="key-list-title">
+                    <span><i class="fas fa-history"></i> KEY BARU DIGENERATE <span id="keyListCount">(0)</span></span>
+                    <button class="sync-btn" id="syncBtn"><i class="fas fa-sync-alt"></i> Sinkronisasi</button>
+                </div>
+                <div class="key-list" id="keyList"></div>
+            </div>
+
+            <div class="info-panel">
+                <p><i class="fas fa-database"></i> KEY TERSIMPAN DI DATABASE: <span id="keyCount">0</span> key</p>
+                <p><i class="fas fa-lock"></i> Key Protected (2 Hari+) 🔒</p>
+                <p><i class="fas fa-info-circle"></i> Timer berjalan meskipun web ditutup</p>
+            </div>
+
+            <div class="developer-credit">
+                <i class="fas fa-code"></i> DRIP CLIENT • CREATED BY PUTZZDEV
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SUCCESS MODAL -->
+<div class="success-modal" id="successModal">
+    <div class="success-card">
+        <i class="fas fa-check-circle"></i>
+        <h2>✨ KEY BERHASIL DIGENERATE ✨</h2>
+        <div class="generated-key" id="modalKeyValue">DRIP-XXXX-XXXX</div>
+        <button id="closeSuccessModal"><i class="fas fa-check"></i> OK</button>
+    </div>
+</div>
+
+<!-- MODAL PASSWORD -->
 <div class="modal-overlay" id="passwordModal">
     <div class="modal-card">
         <i class="fas fa-lock"></i>
@@ -562,16 +662,41 @@
     </div>
 </div>
 
-<!-- Loading -->
-<div class="loading" id="loading">
-    <div class="spinner"></div>
-</div>
-
+<div class="loading" id="loading"><div class="spinner"></div></div>
 <div class="toast-msg" id="toastMsg"></div>
 
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
 <script>
+    // ======================== LOADING SCREEN ========================
+    let loadingProgress = 0;
+    const loaderBar = document.getElementById('loaderBar');
+    const loaderPercent = document.getElementById('loaderPercent');
+    const loadingScreen = document.getElementById('loadingScreen');
+    const mainContent = document.getElementById('mainContent');
+    
+    function updateLoading(progress) {
+        const percent = Math.floor(progress * 100);
+        loaderPercent.innerText = percent + '%';
+    }
+    
+    // Simulasi loading 4 detik
+    let startTime = Date.now();
+    const loadingInterval = setInterval(() => {
+        const elapsed = (Date.now() - startTime) / 1000;
+        const progress = Math.min(elapsed / 4, 1);
+        updateLoading(progress);
+        if (progress >= 1) {
+            clearInterval(loadingInterval);
+            // Selesai loading
+            loadingScreen.classList.add('fade-out');
+            mainContent.classList.add('visible');
+            setTimeout(() => {
+                loadingScreen.style.display = 'none';
+            }, 500);
+        }
+    }, 50);
+    
     // ======================== FIREBASE ========================
     const firebaseConfig = {
         databaseURL: "https://key-database-701af-default-rtdb.asia-southeast1.firebasedatabase.app/"
@@ -581,41 +706,211 @@
     try {
         firebase.initializeApp(firebaseConfig);
         db = firebase.database();
-        console.log("✅ Firebase connected");
     } catch(e) {
-        console.log("Firebase already initialized");
         db = firebase.database();
     }
 
     const PASSWORD = "Kreftz47";
     let pendingKeyData = null;
     let allKeys = [];
+    let generatedKeys = [];
 
-    // ======================== LOAD KEYS ========================
+    // POPUP MODAL
+    function showSuccessModal(keyValue, keyJenis) {
+        const modal = document.getElementById('successModal');
+        const modalKey = document.getElementById('modalKeyValue');
+        modalKey.innerHTML = `<i class="fas fa-key"></i> ${keyValue}<br><span style="font-size:0.7rem;">📅 ${keyJenis}</span>`;
+        modal.classList.add('active');
+        
+        setTimeout(() => {
+            modal.classList.remove('active');
+        }, 3000);
+    }
+
+    document.getElementById('closeSuccessModal').addEventListener('click', () => {
+        document.getElementById('successModal').classList.remove('active');
+    });
+
     async function loadKeys() {
         try {
             const snapshot = await db.ref('keys').once('value');
             const data = snapshot.val();
             allKeys = data ? Object.values(data) : [];
             document.getElementById('keyCount').innerText = allKeys.length;
+            return allKeys;
         } catch(e) {
-            console.error(e);
             document.getElementById('keyCount').innerText = '?';
+            return [];
         }
     }
 
-    // ======================== GENERATE KEY ========================
+    async function syncWithDatabase() {
+        showLoading(true);
+        try {
+            const dbKeys = await loadKeys();
+            const dbKeyValues = new Set(dbKeys.map(k => k.key));
+            const validKeys = generatedKeys.filter(key => dbKeyValues.has(key.key));
+            if (validKeys.length !== generatedKeys.length) {
+                generatedKeys = validKeys;
+                saveGeneratedKeys();
+                showToast("🔄 Sinkronisasi berhasil!", true);
+            } else {
+                showToast("✅ Semua key masih valid.", true);
+            }
+        } catch(e) {
+            showToast("❌ Gagal sinkronisasi", false);
+        } finally {
+            showLoading(false);
+        }
+    }
+
+    function loadGeneratedKeys() {
+        const saved = localStorage.getItem('drip_generated_keys');
+        if (saved) {
+            try {
+                generatedKeys = JSON.parse(saved);
+                const now = Date.now();
+                const validKeys = generatedKeys.filter(key => {
+                    if (key.jenis === "PERMANEN") return true;
+                    if (!key.expiryTime) return true;
+                    return now - key.expiryTime < 86400000;
+                });
+                generatedKeys = validKeys;
+                saveGeneratedKeys();
+            } catch(e) {}
+        }
+        renderKeyList();
+    }
+
+    function saveGeneratedKeys() {
+        localStorage.setItem('drip_generated_keys', JSON.stringify(generatedKeys));
+        renderKeyList();
+    }
+
+    function addGeneratedKey(keyValue, keyJenis) {
+        const now = Date.now();
+        const expirySeconds = getSecondsFromJenis(keyJenis);
+        const newKey = {
+            key: keyValue,
+            jenis: keyJenis,
+            createdAt: now,
+            expiryTime: keyJenis !== "PERMANEN" ? now + (expirySeconds * 1000) : null
+        };
+        generatedKeys.unshift(newKey);
+        if (generatedKeys.length > 30) generatedKeys = generatedKeys.slice(0, 30);
+        saveGeneratedKeys();
+    }
+
+    function removeGeneratedKey(keyValue) {
+        generatedKeys = generatedKeys.filter(k => k.key !== keyValue);
+        saveGeneratedKeys();
+        showToast("🗑️ Key berhasil dihapus", true);
+    }
+
+    function getSecondsFromJenis(jenis) {
+        switch(jenis) {
+            case "1 JAM": return 3600;
+            case "1 HARI": return 86400;
+            case "2 HARI": return 172800;
+            case "3 HARI": return 259200;
+            case "7 HARI": return 604800;
+            case "30 HARI": return 2592000;
+            default: return 0;
+        }
+    }
+
+    function formatTimeRemaining(expiryTime) {
+        const now = Date.now();
+        const remaining = expiryTime - now;
+        if (remaining <= 0) return null;
+        const hours = Math.floor(remaining / (1000 * 3600));
+        const minutes = Math.floor((remaining % (1000 * 3600)) / (1000 * 60));
+        const seconds = Math.floor((remaining % (1000 * 60)) / 1000);
+        if (hours > 0) return `${hours} jam ${minutes} menit ${seconds} detik`;
+        else if (minutes > 0) return `${minutes} menit ${seconds} detik`;
+        else return `${seconds} detik`;
+    }
+
+    function renderKeyList() {
+        const container = document.getElementById('keyList');
+        const countSpan = document.getElementById('keyListCount');
+        if (!container) return;
+        const now = Date.now();
+        let html = '';
+        generatedKeys.forEach((item) => {
+            const isExpired = item.expiryTime && now > item.expiryTime;
+            const expiredClass = isExpired ? 'expired' : '';
+            let timerText = '';
+            if (item.jenis === "PERMANEN") {
+                timerText = '<span style="color:#ff6600;">♾️ PERMANEN</span>';
+            } else if (isExpired) {
+                timerText = '<span class="key-timer expired">⏰ EXPIRED</span>';
+            } else {
+                const timeLeft = formatTimeRemaining(item.expiryTime);
+                timerText = `<span class="key-timer">⏳ ${timeLeft}</span>`;
+            }
+            html += `
+                <div class="key-item ${expiredClass}">
+                    <div class="key-value"><i class="fas fa-key"></i> ${item.key}</div>
+                    <div class="key-info">
+                        <span class="key-type">📅 ${item.jenis}</span>
+                        <span>${timerText}</span>
+                        <div>
+                            <button class="key-copy-btn" onclick="copySpecificKey('${item.key}')"><i class="fas fa-copy"></i> Copy</button>
+                            <button class="key-delete-btn" onclick="deleteGeneratedKey('${item.key}')"><i class="fas fa-trash"></i> Hapus</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+        if (generatedKeys.length === 0) {
+            html = '<div style="text-align:center; color:#666; padding:1rem;">✨ Belum ada key yang digenerate ✨</div>';
+        }
+        container.innerHTML = html;
+        countSpan.innerText = `(${generatedKeys.length})`;
+    }
+
+    setInterval(() => { renderKeyList(); }, 1000);
+
+    function copyToClipboard(text) {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(() => {
+                showToast("✅ Key disalin!", true);
+            }).catch(() => {
+                fallbackCopy(text);
+            });
+        } else {
+            fallbackCopy(text);
+        }
+    }
+
+    function fallbackCopy(text) {
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.style.position = 'fixed';
+        textarea.style.top = '-9999px';
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+            document.execCommand('copy');
+            showToast("✅ Key disalin!", true);
+        } catch (err) {
+            showToast("❌ Gagal menyalin", false);
+        }
+        document.body.removeChild(textarea);
+    }
+
+    window.copySpecificKey = copyToClipboard;
+    window.deleteGeneratedKey = removeGeneratedKey;
+
     function generateRandomKey() {
         const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
         let key = '';
-        for (let i = 0; i < 8; i++) {
-            key += chars.charAt(Math.floor(Math.random() * chars.length));
-        }
+        for (let i = 0; i < 8; i++) key += chars.charAt(Math.floor(Math.random() * chars.length));
         const timestamp = Date.now().toString().slice(-4);
         return `DRIP-${key}-${timestamp}`;
     }
 
-    // ======================== SAVE KEY ========================
     async function saveKeyToFirebase(keyData) {
         showLoading(true);
         try {
@@ -635,32 +930,21 @@
         const today = new Date();
         const tanggal = `${today.getDate().toString().padStart(2,'0')}-${(today.getMonth()+1).toString().padStart(2,'0')}-${today.getFullYear()}`;
         const jam = `${today.getHours().toString().padStart(2,'0')}:${today.getMinutes().toString().padStart(2,'0')}`;
-        
-        const keyData = {
-            key: keyValue,
-            jenis: keyJenis,
-            tanggal_dibuat: tanggal,
-            jam_dibuat: jam,
-            status: "aktif"
-        };
-        
+        const keyData = { key: keyValue, jenis: keyJenis, tanggal_dibuat: tanggal, jam_dibuat: jam, status: "aktif" };
         const success = await saveKeyToFirebase(keyData);
         if (success) {
             document.getElementById('hasilKey').value = keyValue;
+            addGeneratedKey(keyValue, keyJenis);
             showToast(`✨ Key ${keyJenis} berhasil dibuat! ✨`, true);
+            showSuccessModal(keyValue, keyJenis);
         }
     }
 
-    // ======================== HANDLE GENERATE ========================
     function handleGenerate() {
-        const select = document.getElementById('keyTypeSelect');
-        const keyJenis = select.value;
+        const keyJenis = document.getElementById('keyTypeSelect').value;
         const manualKey = document.getElementById('manualKeyInput').value.trim();
-        
         let finalKey = manualKey || generateRandomKey();
-        
         const protectedTypes = ["2 HARI", "3 HARI", "7 HARI", "30 HARI", "PERMANEN"];
-        
         if (protectedTypes.includes(keyJenis)) {
             pendingKeyData = { key: finalKey, jenis: keyJenis };
             document.getElementById('modalKeyType').innerHTML = `🔥 ${keyJenis} KEY`;
@@ -676,16 +960,13 @@
     function checkPassword() {
         const pass = document.getElementById('passwordInput').value;
         const msgDiv = document.getElementById('passwordMsg');
-        
         if (pass === PASSWORD) {
             msgDiv.innerHTML = '<span style="color:#ff6600;">✅ Password benar!</span>';
             if (pendingKeyData) {
                 processSaveKey(pendingKeyData.key, pendingKeyData.jenis);
                 pendingKeyData = null;
             }
-            setTimeout(() => {
-                document.getElementById('passwordModal').classList.remove('active');
-            }, 500);
+            setTimeout(() => { document.getElementById('passwordModal').classList.remove('active'); }, 500);
         } else {
             msgDiv.innerHTML = '<span style="color:#ff4444;">❌ Password salah!</span>';
             document.getElementById('passwordInput').value = '';
@@ -698,21 +979,12 @@
         pendingKeyData = null;
     }
 
-    // ======================== COPY ========================
     function copyKey() {
         const keyInput = document.getElementById('hasilKey');
-        if (!keyInput.value) {
-            showToast("⚠️ Tidak ada key!", false);
-            return;
-        }
-        navigator.clipboard.writeText(keyInput.value).then(() => {
-            showToast("✅ Key disalin!", true);
-        }).catch(() => {
-            showToast("❌ Gagal menyalin", false);
-        });
+        if (!keyInput.value) { showToast("⚠️ Tidak ada key!", false); return; }
+        copyToClipboard(keyInput.value);
     }
 
-    // ======================== UI ========================
     function showToast(msg, isSuccess) {
         const toast = document.getElementById('toastMsg');
         toast.innerText = msg;
@@ -727,38 +999,35 @@
         else loading.classList.remove('active');
     }
 
-    // ======================== EVENT ========================
+    // EVENT LISTENERS
     document.getElementById('generateBtn').addEventListener('click', handleGenerate);
     document.getElementById('copyBtn').addEventListener('click', copyKey);
     document.getElementById('submitPasswordBtn').addEventListener('click', checkPassword);
     document.getElementById('cancelPasswordBtn').addEventListener('click', closePasswordModal);
-    
-    document.getElementById('passwordInput').addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') checkPassword();
-    });
-    document.getElementById('manualKeyInput').addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') handleGenerate();
-    });
+    document.getElementById('syncBtn').addEventListener('click', syncWithDatabase);
+    document.getElementById('passwordInput').addEventListener('keypress', (e) => { if (e.key === 'Enter') checkPassword(); });
+    document.getElementById('manualKeyInput').addEventListener('keypress', (e) => { if (e.key === 'Enter') handleGenerate(); });
 
-    // ======================== FIRE PARTICLE ========================
+    // FIRE PARTICLES
     function createFireParticles() {
         const container = document.getElementById('fireBg');
-        for (let i = 0; i < 40; i++) {
+        for (let i = 0; i < 50; i++) {
             const particle = document.createElement('div');
             particle.classList.add('particle');
-            const size = Math.random() * 6 + 2;
+            const size = Math.random() * 8 + 2;
             particle.style.width = size + 'px';
             particle.style.height = size + 'px';
             particle.style.left = Math.random() * 100 + '%';
-            particle.style.animationDuration = 3 + Math.random() * 4 + 's';
+            particle.style.animationDuration = 3 + Math.random() * 5 + 's';
             particle.style.animationDelay = Math.random() * 5 + 's';
-            particle.style.opacity = 0.3 + Math.random() * 0.5;
+            particle.style.opacity = 0.2 + Math.random() * 0.5;
             container.appendChild(particle);
         }
     }
     createFireParticles();
 
     loadKeys();
+    loadGeneratedKeys();
     console.log('🔥 DRIP KEY GENERATOR BY PUTZZDEV 🔥');
 </script>
 </body>
