@@ -132,14 +132,14 @@
             color: #ff6600; z-index: 2; font-size: 1rem;
         }
         
-        select, #manualKeyInput, #threeDayPasswordInput, #hasilKey {
+        select, #manualKeyInput, #modalPasswordInput, #hasilKey {
             width: 100%; padding: 13px 16px 13px 46px;
             background: rgba(5, 5, 8, 0.85);
             border: 1.5px solid rgba(255,51,0,0.25);
             border-radius: 16px; font-size: 0.95rem; color: white;
             font-family: 'Poppins', sans-serif; transition: all 0.3s ease;
         }
-        select:focus, #manualKeyInput:focus, #threeDayPasswordInput:focus {
+        select:focus, #manualKeyInput:focus, #modalPasswordInput:focus {
             outline: none; border-color: #ff3300; background: rgba(15,15,22,0.95);
             box-shadow: 0 0 15px rgba(255,51,0,0.25);
         }
@@ -226,7 +226,7 @@
         
         .developer-credit { text-align: center; margin-top: 1.2rem; color: rgba(255,255,255,0.25); font-size: 0.7rem; font-family: 'Orbitron', sans-serif; letter-spacing: 0.5px; }
         
-        /* MODALS & TOAST */
+        /* ==================== MODALS & TOAST (TENGAH LAYAR) ==================== */
         .success-modal, .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(3, 3, 5, 0.9); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
@@ -237,7 +237,7 @@
         
         .success-card, .modal-card {
             background: #0d0d12; border-radius: 24px; padding: 2.2rem 1.8rem;
-            text-align: center; max-width: 360px; width: 88%;
+            text-align: center; max-width: 380px; width: 88%;
             border: 2px solid #ff6600; box-shadow: 0 0 40px rgba(255,51,0,0.25);
             animation: modalPop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
@@ -246,14 +246,15 @@
         .success-card i { font-size: 3.2rem; color: #22c55e; margin-bottom: 1rem; filter: drop-shadow(0 0 10px rgba(34,197,94,0.3)); }
         .success-card h2 { font-family: 'Orbitron', sans-serif; font-size: 1.3rem; color: #fff; font-weight: 700; margin-bottom: 1rem; }
         .success-card .generated-key { background: rgba(255,51,0,0.08); border: 1px dashed #ff6600; border-radius: 14px; padding: 12px; font-family: 'Orbitron', monospace; font-size: 0.9rem; color: #ffaa66; font-weight: 600; margin: 1.2rem 0; word-break: break-all; }
-        .success-card button, .modal-card button { background: linear-gradient(135deg, #ff3300, #ff6600); border: none; padding: 10px 24px; border-radius: 12px; color: white; font-weight: 700; font-family: 'Orbitron', sans-serif; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 12px rgba(255,51,0,0.2); }
+        .success-card button, .modal-card button { background: linear-gradient(135deg, #ff3300, #ff6600); border: none; padding: 11px 24px; border-radius: 12px; color: white; font-weight: 700; font-family: 'Orbitron', sans-serif; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 12px rgba(255,51,0,0.2); }
         .success-card button:hover, .modal-card button:hover { transform: translateY(-1px); box-shadow: 0 6px 15px rgba(255,51,0,0.3); }
         
         .modal-card i { font-size: 2.5rem; color: #ff6600; margin-bottom: 0.8rem; }
-        .modal-card h3 { color: white; margin-bottom: 0.5rem; font-family: 'Orbitron', sans-serif; font-size: 1.2rem; }
-        .modal-card .key-type { color: #ffaa66; margin-bottom: 1.2rem; padding: 4px 12px; background: rgba(255,51,0,0.08); display: inline-block; border-radius: 10px; font-size: 0.75rem; font-weight: 600; border: 1px solid rgba(255,51,0,0.15); }
-        .modal-card input { width: 100%; padding: 12px; background: rgba(5,5,8,0.9); border: 1.5px solid #ff3300; border-radius: 14px; color: #fff; text-align: center; font-size: 1.1rem; margin-bottom: 1.2rem; font-family: 'Orbitron', sans-serif; letter-spacing: 2px; }
-        .modal-card input:focus { outline: none; box-shadow: 0 0 10px rgba(255,51,0,0.3); }
+        .modal-card h3 { color: white; margin-bottom: 0.4rem; font-family: 'Orbitron', sans-serif; font-size: 1.3rem; letter-spacing: 1px; }
+        .modal-card p { font-size: 0.85rem; color: #94a3b8; margin-bottom: 0.5rem; }
+        .modal-card .badge-required { display: inline-block; font-size: 0.75rem; font-weight: 700; color: #ff6600; background: rgba(255,51,0,0.1); border: 1px solid rgba(255,51,0,0.2); padding: 3px 12px; border-radius: 8px; margin-bottom: 1.2rem; font-family: 'Orbitron', sans-serif; }
+        .modal-card .password-input-box { position: relative; width: 100%; margin-bottom: 1.2rem; }
+        .modal-card .password-input-box i { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); font-size: 1rem; color: #ff6600; }
         
         .toast-msg { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: #ff3300; color: #fff; padding: 12px 24px; border-radius: 50px; text-align: center; font-weight: 700; font-size: 0.9rem; z-index: 2500; opacity: 0; visibility: hidden; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); box-shadow: 0 10px 25px rgba(0,0,0,0.4); width: 85%; max-width: 340px; }
         .toast-msg.show { opacity: 1; visibility: visible; bottom: 40px; }
@@ -295,23 +296,19 @@
                 <div class="dev-tag">DEVELOPED BY <span>PUTZZDEV</span></div>
             </div>
 
-            <label class="field-label">🔑 Password Akses Web (3 Day)</label>
-            <div class="input-wrapper">
-                <i class="fas fa-key"></i>
-                <input type="password" id="threeDayPasswordInput" placeholder="Ketik password akses web di sini..." autocomplete="off">
-            </div>
-
             <label class="field-label">⏰ Pilih Durasi Key</label>
             <div class="select-wrapper">
                 <i class="fas fa-calendar-alt"></i>
                 <select id="keyTypeSelect">
-                    <option value="1 JAM">⏰ 1 JAM</option>
-                    <option value="1 HARI">📅 1 HARI</option>
-                    <option value="2 HARI">🔥 2 HARI (PROTECTED)</option>
-                    <option value="3 HARI">🔥 3 HARI (PROTECTED)</option>
-                    <option value="7 HARI">🔥 7 HARI (PROTECTED)</option>
-                    <option value="30 HARI">🔥 30 HARI (PROTECTED)</option>
-                    <option value="PERMANEN">⚡ PERMANEN (PROTECTED)</option>
+                    <option value="1 JAM">⏰ 1 JAM (FREE ACCESS)</option>
+                    <option value="1 HARI">📅 1 HARI (FREE ACCESS)</option>
+                    <option value="2 HARI">📅 2 HARI (FREE ACCESS)</option>
+                    <option value="3 HARI">🔥 3 HARI (PASSWORD: putzzdev)</option>
+                    <option value="4 HARI">🔥 4 HARI (PASSWORD: Kreftz47)</option>
+                    <option value="5 HARI">🔥 5 HARI (PASSWORD: Kreftz47)</option>
+                    <option value="7 HARI">⚡ 7 HARI (PASSWORD: Kreftz47)</option>
+                    <option value="30 HARI">⚡ 30 HARI (PASSWORD: Kreftz47)</option>
+                    <option value="PERMANEN">👑 PERMANEN (PASSWORD: Kreftz47)</option>
                 </select>
             </div>
 
@@ -340,8 +337,8 @@
 
             <div class="info-panel">
                 <p><i class="fas fa-database"></i> Database Cloud: <span id="keyCount">0</span> key aktif</p>
-                <p><i class="fas fa-lock"></i> Fitur Proteksi Aktif otomatis pada Paket 2 Hari+</p>
-                <p><i class="fas fa-info-circle"></i> Hitung mundur waktu berjalan real-time di server</p>
+                <p><i class="fas fa-clock"></i> Hitung mundur waktu berjalan real-time di server</p>
+                <p><i class="fas fa-shield-alt"></i> Proteksi Sistem Multi-Password Terintegrasi</p>
             </div>
 
             <div class="developer-credit">
@@ -362,10 +359,16 @@
 
 <div class="modal-overlay" id="passwordModal">
     <div class="modal-card">
-        <i class="fas fa-shield-alt"></i>
-        <h3>VERIFIKASI ADMIN</h3>
-        <div class="key-type" id="modalKeyType">🔒 PROTECTED KEY</div>
-        <input type="password" id="passwordInput" placeholder="PIN Internal Admin" autocomplete="off">
+        <i class="fas fa-lock"></i>
+        <h3>VERIFIKASI AKSES</h3>
+        <p>Gunakan password otoritas yang sesuai untuk durasi paket ini</p>
+        <div class="badge-required" id="modalRequiredInfo">PASSWORD REQUIRED</div>
+        
+        <div class="password-input-box">
+            <i class="fas fa-key"></i>
+            <input type="password" id="modalPasswordInput" placeholder="Ketik Password Otoritas..." autocomplete="off">
+        </div>
+        
         <div style="display:flex; gap:10px; justify-content:center;">
             <button id="submitPasswordBtn">PROSES</button>
             <button id="cancelPasswordBtn" style="background:transparent; border:1px solid #ef4444; color:#ef4444; box-shadow:none;">BATAL</button>
@@ -381,7 +384,6 @@
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
 <script>
     // ======================== LOADING SCREEN ========================
-    let loadingProgress = 0;
     const loaderBar = document.getElementById('loaderBar');
     const loaderPercent = document.getElementById('loaderPercent');
     const loadingScreen = document.getElementById('loadingScreen');
@@ -395,7 +397,7 @@
     let startTime = Date.now();
     const loadingInterval = setInterval(() => {
         const elapsed = (Date.now() - startTime) / 1000;
-        const progress = Math.min(elapsed / 2.5, 1); // Dipercepat menjadi 2.5 detik agar optimal
+        const progress = Math.min(elapsed / 2.5, 1);
         updateLoading(progress);
         if (progress >= 1) {
             clearInterval(loadingInterval);
@@ -418,39 +420,42 @@
         db = firebase.database();
     }
 
-    const INTERNAL_PIN = "Kreftz47"; 
-    let pendingKeyData = null;
+    let pendingKeyAction = null;
+    let currentTargetType = ""; 
     let allKeys = [];
     let generatedKeys = [];
 
-    // Auto-load token dari penyimpanan lokal jika ada
-    document.addEventListener("DOMContentLoaded", () => {
-        const savedAccessPass = localStorage.getItem("drip_access_password");
-        if (savedAccessPass) {
-            document.getElementById("threeDayPasswordInput").value = savedAccessPass;
-        }
-    });
-
-    // ======================== VALIDASI PASSWORD 3 HARI ========================
-    function checkThreeDayPassword() {
-        const inputPass = document.getElementById('threeDayPasswordInput').value.trim();
+    // ======================== VALIDASI PASSWORD SISTEM ========================
+    function verifySystemPassword(inputPass, keyJenis) {
         const currentDate = new Date();
-        // Batas kedaluwarsa akhir: 10 Juni 2026 jam 23:59:59
-        const expiryDate = new Date('2026-06-10T23:59:59');
-
-        if (currentDate > expiryDate) {
-            showToast("🚫 Sesi Password Khusus Telah Habis / Expired (Maks 3 Hari)!", false);
-            return false;
+        
+        // Aturan Khusus 3 Hari: Berlaku limit waktu s/de 10 Juni 2026
+        if (keyJenis === "3 HARI") {
+            const expiryDate = new Date('2026-06-10T23:59:59');
+            if (currentDate > expiryDate) {
+                showToast("🚫 Sesi Password 3 Hari Telah Kedaluwarsa!", false);
+                return "EXPIRED";
+            }
+            return inputPass === "putzzdev" ? "SUCCESS" : "WRONG";
+        }
+        
+        // Aturan Premium (4D, 5D, 7D, 30D, PERMANEN)
+        const premiumTypes = ["4 HARI", "5 HARI", "7 HARI", "30 HARI", "PERMANEN"];
+        if (premiumTypes.includes(keyJenis)) {
+            return inputPass === "Kreftz47" ? "SUCCESS" : "WRONG";
         }
 
-        if (inputPass !== "putzzdev") {
-            showToast("🔑 Password Akses Web Salah / Kosong!", false);
-            return false;
-        }
+        // Paket Bebas PIN/Password (1 Jam, 1 Hari, 2 Hari)
+        return "SUCCESS";
+    }
 
-        // Simpan otomatis ke localStorage jika benar agar tidak repot mengetik ulang
-        localStorage.setItem("drip_access_password", inputPass);
-        return true;
+    // Memeriksa status otentikasi lokal yang tersimpan
+    function isAlreadyAuthenticated(keyJenis) {
+        const savedPass = localStorage.getItem(`auth_pass_${keyJenis}`);
+        if (savedPass && verifySystemPassword(savedPass, keyJenis) === "SUCCESS") {
+            return true;
+        }
+        return false;
     }
 
     function showSuccessModal(keyValue, keyJenis) {
@@ -479,7 +484,6 @@
     }
 
     async function syncWithDatabase() {
-        if (!checkThreeDayPassword()) return;
         showLoading(true);
         try {
             const dbKeys = await loadKeys();
@@ -535,8 +539,7 @@
         saveGeneratedKeys();
     }
 
-    function removeGeneratedKey(keyValue) {
-        if (!checkThreeDayPassword()) return;
+    function removeGeneratedKey(keyValue, keyJenis) {
         generatedKeys = generatedKeys.filter(k => k.key !== keyValue);
         saveGeneratedKeys();
         showToast("🗑️ History lokal dihapus", true);
@@ -548,6 +551,8 @@
             case "1 HARI": return 86400;
             case "2 HARI": return 172800;
             case "3 HARI": return 259200;
+            case "4 HARI": return 345600;
+            case "5 HARI": return 432000;
             case "7 HARI": return 604800;
             case "30 HARI": return 2592000;
             default: return 0;
@@ -577,7 +582,7 @@
             const expiredClass = isExpired ? 'expired' : '';
             let timerText = '';
             if (item.jenis === "PERMANEN") {
-                timerText = '<span style="color:#ff6600; font-weight:bold;">♾️ PERMANEN</span>';
+                timerText = '<span style="color:#ff6600; font-weight:bold;">👑 PERMANEN</span>';
             } else if (isExpired) {
                 timerText = '<span class="key-timer expired">⏰ EXPIRED</span>';
             } else {
@@ -592,14 +597,14 @@
                         <span>${timerText}</span>
                         <div class="key-actions">
                             <button class="key-copy-btn" onclick="copySpecificKey('${item.key}')"><i class="fas fa-copy"></i> Copy</button>
-                            <button class="key-delete-btn" onclick="deleteGeneratedKey('${item.key}')"><i class="fas fa-trash"></i></button>
+                            <button class="key-delete-btn" onclick="deleteGeneratedKey('${item.key}', '${item.jenis}')"><i class="fas fa-trash"></i></button>
                         </div>
                     </div>
                 </div>
             `;
         });
         if (generatedKeys.length === 0) {
-            html = '<div style="text-align:center; color:#52525b; padding:1.5rem; font-size:0.85rem;">✨ Belum ada data key terditeksi ✨</div>';
+            html = '<div style="text-align:center; color:#52525b; padding:1.5rem; font-size:0.85rem;">✨ Belum ada data key terdeteksi ✨</div>';
         }
         container.innerHTML = html;
         countSpan.innerText = `(${generatedKeys.length})`;
@@ -610,7 +615,7 @@
     function copyToClipboard(text) {
         if (navigator.clipboard && navigator.clipboard.writeText) {
             navigator.clipboard.writeText(text).then(() => {
-                showToast("✅ Salis Sukses!", true);
+                showToast("✅ Salin Sukses!", true);
             }).catch(() => { fallbackCopy(text); });
         } else {
             fallbackCopy(text);
@@ -671,47 +676,75 @@
         }
     }
 
-    function handleGenerate() {
-        // Cek validasi utama password akses web 3 hari terlebih dahulu
-        if (!checkThreeDayPassword()) return;
-
-        const keyJenis = document.getElementById('keyTypeSelect').value;
-        const manualKey = document.getElementById('manualKeyInput').value.trim();
-        let finalKey = manualKey || generateRandomKey();
-        const protectedTypes = ["2 HARI", "3 HARI", "7 HARI", "30 HARI", "PERMANEN"];
+    // ======================== KONTROL MODAL PASSWORD (TENGAH LAYAR) ========================
+    function openPasswordModal(keyJenis, onSuccessCallback) {
+        pendingKeyAction = onSuccessCallback;
+        currentTargetType = keyJenis;
         
-        if (protectedTypes.includes(keyJenis)) {
-            pendingKeyData = { key: finalKey, jenis: keyJenis };
-            document.getElementById('modalKeyType').innerHTML = `🔥 ${keyJenis} KEY`;
-            document.getElementById('passwordModal').classList.add('active');
-            document.getElementById('passwordInput').value = '';
-            document.getElementById('passwordMsg').innerHTML = '';
-            setTimeout(() => document.getElementById('passwordInput').focus(), 100);
+        const badge = document.getElementById('modalRequiredInfo');
+        if (keyJenis === "3 HARI") {
+            badge.innerText = "🔑 REQUIRE PASSWORD: putzzdev";
+            badge.style.color = "#ff6600";
+            badge.style.background = "rgba(255,51,0,0.1)";
         } else {
-            processSaveKey(finalKey, keyJenis);
+            badge.innerText = "👑 REQUIRE PREMIUM PASS: Kreftz47";
+            badge.style.color = "#a5b4fc";
+            badge.style.background = "rgba(165,180,252,0.1)";
         }
-    }
 
-    function checkPassword() {
-        const pass = document.getElementById('passwordInput').value;
-        const msgDiv = document.getElementById('passwordMsg');
-        if (pass === INTERNAL_PIN) {
-            msgDiv.innerHTML = '<span style="color:#22c55e;">✅ Verifikasi Sukses!</span>';
-            if (pendingKeyData) {
-                processSaveKey(pendingKeyData.key, pendingKeyData.jenis);
-                pendingKeyData = null;
-            }
-            setTimeout(() => { document.getElementById('passwordModal').classList.remove('active'); }, 500);
-        } else {
-            msgDiv.innerHTML = '<span style="color:#ef4444;">❌ PIN Internal Salah!</span>';
-            document.getElementById('passwordInput').value = '';
-            document.getElementById('passwordInput').focus();
-        }
+        document.getElementById('passwordModal').classList.add('active');
+        document.getElementById('modalPasswordInput').value = '';
+        document.getElementById('passwordMsg').innerHTML = '';
+        setTimeout(() => document.getElementById('modalPasswordInput').focus(), 200);
     }
 
     function closePasswordModal() {
         document.getElementById('passwordModal').classList.remove('active');
-        pendingKeyData = null;
+        pendingKeyAction = null;
+    }
+
+    function checkSubmitPassword() {
+        const inputPass = document.getElementById('modalPasswordInput').value.trim();
+        const msgDiv = document.getElementById('passwordMsg');
+        
+        const result = verifySystemPassword(inputPass, currentTargetType);
+        
+        if (result === "SUCCESS") {
+            msgDiv.innerHTML = '<span style="color:#22c55e;">✅ Akses Diterima!</span>';
+            localStorage.setItem(`auth_pass_${currentTargetType}`, inputPass);
+            setTimeout(() => {
+                document.getElementById('passwordModal').classList.remove('active');
+                if (pendingKeyAction) {
+                    pendingKeyAction();
+                    pendingKeyAction = null;
+                }
+            }, 600);
+        } else if (result === "EXPIRED") {
+            msgDiv.innerHTML = '<span style="color:#ef4444;">🚫 Sesi Pasword Telah Kedaluwarsa!</span>';
+        } else {
+            msgDiv.innerHTML = '<span style="color:#ef4444;">❌ Password Salah / Keliru!</span>';
+            document.getElementById('modalPasswordInput').value = '';
+            document.getElementById('modalPasswordInput').focus();
+        }
+    }
+
+    function handleGenerate() {
+        const keyJenis = document.getElementById('keyTypeSelect').value;
+        const manualKey = document.getElementById('manualKeyInput').value.trim();
+        let finalKey = manualKey || generateRandomKey();
+
+        const action = () => { processSaveKey(finalKey, keyJenis); };
+        const protectedTypes = ["3 HARI", "4 HARI", "5 HARI", "7 HARI", "30 HARI", "PERMANEN"];
+
+        if (protectedTypes.includes(keyJenis)) {
+            if (isAlreadyAuthenticated(keyJenis)) {
+                action();
+            } else {
+                openPasswordModal(keyJenis, action);
+            }
+        } else {
+            action(); // Paket free tanpa password
+        }
     }
 
     function copyKey() {
@@ -737,17 +770,17 @@
     // EVENT LISTENERS
     document.getElementById('generateBtn').addEventListener('click', handleGenerate);
     document.getElementById('copyBtn').addEventListener('click', copyKey);
-    document.getElementById('submitPasswordBtn').addEventListener('click', checkPassword);
+    document.getElementById('submitPasswordBtn').addEventListener('click', checkSubmitPassword);
     document.getElementById('cancelPasswordBtn').addEventListener('click', closePasswordModal);
     document.getElementById('syncBtn').addEventListener('click', syncWithDatabase);
-    document.getElementById('passwordInput').addEventListener('keypress', (e) => { if (e.key === 'Enter') checkPassword(); });
+    document.getElementById('modalPasswordInput').addEventListener('keypress', (e) => { if (e.key === 'Enter') checkSubmitPassword(); });
     document.getElementById('manualKeyInput').addEventListener('keypress', (e) => { if (e.key === 'Enter') handleGenerate(); });
 
     // BACKGROUND PARTICLES EFFECT
     function createFireParticles() {
         const container = document.getElementById('fireBg');
         if (!container) return;
-        for (let i = 0; i < 35; i++) { // Mengurangi beban render agar animasi smooth
+        for (let i = 0; i < 35; i++) {
             const particle = document.createElement('div');
             particle.classList.add('particle');
             const size = Math.random() * 6 + 2;
