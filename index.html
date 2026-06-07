@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>DRIP KEY • Generator by Putzzdev</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800;900&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; }
@@ -15,20 +15,18 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 2rem;
+            padding: 1.5rem;
             position: relative;
-            background: #0a0a0f;
-            overflow: hidden;
+            background: #060609;
+            color: #e2e8f0;
+            overflow-x: hidden;
         }
         
         /* ==================== LOADING SCREEN ==================== */
         .loading-screen {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #0a0a0f, #1a0505, #0a0a0f);
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at center, #150808 0%, #060609 100%);
             z-index: 9999;
             display: flex;
             align-items: center;
@@ -36,549 +34,255 @@
             flex-direction: column;
             transition: opacity 0.5s ease, visibility 0.5s ease;
         }
-        
-        .loading-screen.fade-out {
-            opacity: 0;
-            visibility: hidden;
-        }
-        
-        .loader-container {
-            text-align: center;
-            animation: fadeInUp 0.6s ease;
-        }
+        .loading-screen.fade-out { opacity: 0; visibility: hidden; }
+        .loader-container { text-align: center; animation: fadeInUp 0.6s ease; }
         
         @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         
         .loader-logo {
-            width: 100px;
-            height: 100px;
+            width: 90px; height: 90px;
             background: linear-gradient(135deg, #ff3300, #ff6600);
-            border-radius: 35px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            border-radius: 28px;
+            display: flex; align-items: center; justify-content: center;
             margin: 0 auto 1.5rem;
-            box-shadow: 0 0 30px rgba(255, 51, 0, 0.5);
-            animation: logoPulse 1.5s ease-in-out infinite;
+            box-shadow: 0 0 35px rgba(255, 51, 0, 0.4);
+            animation: logoPulse 1.8s ease-in-out infinite;
         }
         
         @keyframes logoPulse {
-            0%, 100% { transform: scale(1); box-shadow: 0 0 30px rgba(255,51,0,0.5); }
-            50% { transform: scale(1.05); box-shadow: 0 0 60px rgba(255,51,0,0.8); }
+            0%, 100% { transform: scale(1); box-shadow: 0 0 30px rgba(255,51,0,0.4); }
+            50% { transform: scale(1.05); box-shadow: 0 0 50px rgba(255,51,0,0.7); }
         }
         
-        .loader-logo i {
-            font-size: 3.5rem;
-            color: #fff;
-            filter: drop-shadow(0 0 10px rgba(0,0,0,0.5));
-        }
-        
+        .loader-logo i { font-size: 3rem; color: #fff; }
         .loader-title {
-            font-family: 'Orbitron', monospace;
-            font-size: 2rem;
+            font-family: 'Orbitron', sans-serif; font-size: 2.2rem; font-weight: 800;
             background: linear-gradient(135deg, #ff6600, #ff3300);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            letter-spacing: 4px;
-            margin-bottom: 1rem;
+            -webkit-background-clip: text; background-clip: text; color: transparent;
+            letter-spacing: 4px; margin-bottom: 0.5rem;
+            filter: drop-shadow(0 2px 10px rgba(255,51,0,0.2));
         }
-        
-        .loader-sub {
-            color: rgba(255,255,255,0.5);
-            font-size: 0.8rem;
-            letter-spacing: 2px;
-            margin-bottom: 2rem;
-        }
-        
-        .loader-sub span {
-            color: #ff6600;
-            font-weight: bold;
-        }
-        
-        /* LOADING BAR */
-        .loader-bar-container {
-            width: 250px;
-            height: 3px;
-            background: rgba(255,51,0,0.2);
-            border-radius: 10px;
-            margin: 0 auto;
-            overflow: hidden;
-        }
-        
-        .loader-bar {
-            width: 0%;
-            height: 100%;
-            background: linear-gradient(90deg, #ff3300, #ff6600);
-            border-radius: 10px;
-            animation: loadingBar 4s ease-out forwards;
-            box-shadow: 0 0 10px #ff3300;
-        }
+        .loader-sub { color: rgba(255,255,255,0.4); font-size: 0.85rem; letter-spacing: 2px; margin-bottom: 1.5rem; }
+        .loader-sub span { color: #ff6600; font-weight: bold; }
+        .loader-bar-container { width: 220px; height: 4px; background: rgba(255,51,0,0.15); border-radius: 10px; margin: 0 auto; overflow: hidden; }
+        .loader-bar { width: 0%; height: 100%; background: linear-gradient(90deg, #ff3300, #ff6600); animation: loadingBar 3.5s ease-out forwards; box-shadow: 0 0 10px #ff3300; }
         
         @keyframes loadingBar {
-            0% { width: 0%; }
-            20% { width: 20%; }
-            40% { width: 45%; }
-            60% { width: 65%; }
-            80% { width: 85%; }
-            100% { width: 100%; }
+            0% { width: 0%; } 100% { width: 100%; }
         }
-        
-        .loader-percent {
-            font-family: 'Orbitron', monospace;
-            color: #ff6600;
-            font-size: 0.8rem;
-            margin-top: 10px;
-        }
-        
-        .loader-dots {
-            margin-top: 20px;
-            display: flex;
-            gap: 8px;
-            justify-content: center;
-        }
-        
-        .dot {
-            width: 8px;
-            height: 8px;
-            background: #ff6600;
-            border-radius: 50%;
-            animation: dotPulse 1.5s ease-in-out infinite;
-        }
-        
-        .dot:nth-child(1) { animation-delay: 0s; }
-        .dot:nth-child(2) { animation-delay: 0.3s; }
-        .dot:nth-child(3) { animation-delay: 0.6s; }
-        
-        @keyframes dotPulse {
-            0%, 100% { opacity: 0.3; transform: scale(0.8); }
-            50% { opacity: 1; transform: scale(1.2); }
-        }
+        .loader-percent { font-family: 'Orbitron', sans-serif; color: #ff6600; font-size: 0.8rem; margin-top: 8px; font-weight: 600; }
         
         /* ==================== MAIN CONTENT ==================== */
-        .main-content {
-            opacity: 0;
-            transition: opacity 0.5s ease;
-        }
-        
-        .main-content.visible {
-            opacity: 1;
-        }
-        
-        body::before {
-            content: "";
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url('https://files.catbox.moe/dg70yk.png');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            opacity: 0.35;
-            z-index: -2;
-        }
+        .main-content { opacity: 0; transition: opacity 0.5s ease; width: 100%; display: flex; justify-content: center; }
+        .main-content.visible { opacity: 1; }
         
         .cyber-grid {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-image: 
-                linear-gradient(rgba(255, 51, 0, 0.05) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 51, 0, 0.05) 1px, transparent 1px);
-            background-size: 50px 50px;
-            z-index: -1;
-            animation: gridMove 20s linear infinite;
+                linear-gradient(rgba(255, 51, 0, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 51, 0, 0.03) 1px, transparent 1px);
+            background-size: 40px 40px; z-index: -1; animation: gridMove 30s linear infinite;
         }
+        @keyframes gridMove { 0% { transform: translate(0, 0); } 100% { transform: translate(40px, 40px); } }
         
-        @keyframes gridMove {
-            0% { transform: translate(0, 0); }
-            100% { transform: translate(50px, 50px); }
-        }
-        
-        .fire-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            pointer-events: none;
-        }
-        
-        .particle {
-            position: absolute;
-            background: radial-gradient(circle, #ff6600, #ff3300);
-            border-radius: 50%;
-            opacity: 0;
-            animation: fireFloat 5s infinite;
-        }
-        
+        .fire-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
+        .particle { position: absolute; background: radial-gradient(circle, rgba(255,102,0,0.6), transparent); border-radius: 50%; opacity: 0; animation: fireFloat 6s infinite linear; }
         @keyframes fireFloat {
-            0% { transform: translateY(100vh) scale(0); opacity: 0; }
-            50% { opacity: 0.4; }
-            100% { transform: translateY(-100px) scale(1); opacity: 0; }
+            0% { transform: translateY(105vh) scale(0.3); opacity: 0; }
+            30% { opacity: 0.3; }
+            90% { opacity: 0.1; }
+            100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
         }
         
-        .container {
-            position: relative;
-            z-index: 10;
-            max-width: 600px;
-            width: 100%;
-        }
+        .container { max-width: 520px; width: 100%; position: relative; z-index: 10; }
         
         .key-card {
-            background: rgba(5, 5, 10, 0.8);
-            backdrop-filter: blur(15px);
-            border-radius: 48px;
-            padding: 2rem;
-            border: 1px solid rgba(255, 51, 0, 0.4);
-            box-shadow: 0 30px 50px rgba(0,0,0,0.5), 0 0 30px rgba(255,51,0,0.15);
-            position: relative;
-            overflow: hidden;
+            background: rgba(10, 10, 15, 0.75);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border-radius: 32px; padding: 2.2rem 1.8rem;
+            border: 1px solid rgba(255, 51, 0, 0.25);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.6), 0 0 40px rgba(255,51,0,0.05);
         }
         
-        .key-card::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,51,0,0.05), transparent 70%);
-            animation: rotateSlow 25s linear infinite;
-            pointer-events: none;
-        }
-        
-        @keyframes rotateSlow {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-        
-        .header { text-align: center; margin-bottom: 1.5rem; }
+        .header { text-align: center; margin-bottom: 2rem; }
         .logo-icon {
-            width: 70px; height: 70px;
+            width: 65px; height: 65px;
             background: linear-gradient(135deg, #ff3300, #ff6600);
-            border-radius: 25px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 0.8rem;
-            box-shadow: 0 10px 25px rgba(255,51,0,0.3);
+            border-radius: 20px; display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 0.8rem; box-shadow: 0 8px 25px rgba(255,51,0,0.3);
         }
-        .logo-icon i { font-size: 2.5rem; color: #fff; }
+        .logo-icon i { font-size: 2.2rem; color: #fff; }
         .header h1 {
-            font-family: 'Orbitron', monospace;
-            font-size: 2rem;
-            background: linear-gradient(135deg, #ff6600, #ff3300);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
+            font-family: 'Orbitron', sans-serif; font-size: 2.2rem; font-weight: 900;
+            background: linear-gradient(135deg, #fff, #ff6600);
+            -webkit-background-clip: text; background-clip: text; color: transparent;
             letter-spacing: 2px;
         }
-        .header .dev-tag { color: rgba(255,255,255,0.5); font-size: 0.7rem; }
-        .header .dev-tag span { color: #ff6600; font-weight: bold; }
+        .header .dev-tag { color: rgba(255,255,255,0.4); font-size: 0.75rem; letter-spacing: 1px; margin-top: 4px; }
+        .header .dev-tag span { color: #ff6600; font-weight: 600; }
         
-        .select-wrapper, .input-wrapper { position: relative; margin-bottom: 1rem; }
+        /* INPUT & SELECT STYLE */
+        .field-label { font-size: 0.8rem; color: #ff6600; font-weight: 600; letter-spacing: 1px; margin-bottom: 6px; padding-left: 8px; text-transform: uppercase; display: block; }
+        .select-wrapper, .input-wrapper, .key-display { position: relative; margin-bottom: 1.2rem; }
         .select-wrapper i, .input-wrapper i, .key-display i {
-            position: absolute;
-            left: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #ff6600;
-            z-index: 1;
-        }
-        select, #manualKeyInput, #hasilKey {
-            width: 100%;
-            padding: 12px 15px 12px 45px;
-            background: rgba(15,15,25,0.9);
-            border: 2px solid rgba(255,51,0,0.4);
-            border-radius: 30px;
-            font-size: 0.9rem;
-            color: white;
-            font-family: 'Poppins', sans-serif;
-            transition: 0.3s;
-        }
-        select:focus, #manualKeyInput:focus {
-            outline: none;
-            border-color: #ff3300;
-            box-shadow: 0 0 15px rgba(255,51,0,0.3);
-        }
-        .select-wrapper::after {
-            content: '\f078';
-            font-family: 'Font Awesome 6 Free';
-            font-weight: 900;
-            position: absolute;
-            right: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #ff6600;
+            position: absolute; left: 16px; top: 50%; transform: translateY(-50%);
+            color: #ff6600; z-index: 2; font-size: 1rem;
         }
         
-        .btn-primary, .btn-secondary {
-            width: 100%;
-            padding: 12px;
-            border-radius: 40px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            transition: 0.3s;
-            margin-bottom: 1rem;
+        select, #manualKeyInput, #threeDayPasswordInput, #hasilKey {
+            width: 100%; padding: 13px 16px 13px 46px;
+            background: rgba(5, 5, 8, 0.85);
+            border: 1.5px solid rgba(255,51,0,0.25);
+            border-radius: 16px; font-size: 0.95rem; color: white;
+            font-family: 'Poppins', sans-serif; transition: all 0.3s ease;
         }
+        select:focus, #manualKeyInput:focus, #threeDayPasswordInput:focus {
+            outline: none; border-color: #ff3300; background: rgba(15,15,22,0.95);
+            box-shadow: 0 0 15px rgba(255,51,0,0.25);
+        }
+        
+        select { appearance: none; -webkit-appearance: none; cursor: pointer; }
+        .select-wrapper::after {
+            content: '\f078'; font-family: 'Font Awesome 6 Free'; font-weight: 900;
+            position: absolute; right: 18px; top: 50%; transform: translateY(-50%);
+            color: #ff6600; pointer-events: none; font-size: 0.8rem;
+        }
+        
+        /* BUTTONS */
         .btn-primary {
-            background: linear-gradient(45deg, #ff3300, #ff6600);
-            border: none;
-            color: #fff;
-            text-transform: uppercase;
+            width: 100%; padding: 14px; border-radius: 16px; font-size: 1rem;
+            font-weight: 700; cursor: pointer; display: flex; align-items: center;
+            justify-content: center; gap: 10px; transition: all 0.3s ease;
+            margin-bottom: 1rem; border: none; color: #fff;
+            font-family: 'Orbitron', sans-serif; letter-spacing: 1px;
+            background: linear-gradient(135deg, #ff3300, #ff6600);
+            box-shadow: 0 6px 20px rgba(255,51,0,0.2);
         }
         .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(255,51,0,0.4); }
+        .btn-primary:active { transform: translateY(0); }
+        
         .btn-secondary {
-            background: transparent;
-            border: 2px solid #ff6600;
-            color: #ff6600;
+            width: 100%; padding: 12px; border-radius: 16px; font-size: 0.95rem;
+            font-weight: 600; cursor: pointer; display: flex; align-items: center;
+            justify-content: center; gap: 10px; transition: all 0.3s ease;
+            margin-bottom: 1.2rem; background: rgba(255, 102, 0, 0.04);
+            border: 1.5px solid rgba(255,102,0,0.4); color: #ffaa66;
         }
-        .btn-secondary:hover { background: rgba(255,102,0,0.15); transform: translateY(-2px); }
+        .btn-secondary:hover { background: rgba(255,102,0,0.12); border-color: #ff6600; color: #fff; }
         
-        .key-display { margin: 1rem 0; }
-        #hasilKey { color: #ffaa66; font-family: 'Orbitron', monospace; text-align: center; }
+        #hasilKey { color: #ffaa66; font-family: 'Orbitron', monospace; font-weight: 600; text-align: center; padding-left: 16px; padding-right: 16px; background: rgba(255,51,0,0.03); border-style: dashed; }
         
-        .key-list-section { margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid rgba(255,51,0,0.3); }
-        .key-list-title { color: #ff6600; font-size: 0.8rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 8px; justify-content: space-between; flex-wrap: wrap; }
+        /* KEY LIST HISTORY */
+        .key-list-section { margin-top: 1.8rem; padding-top: 1.2rem; border-top: 1px solid rgba(255,51,0,0.15); }
+        .key-list-title { color: #ff6600; font-size: 0.85rem; font-weight: 700; margin-bottom: 1rem; display: flex; align-items: center; gap: 8px; justify-content: space-between; font-family: 'Orbitron', sans-serif; letter-spacing: 0.5px; }
+        
         .sync-btn {
-            background: rgba(255,102,0,0.2);
-            border: none;
-            padding: 4px 10px;
-            border-radius: 15px;
-            color: #ffaa66;
-            cursor: pointer;
-            font-size: 0.7rem;
+            background: rgba(255,102,0,0.1); border: 1px solid rgba(255,102,0,0.25);
+            padding: 5px 12px; border-radius: 10px; color: #ffaa66;
+            cursor: pointer; font-size: 0.75rem; font-family: 'Poppins', sans-serif; font-weight: 500; transition: 0.2s;
         }
-        .sync-btn:hover { background: #ff6600; color: #fff; }
-        .key-list { max-height: 300px; overflow-y: auto; padding-right: 5px; }
+        .sync-btn:hover { background: #ff6600; border-color: #ff6600; color: #fff; box-shadow: 0 0 10px rgba(255,51,0,0.2); }
+        
+        .key-list { max-height: 260px; overflow-y: auto; padding-right: 4px; }
         .key-list::-webkit-scrollbar { width: 4px; }
-        .key-list::-webkit-scrollbar-track { background: rgba(255,51,0,0.1); border-radius: 10px; }
-        .key-list::-webkit-scrollbar-thumb { background: #ff6600; border-radius: 10px; }
+        .key-list::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); border-radius: 10px; }
+        .key-list::-webkit-scrollbar-thumb { background: rgba(255,102,0,0.4); border-radius: 10px; }
+        .key-list::-webkit-scrollbar-thumb:hover { background: #ff6600; }
         
         .key-item {
-            background: rgba(25,25,35,0.7);
-            border-radius: 20px;
-            padding: 12px;
-            margin-bottom: 10px;
-            border-left: 4px solid #ff6600;
-            transition: 0.3s;
+            background: rgba(20,20,30,0.4); border: 1px solid rgba(255,255,255,0.03);
+            border-radius: 16px; padding: 14px; margin-bottom: 10px;
+            border-left: 4px solid #ff6600; transition: all 0.3s ease;
         }
-        .key-item.expired { border-left-color: #ff4444; opacity: 0.6; }
-        .key-value {
-            font-family: 'Orbitron', monospace;
-            font-weight: bold;
-            color: #ffaa66;
-            font-size: 0.8rem;
-            word-break: break-all;
-            margin-bottom: 5px;
-        }
-        .key-info { display: flex; justify-content: space-between; align-items: center; font-size: 0.7rem; flex-wrap: wrap; gap: 8px; }
-        .key-type { color: #ff6600; }
-        .key-timer { font-family: monospace; color: #00ff00; }
-        .key-timer.expired { color: #ff4444; }
+        .key-item.expired { border-left-color: #ef4444; opacity: 0.5; }
+        .key-value { font-family: 'Orbitron', monospace; font-weight: 700; color: #ffaa66; font-size: 0.85rem; word-break: break-all; margin-bottom: 8px; }
+        .key-info { display: flex; justify-content: space-between; align-items: center; font-size: 0.75rem; flex-wrap: wrap; gap: 8px; }
+        .key-type { color: #a5b4fc; background: rgba(165,180,252,0.1); padding: 2px 8px; border-radius: 6px; font-weight: 500; }
+        .key-timer { font-family: monospace; color: #22c55e; font-weight: 600; }
+        .key-timer.expired { color: #ef4444; }
+        
+        .key-actions { display: flex; gap: 6px; }
         .key-copy-btn, .key-delete-btn {
-            background: rgba(255,102,0,0.2);
-            border: none;
-            padding: 4px 10px;
-            border-radius: 15px;
-            color: #ffaa66;
-            cursor: pointer;
-            font-size: 0.7rem;
-            transition: 0.2s;
+            border: none; padding: 4px 10px; border-radius: 8px; cursor: pointer; font-size: 0.7rem; font-weight: 600; font-family: 'Poppins', sans-serif; transition: 0.2s;
         }
-        .key-delete-btn { background: rgba(255,0,0,0.2); color: #ff8888; }
+        .key-copy-btn { background: rgba(255,102,0,0.15); color: #ffaa66; }
         .key-copy-btn:hover { background: #ff6600; color: #fff; }
-        .key-delete-btn:hover { background: #ff4444; color: #fff; }
+        .key-delete-btn { background: rgba(239,68,68,0.1); color: #fca5a5; }
+        .key-delete-btn:hover { background: #ef4444; color: #fff; }
         
+        /* PANELS & FOOTER */
         .info-panel {
-            margin-top: 1rem;
-            padding: 0.8rem;
-            background: rgba(255,51,0,0.08);
-            border-radius: 20px;
-            text-align: center;
-            font-size: 0.7rem;
-            color: rgba(255,255,255,0.6);
+            margin-top: 1.5rem; padding: 1rem; background: rgba(255,51,0,0.04);
+            border: 1px solid rgba(255,51,0,0.1); border-radius: 18px;
+            font-size: 0.75rem; color: #94a3b8; line-height: 1.5;
         }
-        .info-panel span { color: #ff6600; font-weight: bold; }
-        .developer-credit {
-            text-align: center;
-            margin-top: 1rem;
-            color: rgba(255,255,255,0.3);
-            font-size: 0.65rem;
-        }
+        .info-panel p { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+        .info-panel p:last-child { margin-bottom: 0; }
+        .info-panel i { color: #ff6600; width: 14px; }
+        .info-panel span { color: #ffaa66; font-weight: 600; }
         
-        /* SUCCESS MODAL */
-        .success-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.95);
-            backdrop-filter: blur(15px);
-            z-index: 2000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
-        }
-        .success-modal.active { opacity: 1; visibility: visible; }
-        .success-card {
-            background: linear-gradient(145deg, #1a1a1a, #0a0a0a);
-            border-radius: 60px;
-            padding: 2rem;
-            text-align: center;
-            max-width: 400px;
-            width: 85%;
-            border: 2px solid #ff6600;
-            box-shadow: 0 0 50px rgba(255,51,0,0.3);
-            animation: modalPop 0.4s ease;
-        }
-        @keyframes modalPop {
-            from { transform: scale(0.5); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
-        }
-        .success-card i { font-size: 3.5rem; color: #00ff00; margin-bottom: 1rem; }
-        .success-card h2 { font-family: 'Orbitron', monospace; font-size: 1.5rem; color: #ff6600; margin-bottom: 1rem; }
-        .success-card .generated-key {
-            background: rgba(255,51,0,0.15);
-            border: 1px solid #ff6600;
-            border-radius: 40px;
-            padding: 12px;
-            font-family: 'Orbitron', monospace;
-            font-size: 0.8rem;
-            color: #ffaa66;
-            margin: 1rem 0;
-        }
-        .success-card button {
-            background: linear-gradient(45deg, #ff3300, #ff6600);
-            border: none;
-            padding: 8px 25px;
-            border-radius: 40px;
-            color: white;
-            font-weight: bold;
-            cursor: pointer;
-        }
+        .developer-credit { text-align: center; margin-top: 1.2rem; color: rgba(255,255,255,0.25); font-size: 0.7rem; font-family: 'Orbitron', sans-serif; letter-spacing: 0.5px; }
         
-        .modal-overlay {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: rgba(0,0,0,0.95);
-            backdrop-filter: blur(10px);
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            visibility: hidden;
-            transition: 0.3s;
+        /* MODALS & TOAST */
+        .success-modal, .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(3, 3, 5, 0.9); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+            z-index: 2000; display: flex; align-items: center; justify-content: center;
+            opacity: 0; visibility: hidden; transition: all 0.3s ease;
         }
-        .modal-overlay.active { opacity: 1; visibility: visible; }
-        .modal-card {
-            background: linear-gradient(145deg, #1a1a1a, #0a0a0a);
-            border-radius: 35px;
-            padding: 1.5rem;
-            width: 85%;
-            max-width: 320px;
-            text-align: center;
-            border: 2px solid #ff3300;
-        }
-        .modal-card i { font-size: 2.5rem; color: #ff6600; margin-bottom: 1rem; }
-        .modal-card h3 { color: white; margin-bottom: 1rem; font-size: 1.2rem; }
-        .modal-card .key-type { color: #ff6600; margin-bottom: 1rem; padding: 4px 12px; background: rgba(255,51,0,0.15); display: inline-block; border-radius: 20px; font-size: 0.8rem; }
-        .modal-card input { width: 100%; padding: 10px; background: rgba(25,25,35,0.9); border: 2px solid #ff3300; border-radius: 25px; color: #ffaa66; text-align: center; margin-bottom: 1rem; }
-        .modal-card button { background: #ff3300; border: none; padding: 8px 20px; border-radius: 25px; font-weight: bold; cursor: pointer; margin: 5px; }
+        .success-modal.active, .modal-overlay.active { opacity: 1; visibility: visible; }
         
-        .toast-msg {
-            position: fixed;
-            bottom: 30px;
-            left: 20px;
-            right: 20px;
-            background: #ff3300;
-            color: #fff;
-            padding: 10px;
-            border-radius: 30px;
-            text-align: center;
-            font-weight: bold;
-            z-index: 1100;
-            opacity: 0;
-            visibility: hidden;
-            transition: 0.3s;
+        .success-card, .modal-card {
+            background: #0d0d12; border-radius: 24px; padding: 2.2rem 1.8rem;
+            text-align: center; max-width: 360px; width: 88%;
+            border: 2px solid #ff6600; box-shadow: 0 0 40px rgba(255,51,0,0.25);
+            animation: modalPop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
-        .toast-msg.show { opacity: 1; visibility: visible; }
+        @keyframes modalPop { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
         
-        .loading {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: rgba(0,0,0,0.9);
-            z-index: 1200;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            visibility: hidden;
-            transition: 0.3s;
-        }
+        .success-card i { font-size: 3.2rem; color: #22c55e; margin-bottom: 1rem; filter: drop-shadow(0 0 10px rgba(34,197,94,0.3)); }
+        .success-card h2 { font-family: 'Orbitron', sans-serif; font-size: 1.3rem; color: #fff; font-weight: 700; margin-bottom: 1rem; }
+        .success-card .generated-key { background: rgba(255,51,0,0.08); border: 1px dashed #ff6600; border-radius: 14px; padding: 12px; font-family: 'Orbitron', monospace; font-size: 0.9rem; color: #ffaa66; font-weight: 600; margin: 1.2rem 0; word-break: break-all; }
+        .success-card button, .modal-card button { background: linear-gradient(135deg, #ff3300, #ff6600); border: none; padding: 10px 24px; border-radius: 12px; color: white; font-weight: 700; font-family: 'Orbitron', sans-serif; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 12px rgba(255,51,0,0.2); }
+        .success-card button:hover, .modal-card button:hover { transform: translateY(-1px); box-shadow: 0 6px 15px rgba(255,51,0,0.3); }
+        
+        .modal-card i { font-size: 2.5rem; color: #ff6600; margin-bottom: 0.8rem; }
+        .modal-card h3 { color: white; margin-bottom: 0.5rem; font-family: 'Orbitron', sans-serif; font-size: 1.2rem; }
+        .modal-card .key-type { color: #ffaa66; margin-bottom: 1.2rem; padding: 4px 12px; background: rgba(255,51,0,0.08); display: inline-block; border-radius: 10px; font-size: 0.75rem; font-weight: 600; border: 1px solid rgba(255,51,0,0.15); }
+        .modal-card input { width: 100%; padding: 12px; background: rgba(5,5,8,0.9); border: 1.5px solid #ff3300; border-radius: 14px; color: #fff; text-align: center; font-size: 1.1rem; margin-bottom: 1.2rem; font-family: 'Orbitron', sans-serif; letter-spacing: 2px; }
+        .modal-card input:focus { outline: none; box-shadow: 0 0 10px rgba(255,51,0,0.3); }
+        
+        .toast-msg { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: #ff3300; color: #fff; padding: 12px 24px; border-radius: 50px; text-align: center; font-weight: 700; font-size: 0.9rem; z-index: 2500; opacity: 0; visibility: hidden; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); box-shadow: 0 10px 25px rgba(0,0,0,0.4); width: 85%; max-width: 340px; }
+        .toast-msg.show { opacity: 1; visibility: visible; bottom: 40px; }
+        
+        .loading { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(3,3,5,0.85); z-index: 2200; display: flex; align-items: center; justify-content: center; opacity: 0; visibility: hidden; transition: 0.3s; backdrop-filter: blur(4px); }
         .loading.active { opacity: 1; visibility: visible; }
-        .spinner { width: 50px; height: 50px; border: 4px solid rgba(255,51,0,0.2); border-top: 4px solid #ff3300; border-radius: 50%; animation: spin 1s linear infinite; }
+        .spinner { width: 45px; height: 45px; border: 3.5px solid rgba(255,51,0,0.15); border-top: 3.5px solid #ff3300; border-radius: 50%; animation: spin 0.8s linear infinite; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         
-        @media (max-width: 550px) {
-            .container { padding: 0.5rem; }
-            .key-card { padding: 1.2rem; }
-            .header h1 { font-size: 1.5rem; }
-            .loader-title { font-size: 1.3rem; }
-            .loader-bar-container { width: 200px; }
+        @media (max-width: 480px) {
+            body { padding: 1rem; }
+            .key-card { padding: 1.6rem 1.2rem; border-radius: 24px; }
+            .header h1 { font-size: 1.8rem; }
+            .loader-title { font-size: 1.8rem; }
         }
     </style>
 </head>
 <body>
 
-<!-- LOADING SCREEN -->
 <div class="loading-screen" id="loadingScreen">
     <div class="loader-container">
-        <div class="loader-logo">
-            <i class="fas fa-dragon"></i>
-        </div>
+        <div class="loader-logo"><i class="fas fa-dragon"></i></div>
         <div class="loader-title">DRIP KEY</div>
         <div class="loader-sub">DEVELOPED BY <span>PUTZZDEV</span></div>
-        <div class="loader-bar-container">
-            <div class="loader-bar" id="loaderBar"></div>
-        </div>
+        <div class="loader-bar-container"><div class="loader-bar" id="loaderBar"></div></div>
         <div class="loader-percent" id="loaderPercent">0%</div>
-        <div class="loader-dots">
-            <div class="dot"></div>
-            <div class="dot"></div>
-            <div class="dot"></div>
-        </div>
     </div>
 </div>
 
-<!-- MAIN CONTENT -->
 <div class="main-content" id="mainContent">
     <div class="cyber-grid"></div>
     <div class="fire-bg" id="fireBg"></div>
@@ -591,6 +295,13 @@
                 <div class="dev-tag">DEVELOPED BY <span>PUTZZDEV</span></div>
             </div>
 
+            <label class="field-label">🔑 Password Akses Web (3 Day)</label>
+            <div class="input-wrapper">
+                <i class="fas fa-key"></i>
+                <input type="password" id="threeDayPasswordInput" placeholder="Ketik password akses web di sini..." autocomplete="off">
+            </div>
+
+            <label class="field-label">⏰ Pilih Durasi Key</label>
             <div class="select-wrapper">
                 <i class="fas fa-calendar-alt"></i>
                 <select id="keyTypeSelect">
@@ -604,61 +315,62 @@
                 </select>
             </div>
 
+            <label class="field-label">✍️ Custom Value Key (Opsional)</label>
             <div class="input-wrapper">
                 <i class="fas fa-pencil-alt"></i>
-                <input type="text" id="manualKeyInput" placeholder="Atau ketik key kamu sendiri...">
+                <input type="text" id="manualKeyInput" placeholder="Atau ketik kustom key sendiri...">
             </div>
 
             <button class="btn-primary" id="generateBtn"><i class="fas fa-magic"></i> GENERATE KEY</button>
 
             <div class="key-display">
                 <i class="fas fa-id-card"></i>
-                <input type="text" id="hasilKey" placeholder="Key akan muncul disini" readonly>
+                <input type="text" id="hasilKey" placeholder="Hasil Key akan muncul di sini" readonly>
             </div>
 
-            <button class="btn-secondary" id="copyBtn"><i class="fas fa-copy"></i> COPY KEY</button>
+            <button class="btn-secondary" id="copyBtn"><i class="fas fa-copy"></i> SALIN KEY UTAMA</button>
 
             <div class="key-list-section">
                 <div class="key-list-title">
-                    <span><i class="fas fa-history"></i> KEY BARU DIGENERATE <span id="keyListCount">(0)</span></span>
-                    <button class="sync-btn" id="syncBtn"><i class="fas fa-sync-alt"></i> Sinkronisasi</button>
+                    <span><i class="fas fa-history"></i> HISTORY GENERATE <span id="keyListCount">(0)</span></span>
+                    <button class="sync-btn" id="syncBtn"><i class="fas fa-sync-alt"></i> Sinkron database</button>
                 </div>
                 <div class="key-list" id="keyList"></div>
             </div>
 
             <div class="info-panel">
-                <p><i class="fas fa-database"></i> KEY TERSIMPAN DI DATABASE: <span id="keyCount">0</span> key</p>
-                <p><i class="fas fa-lock"></i> Key Protected (2 Hari+) 🔒</p>
-                <p><i class="fas fa-info-circle"></i> Timer berjalan meskipun web ditutup</p>
+                <p><i class="fas fa-database"></i> Database Cloud: <span id="keyCount">0</span> key aktif</p>
+                <p><i class="fas fa-lock"></i> Fitur Proteksi Aktif otomatis pada Paket 2 Hari+</p>
+                <p><i class="fas fa-info-circle"></i> Hitung mundur waktu berjalan real-time di server</p>
             </div>
 
             <div class="developer-credit">
-                <i class="fas fa-code"></i> DRIP CLIENT • CREATED BY PUTZZDEV
+                <i class="fas fa-code"></i> DRIP CLIENT • SYSTEM BY PUTZZDEV
             </div>
         </div>
     </div>
 </div>
 
-<!-- SUCCESS MODAL -->
 <div class="success-modal" id="successModal">
     <div class="success-card">
         <i class="fas fa-check-circle"></i>
-        <h2>✨ KEY BERHASIL DIGENERATE ✨</h2>
+        <h2>SUKSES GENERATE KEY</h2>
         <div class="generated-key" id="modalKeyValue">DRIP-XXXX-XXXX</div>
-        <button id="closeSuccessModal"><i class="fas fa-check"></i> OK</button>
+        <button id="closeSuccessModal"><i class="fas fa-check"></i> CLOSE WINDOW</button>
     </div>
 </div>
 
-<!-- MODAL PASSWORD -->
 <div class="modal-overlay" id="passwordModal">
     <div class="modal-card">
-        <i class="fas fa-lock"></i>
-        <h3>VERIFIKASI</h3>
+        <i class="fas fa-shield-alt"></i>
+        <h3>VERIFIKASI ADMIN</h3>
         <div class="key-type" id="modalKeyType">🔒 PROTECTED KEY</div>
-        <input type="password" id="passwordInput" placeholder="Password" autocomplete="off">
-        <button id="submitPasswordBtn">SUBMIT</button>
-        <button id="cancelPasswordBtn" style="background:transparent; border:2px solid #ff4444; color:#ff4444;">BATAL</button>
-        <div id="passwordMsg" style="margin-top:10px;"></div>
+        <input type="password" id="passwordInput" placeholder="PIN Internal Admin" autocomplete="off">
+        <div style="display:flex; gap:10px; justify-content:center;">
+            <button id="submitPasswordBtn">PROSES</button>
+            <button id="cancelPasswordBtn" style="background:transparent; border:1px solid #ef4444; color:#ef4444; box-shadow:none;">BATAL</button>
+        </div>
+        <div id="passwordMsg" style="margin-top:12px; font-size:0.85rem; font-weight:600;"></div>
     </div>
 </div>
 
@@ -680,20 +392,16 @@
         loaderPercent.innerText = percent + '%';
     }
     
-    // Simulasi loading 4 detik
     let startTime = Date.now();
     const loadingInterval = setInterval(() => {
         const elapsed = (Date.now() - startTime) / 1000;
-        const progress = Math.min(elapsed / 4, 1);
+        const progress = Math.min(elapsed / 2.5, 1); // Dipercepat menjadi 2.5 detik agar optimal
         updateLoading(progress);
         if (progress >= 1) {
             clearInterval(loadingInterval);
-            // Selesai loading
             loadingScreen.classList.add('fade-out');
             mainContent.classList.add('visible');
-            setTimeout(() => {
-                loadingScreen.style.display = 'none';
-            }, 500);
+            setTimeout(() => { loadingScreen.style.display = 'none'; }, 500);
         }
     }, 50);
     
@@ -710,21 +418,47 @@
         db = firebase.database();
     }
 
-    const PASSWORD = "Kreftz47";
+    const INTERNAL_PIN = "Kreftz47"; 
     let pendingKeyData = null;
     let allKeys = [];
     let generatedKeys = [];
 
-    // POPUP MODAL
+    // Auto-load token dari penyimpanan lokal jika ada
+    document.addEventListener("DOMContentLoaded", () => {
+        const savedAccessPass = localStorage.getItem("drip_access_password");
+        if (savedAccessPass) {
+            document.getElementById("threeDayPasswordInput").value = savedAccessPass;
+        }
+    });
+
+    // ======================== VALIDASI PASSWORD 3 HARI ========================
+    function checkThreeDayPassword() {
+        const inputPass = document.getElementById('threeDayPasswordInput').value.trim();
+        const currentDate = new Date();
+        // Batas kedaluwarsa akhir: 10 Juni 2026 jam 23:59:59
+        const expiryDate = new Date('2026-06-10T23:59:59');
+
+        if (currentDate > expiryDate) {
+            showToast("🚫 Sesi Password Khusus Telah Habis / Expired (Maks 3 Hari)!", false);
+            return false;
+        }
+
+        if (inputPass !== "putzzdev") {
+            showToast("🔑 Password Akses Web Salah / Kosong!", false);
+            return false;
+        }
+
+        // Simpan otomatis ke localStorage jika benar agar tidak repot mengetik ulang
+        localStorage.setItem("drip_access_password", inputPass);
+        return true;
+    }
+
     function showSuccessModal(keyValue, keyJenis) {
         const modal = document.getElementById('successModal');
         const modalKey = document.getElementById('modalKeyValue');
-        modalKey.innerHTML = `<i class="fas fa-key"></i> ${keyValue}<br><span style="font-size:0.7rem;">📅 ${keyJenis}</span>`;
+        modalKey.innerHTML = `<i class="fas fa-key"></i> ${keyValue}<br><span style="font-size:0.75rem; color:#a5b4fc; display:block; margin-top:5px;">Durasi Paket: ${keyJenis}</span>`;
         modal.classList.add('active');
-        
-        setTimeout(() => {
-            modal.classList.remove('active');
-        }, 3000);
+        setTimeout(() => { modal.classList.remove('active'); }, 4000);
     }
 
     document.getElementById('closeSuccessModal').addEventListener('click', () => {
@@ -745,6 +479,7 @@
     }
 
     async function syncWithDatabase() {
+        if (!checkThreeDayPassword()) return;
         showLoading(true);
         try {
             const dbKeys = await loadKeys();
@@ -753,12 +488,12 @@
             if (validKeys.length !== generatedKeys.length) {
                 generatedKeys = validKeys;
                 saveGeneratedKeys();
-                showToast("🔄 Sinkronisasi berhasil!", true);
+                showToast("🔄 Sinkronisasi Selesai!", true);
             } else {
-                showToast("✅ Semua key masih valid.", true);
+                showToast("✅ Seluruh data key valid.", true);
             }
         } catch(e) {
-            showToast("❌ Gagal sinkronisasi", false);
+            showToast("❌ Sinkronisasi Gagal", false);
         } finally {
             showLoading(false);
         }
@@ -770,12 +505,11 @@
             try {
                 generatedKeys = JSON.parse(saved);
                 const now = Date.now();
-                const validKeys = generatedKeys.filter(key => {
+                generatedKeys = generatedKeys.filter(key => {
                     if (key.jenis === "PERMANEN") return true;
                     if (!key.expiryTime) return true;
                     return now - key.expiryTime < 86400000;
                 });
-                generatedKeys = validKeys;
                 saveGeneratedKeys();
             } catch(e) {}
         }
@@ -802,9 +536,10 @@
     }
 
     function removeGeneratedKey(keyValue) {
+        if (!checkThreeDayPassword()) return;
         generatedKeys = generatedKeys.filter(k => k.key !== keyValue);
         saveGeneratedKeys();
-        showToast("🗑️ Key berhasil dihapus", true);
+        showToast("🗑️ History lokal dihapus", true);
     }
 
     function getSecondsFromJenis(jenis) {
@@ -826,9 +561,9 @@
         const hours = Math.floor(remaining / (1000 * 3600));
         const minutes = Math.floor((remaining % (1000 * 3600)) / (1000 * 60));
         const seconds = Math.floor((remaining % (1000 * 60)) / 1000);
-        if (hours > 0) return `${hours} jam ${minutes} menit ${seconds} detik`;
-        else if (minutes > 0) return `${minutes} menit ${seconds} detik`;
-        else return `${seconds} detik`;
+        if (hours > 0) return `${hours}j ${minutes}m ${seconds}d`;
+        else if (minutes > 0) return `${minutes}m ${seconds}d`;
+        else return `${seconds}d`;
     }
 
     function renderKeyList() {
@@ -842,7 +577,7 @@
             const expiredClass = isExpired ? 'expired' : '';
             let timerText = '';
             if (item.jenis === "PERMANEN") {
-                timerText = '<span style="color:#ff6600;">♾️ PERMANEN</span>';
+                timerText = '<span style="color:#ff6600; font-weight:bold;">♾️ PERMANEN</span>';
             } else if (isExpired) {
                 timerText = '<span class="key-timer expired">⏰ EXPIRED</span>';
             } else {
@@ -853,18 +588,18 @@
                 <div class="key-item ${expiredClass}">
                     <div class="key-value"><i class="fas fa-key"></i> ${item.key}</div>
                     <div class="key-info">
-                        <span class="key-type">📅 ${item.jenis}</span>
+                        <span class="key-type">${item.jenis}</span>
                         <span>${timerText}</span>
-                        <div>
+                        <div class="key-actions">
                             <button class="key-copy-btn" onclick="copySpecificKey('${item.key}')"><i class="fas fa-copy"></i> Copy</button>
-                            <button class="key-delete-btn" onclick="deleteGeneratedKey('${item.key}')"><i class="fas fa-trash"></i> Hapus</button>
+                            <button class="key-delete-btn" onclick="deleteGeneratedKey('${item.key}')"><i class="fas fa-trash"></i></button>
                         </div>
                     </div>
                 </div>
             `;
         });
         if (generatedKeys.length === 0) {
-            html = '<div style="text-align:center; color:#666; padding:1rem;">✨ Belum ada key yang digenerate ✨</div>';
+            html = '<div style="text-align:center; color:#52525b; padding:1.5rem; font-size:0.85rem;">✨ Belum ada data key terditeksi ✨</div>';
         }
         container.innerHTML = html;
         countSpan.innerText = `(${generatedKeys.length})`;
@@ -875,10 +610,8 @@
     function copyToClipboard(text) {
         if (navigator.clipboard && navigator.clipboard.writeText) {
             navigator.clipboard.writeText(text).then(() => {
-                showToast("✅ Key disalin!", true);
-            }).catch(() => {
-                fallbackCopy(text);
-            });
+                showToast("✅ Salis Sukses!", true);
+            }).catch(() => { fallbackCopy(text); });
         } else {
             fallbackCopy(text);
         }
@@ -887,13 +620,12 @@
     function fallbackCopy(text) {
         const textarea = document.createElement('textarea');
         textarea.value = text;
-        textarea.style.position = 'fixed';
-        textarea.style.top = '-9999px';
+        textarea.style.position = 'fixed'; textarea.style.top = '-9999px';
         document.body.appendChild(textarea);
         textarea.select();
         try {
             document.execCommand('copy');
-            showToast("✅ Key disalin!", true);
+            showToast("✅ Salin Sukses!", true);
         } catch (err) {
             showToast("❌ Gagal menyalin", false);
         }
@@ -916,10 +648,9 @@
         try {
             await db.ref('keys').push().set(keyData);
             await loadKeys();
-            showToast(`✅ Key berhasil disimpan!`, true);
             return true;
         } catch(e) {
-            showToast(`❌ Gagal: ${e.message}`, false);
+            showToast(`❌ Firebase Error: ${e.message}`, false);
             return false;
         } finally {
             showLoading(false);
@@ -935,16 +666,20 @@
         if (success) {
             document.getElementById('hasilKey').value = keyValue;
             addGeneratedKey(keyValue, keyJenis);
-            showToast(`✨ Key ${keyJenis} berhasil dibuat! ✨`, true);
+            showToast(`✨ Key Berhasil Dibuat! ✨`, true);
             showSuccessModal(keyValue, keyJenis);
         }
     }
 
     function handleGenerate() {
+        // Cek validasi utama password akses web 3 hari terlebih dahulu
+        if (!checkThreeDayPassword()) return;
+
         const keyJenis = document.getElementById('keyTypeSelect').value;
         const manualKey = document.getElementById('manualKeyInput').value.trim();
         let finalKey = manualKey || generateRandomKey();
         const protectedTypes = ["2 HARI", "3 HARI", "7 HARI", "30 HARI", "PERMANEN"];
+        
         if (protectedTypes.includes(keyJenis)) {
             pendingKeyData = { key: finalKey, jenis: keyJenis };
             document.getElementById('modalKeyType').innerHTML = `🔥 ${keyJenis} KEY`;
@@ -960,15 +695,15 @@
     function checkPassword() {
         const pass = document.getElementById('passwordInput').value;
         const msgDiv = document.getElementById('passwordMsg');
-        if (pass === PASSWORD) {
-            msgDiv.innerHTML = '<span style="color:#ff6600;">✅ Password benar!</span>';
+        if (pass === INTERNAL_PIN) {
+            msgDiv.innerHTML = '<span style="color:#22c55e;">✅ Verifikasi Sukses!</span>';
             if (pendingKeyData) {
                 processSaveKey(pendingKeyData.key, pendingKeyData.jenis);
                 pendingKeyData = null;
             }
             setTimeout(() => { document.getElementById('passwordModal').classList.remove('active'); }, 500);
         } else {
-            msgDiv.innerHTML = '<span style="color:#ff4444;">❌ Password salah!</span>';
+            msgDiv.innerHTML = '<span style="color:#ef4444;">❌ PIN Internal Salah!</span>';
             document.getElementById('passwordInput').value = '';
             document.getElementById('passwordInput').focus();
         }
@@ -981,14 +716,14 @@
 
     function copyKey() {
         const keyInput = document.getElementById('hasilKey');
-        if (!keyInput.value) { showToast("⚠️ Tidak ada key!", false); return; }
+        if (!keyInput.value) { showToast("⚠️ Data key kosong!", false); return; }
         copyToClipboard(keyInput.value);
     }
 
     function showToast(msg, isSuccess) {
         const toast = document.getElementById('toastMsg');
         toast.innerText = msg;
-        toast.style.background = isSuccess ? '#ff3300' : '#ff4444';
+        toast.style.background = isSuccess ? 'linear-gradient(135deg, #ff3300, #ff6600)' : '#ef4444';
         toast.classList.add('show');
         setTimeout(() => toast.classList.remove('show'), 2500);
     }
@@ -1008,19 +743,19 @@
     document.getElementById('passwordInput').addEventListener('keypress', (e) => { if (e.key === 'Enter') checkPassword(); });
     document.getElementById('manualKeyInput').addEventListener('keypress', (e) => { if (e.key === 'Enter') handleGenerate(); });
 
-    // FIRE PARTICLES
+    // BACKGROUND PARTICLES EFFECT
     function createFireParticles() {
         const container = document.getElementById('fireBg');
-        for (let i = 0; i < 50; i++) {
+        if (!container) return;
+        for (let i = 0; i < 35; i++) { // Mengurangi beban render agar animasi smooth
             const particle = document.createElement('div');
             particle.classList.add('particle');
-            const size = Math.random() * 8 + 2;
+            const size = Math.random() * 6 + 2;
             particle.style.width = size + 'px';
             particle.style.height = size + 'px';
             particle.style.left = Math.random() * 100 + '%';
-            particle.style.animationDuration = 3 + Math.random() * 5 + 's';
-            particle.style.animationDelay = Math.random() * 5 + 's';
-            particle.style.opacity = 0.2 + Math.random() * 0.5;
+            particle.style.animationDuration = 4 + Math.random() * 5 + 's';
+            particle.style.animationDelay = Math.random() * 4 + 's';
             container.appendChild(particle);
         }
     }
@@ -1028,7 +763,7 @@
 
     loadKeys();
     loadGeneratedKeys();
-    console.log('🔥 DRIP KEY GENERATOR BY PUTZZDEV 🔥');
+    console.log('🔥 DRIP KEY GENERATOR BY PUTZZDEV READY 🔥');
 </script>
 </body>
 </html>
