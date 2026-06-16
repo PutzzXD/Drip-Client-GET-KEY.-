@@ -6,7 +6,6 @@
     <title>DRIP KEY • Generator by Putzzdev</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800;900&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- AOS Animation Library -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; }
@@ -19,7 +18,7 @@
             justify-content: center;
             padding: 1.5rem;
             position: relative;
-            background: #060609;
+            background: #0a0a12;
             color: #e2e8f0;
             overflow-x: hidden;
         }
@@ -28,7 +27,7 @@
         .loading-screen {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle at center, #150808 0%, #060609 100%);
+            background: radial-gradient(circle at center, #0d0d1a 0%, #0a0a12 100%);
             z-index: 9999;
             display: flex;
             align-items: center;
@@ -46,36 +45,36 @@
         
         .loader-logo {
             width: 90px; height: 90px;
-            background: linear-gradient(135deg, #ff3300, #ff6600);
+            background: linear-gradient(135deg, #7c3aed, #a855f7);
             border-radius: 28px;
             display: flex; align-items: center; justify-content: center;
             margin: 0 auto 1.5rem;
-            box-shadow: 0 0 35px rgba(255, 51, 0, 0.4);
+            box-shadow: 0 0 35px rgba(124, 58, 237, 0.4);
             animation: logoPulse 1.8s ease-in-out infinite;
         }
         
         @keyframes logoPulse {
-            0%, 100% { transform: scale(1); box-shadow: 0 0 30px rgba(255,51,0,0.4); }
-            50% { transform: scale(1.05); box-shadow: 0 0 50px rgba(255,51,0,0.7); }
+            0%, 100% { transform: scale(1); box-shadow: 0 0 30px rgba(124,58,237,0.4); }
+            50% { transform: scale(1.05); box-shadow: 0 0 50px rgba(124,58,237,0.7); }
         }
         
         .loader-logo i { font-size: 3rem; color: #fff; }
         .loader-title {
             font-family: 'Orbitron', sans-serif; font-size: 2.2rem; font-weight: 800;
-            background: linear-gradient(135deg, #ff6600, #ff3300);
+            background: linear-gradient(135deg, #a855f7, #7c3aed);
             -webkit-background-clip: text; background-clip: text; color: transparent;
             letter-spacing: 4px; margin-bottom: 0.5rem;
-            filter: drop-shadow(0 2px 10px rgba(255,51,0,0.2));
+            filter: drop-shadow(0 2px 10px rgba(124,58,237,0.2));
         }
         .loader-sub { color: rgba(255,255,255,0.4); font-size: 0.85rem; letter-spacing: 2px; margin-bottom: 1.5rem; }
-        .loader-sub span { color: #ff6600; font-weight: bold; }
-        .loader-bar-container { width: 220px; height: 4px; background: rgba(255,51,0,0.15); border-radius: 10px; margin: 0 auto; overflow: hidden; }
-        .loader-bar { width: 0%; height: 100%; background: linear-gradient(90deg, #ff3300, #ff6600); animation: loadingBar 3.5s ease-out forwards; box-shadow: 0 0 10px #ff3300; }
+        .loader-sub span { color: #a855f7; font-weight: bold; }
+        .loader-bar-container { width: 220px; height: 4px; background: rgba(124,58,237,0.15); border-radius: 10px; margin: 0 auto; overflow: hidden; }
+        .loader-bar { width: 0%; height: 100%; background: linear-gradient(90deg, #7c3aed, #a855f7); animation: loadingBar 3.5s ease-out forwards; box-shadow: 0 0 10px #7c3aed; }
         
         @keyframes loadingBar {
             0% { width: 0%; } 100% { width: 100%; }
         }
-        .loader-percent { font-family: 'Orbitron', sans-serif; color: #ff6600; font-size: 0.8rem; margin-top: 8px; font-weight: 600; }
+        .loader-percent { font-family: 'Orbitron', sans-serif; color: #a855f7; font-size: 0.8rem; margin-top: 8px; font-weight: 600; }
         
         /* ==================== MAIN CONTENT ==================== */
         .main-content { opacity: 0; transition: opacity 0.5s ease; width: 100%; display: flex; justify-content: center; }
@@ -84,15 +83,15 @@
         .cyber-grid {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-image: 
-                linear-gradient(rgba(255, 51, 0, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 51, 0, 0.03) 1px, transparent 1px);
+                linear-gradient(rgba(124, 58, 237, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(124, 58, 237, 0.03) 1px, transparent 1px);
             background-size: 40px 40px; z-index: -1; animation: gridMove 30s linear infinite;
         }
         @keyframes gridMove { 0% { transform: translate(0, 0); } 100% { transform: translate(40px, 40px); } }
         
         .fire-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
-        .particle { position: absolute; background: radial-gradient(circle, rgba(255,102,0,0.6), transparent); border-radius: 50%; opacity: 0; animation: fireFloat 6s infinite linear; }
-        @keyframes fireFloat {
+        .particle { position: absolute; background: radial-gradient(circle, rgba(124,58,237,0.6), transparent); border-radius: 50%; opacity: 0; animation: floatUp 6s infinite linear; }
+        @keyframes floatUp {
             0% { transform: translateY(105vh) scale(0.3); opacity: 0; }
             30% { opacity: 0.3; }
             90% { opacity: 0.1; }
@@ -102,74 +101,72 @@
         .container { max-width: 520px; width: 100%; position: relative; z-index: 10; }
         
         .key-card {
-            background: rgba(10, 10, 15, 0.75);
+            background: rgba(16, 16, 28, 0.85);
             backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
             border-radius: 32px; padding: 2.2rem 1.8rem;
-            border: 1px solid rgba(255, 51, 0, 0.25);
-            box-shadow: 0 25px 50px rgba(0,0,0,0.6), 0 0 40px rgba(255,51,0,0.05);
+            border: 1px solid rgba(124, 58, 237, 0.25);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.6), 0 0 40px rgba(124,58,237,0.05);
             transition: all 0.3s ease;
         }
         .key-card:hover {
-            border-color: rgba(255, 51, 0, 0.4);
-            box-shadow: 0 25px 50px rgba(0,0,0,0.8), 0 0 60px rgba(255,51,0,0.08);
+            border-color: rgba(124, 58, 237, 0.4);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.8), 0 0 60px rgba(124,58,237,0.08);
         }
         
         .header { text-align: center; margin-bottom: 2rem; }
         .logo-icon {
             width: 65px; height: 65px;
-            background: linear-gradient(135deg, #ff3300, #ff6600);
+            background: linear-gradient(135deg, #7c3aed, #a855f7);
             border-radius: 20px; display: flex; align-items: center; justify-content: center;
-            margin: 0 auto 0.8rem; box-shadow: 0 8px 25px rgba(255,51,0,0.3);
+            margin: 0 auto 0.8rem; box-shadow: 0 8px 25px rgba(124,58,237,0.3);
             transition: transform 0.3s ease;
         }
         .logo-icon:hover { transform: rotate(-10deg) scale(1.05); }
         .logo-icon i { font-size: 2.2rem; color: #fff; }
         .header h1 {
             font-family: 'Orbitron', sans-serif; font-size: 2.2rem; font-weight: 900;
-            background: linear-gradient(135deg, #fff, #ff6600);
+            background: linear-gradient(135deg, #fff, #a855f7);
             -webkit-background-clip: text; background-clip: text; color: transparent;
             letter-spacing: 2px;
-            text-shadow: 0 0 30px rgba(255,51,0,0.1);
+            text-shadow: 0 0 30px rgba(124,58,237,0.1);
         }
         .header .dev-tag { color: rgba(255,255,255,0.4); font-size: 0.75rem; letter-spacing: 1px; margin-top: 4px; }
-        .header .dev-tag span { color: #ff6600; font-weight: 600; }
+        .header .dev-tag span { color: #a855f7; font-weight: 600; }
         
-        /* INPUT & SELECT STYLE */
-        .field-label { font-size: 0.8rem; color: #ff6600; font-weight: 600; letter-spacing: 1px; margin-bottom: 6px; padding-left: 8px; text-transform: uppercase; display: block; }
+        .field-label { font-size: 0.8rem; color: #a855f7; font-weight: 600; letter-spacing: 1px; margin-bottom: 6px; padding-left: 8px; text-transform: uppercase; display: block; }
         .select-wrapper, .input-wrapper, .key-display { position: relative; margin-bottom: 1.2rem; }
         .select-wrapper i, .input-wrapper i, .key-display i {
             position: absolute; left: 16px; top: 50%; transform: translateY(-50%);
-            color: #ff6600; z-index: 2; font-size: 1rem;
+            color: #a855f7; z-index: 2; font-size: 1rem;
         }
         
         select, #manualKeyInput, #modalPasswordInput, #hasilKey {
             width: 100%; padding: 13px 16px 13px 46px;
-            background: rgba(5, 5, 8, 0.85);
-            border: 1.5px solid rgba(255,51,0,0.25);
+            background: rgba(10, 10, 20, 0.85);
+            border: 1.5px solid rgba(124,58,237,0.25);
             border-radius: 16px; font-size: 0.95rem; color: white;
             font-family: 'Poppins', sans-serif; transition: all 0.3s ease;
         }
         select:focus, #manualKeyInput:focus, #modalPasswordInput:focus {
-            outline: none; border-color: #ff3300; background: rgba(15,15,22,0.95);
-            box-shadow: 0 0 15px rgba(255,51,0,0.25);
+            outline: none; border-color: #7c3aed; background: rgba(20,20,35,0.95);
+            box-shadow: 0 0 15px rgba(124,58,237,0.25);
         }
         
         select { appearance: none; -webkit-appearance: none; cursor: pointer; }
         .select-wrapper::after {
             content: '\f078'; font-family: 'Font Awesome 6 Free'; font-weight: 900;
             position: absolute; right: 18px; top: 50%; transform: translateY(-50%);
-            color: #ff6600; pointer-events: none; font-size: 0.8rem;
+            color: #a855f7; pointer-events: none; font-size: 0.8rem;
         }
         
-        /* BUTTONS */
         .btn-primary {
             width: 100%; padding: 14px; border-radius: 16px; font-size: 1rem;
             font-weight: 700; cursor: pointer; display: flex; align-items: center;
             justify-content: center; gap: 10px; transition: all 0.3s ease;
             margin-bottom: 1rem; border: none; color: #fff;
             font-family: 'Orbitron', sans-serif; letter-spacing: 1px;
-            background: linear-gradient(135deg, #ff3300, #ff6600);
-            box-shadow: 0 6px 20px rgba(255,51,0,0.2);
+            background: linear-gradient(135deg, #7c3aed, #a855f7);
+            box-shadow: 0 6px 20px rgba(124,58,237,0.2);
             position: relative;
             overflow: hidden;
         }
@@ -186,45 +183,44 @@
             0% { transform: translate(-30%, -30%) rotate(0deg); }
             100% { transform: translate(30%, 30%) rotate(360deg); }
         }
-        .btn-primary:hover { transform: translateY(-2px) scale(1.02); box-shadow: 0 10px 30px rgba(255,51,0,0.5); }
+        .btn-primary:hover { transform: translateY(-2px) scale(1.02); box-shadow: 0 10px 30px rgba(124,58,237,0.5); }
         .btn-primary:active { transform: translateY(0) scale(0.98); }
         
         .btn-secondary {
             width: 100%; padding: 12px; border-radius: 16px; font-size: 0.95rem;
             font-weight: 600; cursor: pointer; display: flex; align-items: center;
             justify-content: center; gap: 10px; transition: all 0.3s ease;
-            margin-bottom: 1.2rem; background: rgba(255, 102, 0, 0.04);
-            border: 1.5px solid rgba(255,102,0,0.4); color: #ffaa66;
+            margin-bottom: 1.2rem; background: rgba(124, 58, 237, 0.04);
+            border: 1.5px solid rgba(124,58,237,0.4); color: #c084fc;
         }
-        .btn-secondary:hover { background: rgba(255,102,0,0.12); border-color: #ff6600; color: #fff; transform: translateY(-2px); box-shadow: 0 5px 20px rgba(255,51,0,0.1); }
+        .btn-secondary:hover { background: rgba(124,58,237,0.12); border-color: #a855f7; color: #fff; transform: translateY(-2px); box-shadow: 0 5px 20px rgba(124,58,237,0.1); }
         
-        #hasilKey { color: #ffaa66; font-family: 'Orbitron', monospace; font-weight: 600; text-align: center; padding-left: 16px; padding-right: 16px; background: rgba(255,51,0,0.03); border-style: dashed; }
+        #hasilKey { color: #c084fc; font-family: 'Orbitron', monospace; font-weight: 600; text-align: center; padding-left: 16px; padding-right: 16px; background: rgba(124,58,237,0.03); border-style: dashed; }
         
-        /* KEY LIST HISTORY */
-        .key-list-section { margin-top: 1.8rem; padding-top: 1.2rem; border-top: 1px solid rgba(255,51,0,0.15); }
-        .key-list-title { color: #ff6600; font-size: 0.85rem; font-weight: 700; margin-bottom: 1rem; display: flex; align-items: center; gap: 8px; justify-content: space-between; font-family: 'Orbitron', sans-serif; letter-spacing: 0.5px; }
+        .key-list-section { margin-top: 1.8rem; padding-top: 1.2rem; border-top: 1px solid rgba(124,58,237,0.15); }
+        .key-list-title { color: #a855f7; font-size: 0.85rem; font-weight: 700; margin-bottom: 1rem; display: flex; align-items: center; gap: 8px; justify-content: space-between; font-family: 'Orbitron', sans-serif; letter-spacing: 0.5px; }
         
         .sync-btn {
-            background: rgba(255,102,0,0.1); border: 1px solid rgba(255,102,0,0.25);
-            padding: 5px 12px; border-radius: 10px; color: #ffaa66;
+            background: rgba(124,58,237,0.1); border: 1px solid rgba(124,58,237,0.25);
+            padding: 5px 12px; border-radius: 10px; color: #c084fc;
             cursor: pointer; font-size: 0.75rem; font-family: 'Poppins', sans-serif; font-weight: 500; transition: 0.2s;
         }
-        .sync-btn:hover { background: #ff6600; border-color: #ff6600; color: #fff; box-shadow: 0 0 10px rgba(255,51,0,0.2); transform: scale(1.05); }
+        .sync-btn:hover { background: #7c3aed; border-color: #7c3aed; color: #fff; box-shadow: 0 0 10px rgba(124,58,237,0.2); transform: scale(1.05); }
         
         .key-list { max-height: 260px; overflow-y: auto; padding-right: 4px; }
         .key-list::-webkit-scrollbar { width: 4px; }
         .key-list::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); border-radius: 10px; }
-        .key-list::-webkit-scrollbar-thumb { background: rgba(255,102,0,0.4); border-radius: 10px; }
-        .key-list::-webkit-scrollbar-thumb:hover { background: #ff6600; }
+        .key-list::-webkit-scrollbar-thumb { background: rgba(124,58,237,0.4); border-radius: 10px; }
+        .key-list::-webkit-scrollbar-thumb:hover { background: #7c3aed; }
         
         .key-item {
-            background: rgba(20,20,30,0.4); border: 1px solid rgba(255,255,255,0.03);
+            background: rgba(20,20,40,0.4); border: 1px solid rgba(255,255,255,0.03);
             border-radius: 16px; padding: 14px; margin-bottom: 10px;
-            border-left: 4px solid #ff6600; transition: all 0.3s ease;
+            border-left: 4px solid #a855f7; transition: all 0.3s ease;
         }
-        .key-item:hover { background: rgba(30,30,45,0.5); transform: translateX(5px); border-color: #ff6600; }
+        .key-item:hover { background: rgba(30,30,55,0.5); transform: translateX(5px); border-color: #7c3aed; }
         .key-item.expired { border-left-color: #ef4444; opacity: 0.5; }
-        .key-value { font-family: 'Orbitron', monospace; font-weight: 700; color: #ffaa66; font-size: 0.85rem; word-break: break-all; margin-bottom: 8px; }
+        .key-value { font-family: 'Orbitron', monospace; font-weight: 700; color: #c084fc; font-size: 0.85rem; word-break: break-all; margin-bottom: 8px; }
         .key-info { display: flex; justify-content: space-between; align-items: center; font-size: 0.75rem; flex-wrap: wrap; gap: 8px; }
         .key-type { color: #a5b4fc; background: rgba(165,180,252,0.1); padding: 2px 8px; border-radius: 6px; font-weight: 500; }
         .key-timer { font-family: monospace; color: #22c55e; font-weight: 600; }
@@ -234,28 +230,27 @@
         .key-copy-btn, .key-delete-btn {
             border: none; padding: 4px 10px; border-radius: 8px; cursor: pointer; font-size: 0.7rem; font-weight: 600; font-family: 'Poppins', sans-serif; transition: 0.2s;
         }
-        .key-copy-btn { background: rgba(255,102,0,0.15); color: #ffaa66; }
-        .key-copy-btn:hover { background: #ff6600; color: #fff; transform: scale(1.05); }
+        .key-copy-btn { background: rgba(124,58,237,0.15); color: #c084fc; }
+        .key-copy-btn:hover { background: #7c3aed; color: #fff; transform: scale(1.05); }
         .key-delete-btn { background: rgba(239,68,68,0.1); color: #fca5a5; }
         .key-delete-btn:hover { background: #ef4444; color: #fff; transform: scale(1.05); }
         
-        /* PANELS & FOOTER */
         .info-panel {
-            margin-top: 1.5rem; padding: 1rem; background: rgba(255,51,0,0.04);
-            border: 1px solid rgba(255,51,0,0.1); border-radius: 18px;
+            margin-top: 1.5rem; padding: 1rem; background: rgba(124,58,237,0.04);
+            border: 1px solid rgba(124,58,237,0.1); border-radius: 18px;
             font-size: 0.75rem; color: #94a3b8; line-height: 1.5;
             transition: all 0.3s ease;
         }
-        .info-panel:hover { background: rgba(255,51,0,0.08); border-color: rgba(255,51,0,0.2); }
+        .info-panel:hover { background: rgba(124,58,237,0.08); border-color: rgba(124,58,237,0.2); }
         .info-panel p { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
         .info-panel p:last-child { margin-bottom: 0; }
-        .info-panel i { color: #ff6600; width: 14px; }
-        .info-panel span { color: #ffaa66; font-weight: 600; }
+        .info-panel i { color: #a855f7; width: 14px; }
+        .info-panel span { color: #c084fc; font-weight: 600; }
         
         .developer-credit { text-align: center; margin-top: 1.2rem; color: rgba(255,255,255,0.25); font-size: 0.7rem; font-family: 'Orbitron', sans-serif; letter-spacing: 0.5px; }
-        .developer-credit i { color: #ff6600; }
+        .developer-credit i { color: #a855f7; }
         
-        /* ==================== MODALS & TOAST (TENGAH LAYAR) ==================== */
+        /* ==================== MODALS & TOAST ==================== */
         .success-modal, .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(3, 3, 5, 0.9); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
@@ -265,35 +260,34 @@
         .success-modal.active, .modal-overlay.active { opacity: 1; visibility: visible; }
         
         .success-card, .modal-card {
-            background: #0d0d12; border-radius: 24px; padding: 2.2rem 1.8rem;
+            background: #0d0d1a; border-radius: 24px; padding: 2.2rem 1.8rem;
             text-align: center; max-width: 380px; width: 88%;
-            border: 2px solid #ff6600; box-shadow: 0 0 40px rgba(255,51,0,0.25);
+            border: 2px solid #7c3aed; box-shadow: 0 0 40px rgba(124,58,237,0.25);
             animation: modalPop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
         @keyframes modalPop { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
         
         .success-card i { font-size: 3.2rem; color: #22c55e; margin-bottom: 1rem; filter: drop-shadow(0 0 10px rgba(34,197,94,0.3)); }
         .success-card h2 { font-family: 'Orbitron', sans-serif; font-size: 1.3rem; color: #fff; font-weight: 700; margin-bottom: 1rem; }
-        .success-card .generated-key { background: rgba(255,51,0,0.08); border: 1px dashed #ff6600; border-radius: 14px; padding: 12px; font-family: 'Orbitron', monospace; font-size: 0.9rem; color: #ffaa66; font-weight: 600; margin: 1.2rem 0; word-break: break-all; }
-        .success-card button, .modal-card button { background: linear-gradient(135deg, #ff3300, #ff6600); border: none; padding: 11px 24px; border-radius: 12px; color: white; font-weight: 700; font-family: 'Orbitron', sans-serif; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 12px rgba(255,51,0,0.2); }
-        .success-card button:hover, .modal-card button:hover { transform: translateY(-2px) scale(1.02); box-shadow: 0 6px 20px rgba(255,51,0,0.4); }
+        .success-card .generated-key { background: rgba(124,58,237,0.08); border: 1px dashed #7c3aed; border-radius: 14px; padding: 12px; font-family: 'Orbitron', monospace; font-size: 0.9rem; color: #c084fc; font-weight: 600; margin: 1.2rem 0; word-break: break-all; }
+        .success-card button, .modal-card button { background: linear-gradient(135deg, #7c3aed, #a855f7); border: none; padding: 11px 24px; border-radius: 12px; color: white; font-weight: 700; font-family: 'Orbitron', sans-serif; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 12px rgba(124,58,237,0.2); }
+        .success-card button:hover, .modal-card button:hover { transform: translateY(-2px) scale(1.02); box-shadow: 0 6px 20px rgba(124,58,237,0.4); }
         
-        .modal-card i { font-size: 2.5rem; color: #ff6600; margin-bottom: 0.8rem; }
+        .modal-card i { font-size: 2.5rem; color: #a855f7; margin-bottom: 0.8rem; }
         .modal-card h3 { color: white; margin-bottom: 0.4rem; font-family: 'Orbitron', sans-serif; font-size: 1.3rem; letter-spacing: 1px; }
         .modal-card p { font-size: 0.85rem; color: #94a3b8; margin-bottom: 0.5rem; }
-        .modal-card .badge-required { display: inline-block; font-size: 0.75rem; font-weight: 700; color: #ff6600; background: rgba(255,51,0,0.1); border: 1px solid rgba(255,51,0,0.2); padding: 3px 12px; border-radius: 8px; margin-bottom: 1.2rem; font-family: 'Orbitron', sans-serif; }
+        .modal-card .badge-required { display: inline-block; font-size: 0.75rem; font-weight: 700; color: #a855f7; background: rgba(124,58,237,0.1); border: 1px solid rgba(124,58,237,0.2); padding: 3px 12px; border-radius: 8px; margin-bottom: 1.2rem; font-family: 'Orbitron', sans-serif; }
         .modal-card .password-input-box { position: relative; width: 100%; margin-bottom: 1.2rem; }
-        .modal-card .password-input-box i { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); font-size: 1rem; color: #ff6600; }
+        .modal-card .password-input-box i { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); font-size: 1rem; color: #a855f7; }
         
-        .toast-msg { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: #ff3300; color: #fff; padding: 12px 24px; border-radius: 50px; text-align: center; font-weight: 700; font-size: 0.9rem; z-index: 2500; opacity: 0; visibility: hidden; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); box-shadow: 0 10px 25px rgba(0,0,0,0.4); width: 85%; max-width: 340px; }
+        .toast-msg { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: #7c3aed; color: #fff; padding: 12px 24px; border-radius: 50px; text-align: center; font-weight: 700; font-size: 0.9rem; z-index: 2500; opacity: 0; visibility: hidden; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); box-shadow: 0 10px 25px rgba(0,0,0,0.4); width: 85%; max-width: 340px; }
         .toast-msg.show { opacity: 1; visibility: visible; bottom: 40px; }
         
         .loading { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(3,3,5,0.85); z-index: 2200; display: flex; align-items: center; justify-content: center; opacity: 0; visibility: hidden; transition: 0.3s; backdrop-filter: blur(4px); }
         .loading.active { opacity: 1; visibility: visible; }
-        .spinner { width: 45px; height: 45px; border: 3.5px solid rgba(255,51,0,0.15); border-top: 3.5px solid #ff3300; border-radius: 50%; animation: spin 0.8s linear infinite; }
+        .spinner { width: 45px; height: 45px; border: 3.5px solid rgba(124,58,237,0.15); border-top: 3.5px solid #7c3aed; border-radius: 50%; animation: spin 0.8s linear infinite; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         
-        /* ==================== PASSWORD HIDE STYLES ==================== */
         .password-hidden {
             filter: blur(5px);
             cursor: pointer;
@@ -306,8 +300,8 @@
         
         .password-protected-badge {
             display: inline-block;
-            background: rgba(255,51,0,0.15);
-            color: #ff6600;
+            background: rgba(124,58,237,0.15);
+            color: #a855f7;
             font-size: 0.6rem;
             padding: 2px 8px;
             border-radius: 4px;
@@ -323,7 +317,6 @@
             .loader-title { font-size: 1.8rem; }
         }
 
-        /* Glow effect untuk elemen interaktif */
         .glow-effect {
             position: relative;
         }
@@ -331,7 +324,7 @@
             content: '';
             position: absolute;
             top: -2px; left: -2px; right: -2px; bottom: -2px;
-            background: linear-gradient(45deg, #ff3300, #ff6600, #ff3300);
+            background: linear-gradient(45deg, #7c3aed, #a855f7, #7c3aed);
             background-size: 400% 400%;
             border-radius: 18px;
             z-index: -1;
@@ -377,22 +370,22 @@
             <div class="select-wrapper" data-aos="fade-right" data-aos-delay="150">
                 <i class="fas fa-calendar-alt"></i>
                 <select id="keyTypeSelect">
-                    <option value="1 JAM">⏰ 1 JAM (FREE ACCESS)</option>
-                    <option value="1 HARI">📅 1 HARI (FREE ACCESS)</option>
-                    <option value="2 HARI">📅 2 HARI (FREE ACCESS)</option>
-                    <option value="3 HARI">🔥 3 HARI</option>
-                    <option value="4 HARI">🔥 4 HARI</option>
-                    <option value="5 HARI">🔥 5 HARI</option>
-                    <option value="7 HARI">⚡ 7 HARI</option>
-                    <option value="30 HARI">⚡ 30 HARI</option>
-                    <option value="PERMANEN">👑 PERMANEN</option>
+                    <option value="1 JAM">⏰ 1 JAM (FREE)</option>
+                    <option value="1 HARI">📅 1 HARI (FREE)</option>
+                    <option value="2 HARI">📅 2 HARI (FREE)</option>
+                    <option value="3 HARI">🔥 3 HARI (Password)</option>
+                    <option value="4 HARI">💎 4 HARI (Premium)</option>
+                    <option value="5 HARI">💎 5 HARI (Premium)</option>
+                    <option value="7 HARI">⚡ 7 HARI (Premium)</option>
+                    <option value="30 HARI">⚡ 30 HARI (Premium)</option>
+                    <option value="PERMANEN">👑 PERMANEN (Premium)</option>
                 </select>
             </div>
 
-            <label class="field-label" data-aos="fade-right" data-aos-delay="200">✍️ Custom Value Key (Opsional)</label>
+            <label class="field-label" data-aos="fade-right" data-aos-delay="200">✍️ Custom Key (Opsional)</label>
             <div class="input-wrapper" data-aos="fade-right" data-aos-delay="250">
                 <i class="fas fa-pencil-alt"></i>
-                <input type="text" id="manualKeyInput" placeholder="Atau ketik kustom key sendiri...">
+                <input type="text" id="manualKeyInput" placeholder="Ketik key custom sendiri...">
             </div>
 
             <button class="btn-primary" id="generateBtn" data-aos="fade-up" data-aos-delay="300">
@@ -410,7 +403,7 @@
 
             <div class="key-list-section" data-aos="fade-up" data-aos-delay="450">
                 <div class="key-list-title">
-                    <span><i class="fas fa-history"></i> HISTORY GENERATE <span id="keyListCount">(0)</span></span>
+                    <span><i class="fas fa-history"></i> HISTORY <span id="keyListCount">(0)</span></span>
                     <button class="sync-btn" id="syncBtn"><i class="fas fa-sync-alt"></i> Sinkron</button>
                 </div>
                 <div class="key-list" id="keyList"></div>
@@ -418,8 +411,8 @@
 
             <div class="info-panel" data-aos="fade-up" data-aos-delay="500">
                 <p><i class="fas fa-database"></i> Database Cloud: <span id="keyCount">0</span> key aktif</p>
-                <p><i class="fas fa-clock"></i> Hitung mundur waktu berjalan real-time di server</p>
-                <p><i class="fas fa-shield-alt"></i> Proteksi Sistem Multi-Password Terintegrasi</p>
+                <p><i class="fas fa-clock"></i> Hitung mundur waktu berjalan real-time</p>
+                <p><i class="fas fa-shield-alt"></i> Proteksi Sistem Multi-Password</p>
             </div>
 
             <div class="developer-credit" data-aos="fade-up" data-aos-delay="550">
@@ -442,15 +435,15 @@
     <div class="modal-card" data-aos="zoom-in" data-aos-duration="400">
         <i class="fas fa-lock"></i>
         <h3>VERIFIKASI AKSES</h3>
-        <p>Gunakan password otoritas yang sesuai untuk durasi paket ini</p>
+        <p>Masukkan password otoritas untuk durasi paket ini</p>
         <div class="badge-required" id="modalRequiredInfo">🔑 PASSWORD REQUIRED</div>
         
         <div class="password-input-box">
             <i class="fas fa-key"></i>
-            <input type="password" id="modalPasswordInput" placeholder="Ketik Password Otoritas..." autocomplete="off">
+            <input type="password" id="modalPasswordInput" placeholder="Ketik Password..." autocomplete="off">
         </div>
         
-        <div style="display:flex; gap:10px; justify-content:center;">
+        <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
             <button id="submitPasswordBtn">PROSES</button>
             <button id="cancelPasswordBtn" style="background:transparent; border:1px solid #ef4444; color:#ef4444; box-shadow:none;">BATAL</button>
         </div>
@@ -493,14 +486,13 @@
             loadingScreen.classList.add('fade-out');
             mainContent.classList.add('visible');
             setTimeout(() => { loadingScreen.style.display = 'none'; }, 500);
-            // Refresh AOS after loading
             setTimeout(() => AOS.refresh(), 600);
         }
     }, 50);
     
     // ======================== FIREBASE ========================
     const firebaseConfig = {
-        databaseURL: "https://key-database-701af-default-rtdb.asia-southeast1.firebasedatabase.app/keys.json"
+        databaseURL: "https://key-database-701af-default-rtdb.asia-southeast1.firebasedatabase.app/"
     };
     
     let db;
@@ -516,31 +508,30 @@
     let allKeys = [];
     let generatedKeys = [];
 
-    // ======================== VALIDASI PASSWORD SISTEM ========================
+    // ======================== PASSWORD SYSTEM (FIXED) ========================
     function verifySystemPassword(inputPass, keyJenis) {
         const currentDate = new Date();
         
-        // Aturan Khusus 3 Hari: Berlaku limit waktu s/de 10 Juni 2026
+        // 🔥 3 HARI: password = "putzzdev" (CASE SENSITIVE)
         if (keyJenis === "3 HARI") {
             const expiryDate = new Date('2026-06-10T23:59:59');
             if (currentDate > expiryDate) {
                 showToast("🚫 Sesi Password 3 Hari Telah Kedaluwarsa!", false);
                 return "EXPIRED";
             }
-            return inputPass === "putzzdev" ? "SUCCESS" : "WRONG";
+            return inputPass.trim() === "putzzdev" ? "SUCCESS" : "WRONG";
         }
         
-        // Aturan Premium (4D, 5D, 7D, 30D, PERMANEN)
+        // 💎 PREMIUM (4 HARI, 5 HARI, 7 HARI, 30 HARI, PERMANEN): password = "Putzz XD" (CASE SENSITIVE)
         const premiumTypes = ["4 HARI", "5 HARI", "7 HARI", "30 HARI", "PERMANEN"];
         if (premiumTypes.includes(keyJenis)) {
-            return inputPass === "Putzz XD" ? "SUCCESS" : "WRONG";
+            return inputPass.trim() === "Putzz XD" ? "SUCCESS" : "WRONG";
         }
 
-        // Paket Bebas PIN/Password (1 Jam, 1 Hari, 2 Hari)
+        // 🆓 Paket Bebas (1 Jam, 1 Hari, 2 Hari): langsung sukses
         return "SUCCESS";
     }
 
-    // Memeriksa status otentikasi lokal yang tersimpan
     function isAlreadyAuthenticated(keyJenis) {
         const savedPass = localStorage.getItem(`auth_pass_${keyJenis}`);
         if (savedPass && verifySystemPassword(savedPass, keyJenis) === "SUCCESS") {
@@ -670,7 +661,7 @@
         else return `${seconds}d`;
     }
 
-    // ======================== RENDER KEY LIST (PASSWORD HIDDEN) ========================
+    // ======================== RENDER KEY LIST ========================
     function renderKeyList() {
         const container = document.getElementById('keyList');
         const countSpan = document.getElementById('keyListCount');
@@ -684,7 +675,7 @@
             
             let timerText = '';
             if (item.jenis === "PERMANEN") {
-                timerText = '<span style="color:#ff6600; font-weight:bold;">👑 PERMANEN</span>';
+                timerText = '<span style="color:#a855f7; font-weight:bold;">👑 PERMANEN</span>';
             } else if (isExpired) {
                 timerText = '<span class="key-timer expired">⏰ EXPIRED</span>';
             } else {
@@ -692,7 +683,6 @@
                 timerText = `<span class="key-timer">⏳ ${timeLeft}</span>`;
             }
 
-            // Sembunyikan password dengan blur, tampilkan badge jika protected
             const displayKey = isProtected ? 
                 `<span class="password-hidden" title="Klik untuk melihat">${item.key}</span> <span class="password-protected-badge"><i class="fas fa-lock"></i></span>` : 
                 item.key;
@@ -704,7 +694,7 @@
                         <span class="key-type">${item.jenis}</span>
                         <span>${timerText}</span>
                         <div class="key-actions">
-                            <button class="key-copy-btn" onclick="copySpecificKey('${item.key}')"><i class="fas fa-copy"></i> Copy</button>
+                            <button class="key-copy-btn" onclick="copySpecificKey('${item.key}')"><i class="fas fa-copy"></i></button>
                             <button class="key-delete-btn" onclick="deleteGeneratedKey('${item.key}', '${item.jenis}')"><i class="fas fa-trash"></i></button>
                         </div>
                     </div>
@@ -712,12 +702,10 @@
             `;
         });
         if (generatedKeys.length === 0) {
-            html = '<div style="text-align:center; color:#52525b; padding:1.5rem; font-size:0.85rem;">✨ Belum ada data key terdeteksi ✨</div>';
+            html = '<div style="text-align:center; color:#52525b; padding:1.5rem; font-size:0.85rem;">✨ Belum ada key terdeteksi ✨</div>';
         }
         container.innerHTML = html;
         countSpan.innerText = `(${generatedKeys.length})`;
-        
-        // Re-init AOS for new elements
         AOS.refresh();
     }
 
@@ -787,20 +775,20 @@
         }
     }
 
-    // ======================== KONTROL MODAL PASSWORD (TENGAH LAYAR) ========================
+    // ======================== PASSWORD MODAL CONTROL ========================
     function openPasswordModal(keyJenis, onSuccessCallback) {
         pendingKeyAction = onSuccessCallback;
         currentTargetType = keyJenis;
         
         const badge = document.getElementById('modalRequiredInfo');
         if (keyJenis === "3 HARI") {
-            badge.innerText = "🔑 REQUIRE PASSWORD";
-            badge.style.color = "#ff6600";
-            badge.style.background = "rgba(255,51,0,0.1)";
+            badge.innerText = "🔑 Password: putzzdev";
+            badge.style.color = "#fbbf24";
+            badge.style.background = "rgba(251,191,36,0.1)";
         } else {
-            badge.innerText = "👑 REQUIRE PREMIUM PASS";
-            badge.style.color = "#a5b4fc";
-            badge.style.background = "rgba(165,180,252,0.1)";
+            badge.innerText = "👑 Password: Putzz XD";
+            badge.style.color = "#a855f7";
+            badge.style.background = "rgba(168,85,247,0.1)";
         }
 
         document.getElementById('passwordModal').classList.add('active');
@@ -815,7 +803,7 @@
     }
 
     function checkSubmitPassword() {
-        const inputPass = document.getElementById('modalPasswordInput').value.trim();
+        const inputPass = document.getElementById('modalPasswordInput').value;
         const msgDiv = document.getElementById('passwordMsg');
         
         const result = verifySystemPassword(inputPass, currentTargetType);
@@ -833,7 +821,7 @@
         } else if (result === "EXPIRED") {
             msgDiv.innerHTML = '<span style="color:#ef4444;">🚫 Sesi Password Telah Kedaluwarsa!</span>';
         } else {
-            msgDiv.innerHTML = '<span style="color:#ef4444;">❌ Password Salah / Keliru!</span>';
+            msgDiv.innerHTML = '<span style="color:#ef4444;">❌ Password Salah!</span>';
             document.getElementById('modalPasswordInput').value = '';
             document.getElementById('modalPasswordInput').focus();
         }
@@ -867,7 +855,7 @@
     function showToast(msg, isSuccess) {
         const toast = document.getElementById('toastMsg');
         toast.innerText = msg;
-        toast.style.background = isSuccess ? 'linear-gradient(135deg, #ff3300, #ff6600)' : '#ef4444';
+        toast.style.background = isSuccess ? 'linear-gradient(135deg, #7c3aed, #a855f7)' : '#ef4444';
         toast.classList.add('show');
         setTimeout(() => toast.classList.remove('show'), 2500);
     }
@@ -878,7 +866,7 @@
         else loading.classList.remove('active');
     }
 
-    // EVENT LISTENERS
+    // ======================== EVENT LISTENERS ========================
     document.getElementById('generateBtn').addEventListener('click', handleGenerate);
     document.getElementById('copyBtn').addEventListener('click', copyKey);
     document.getElementById('submitPasswordBtn').addEventListener('click', checkSubmitPassword);
@@ -887,7 +875,7 @@
     document.getElementById('modalPasswordInput').addEventListener('keypress', (e) => { if (e.key === 'Enter') checkSubmitPassword(); });
     document.getElementById('manualKeyInput').addEventListener('keypress', (e) => { if (e.key === 'Enter') handleGenerate(); });
 
-    // ======================== TAMPILKAN PASSWORD SAAT DI-HOVER ========================
+    // ======================== PASSWORD HIDE ON HOVER ========================
     document.addEventListener('mouseover', function(e) {
         if (e.target.classList.contains('password-hidden')) {
             e.target.style.filter = 'blur(0px)';
@@ -899,8 +887,8 @@
         }
     });
 
-    // ======================== BACKGROUND PARTICLES EFFECT ========================
-    function createFireParticles() {
+    // ======================== PARTICLES ========================
+    function createParticles() {
         const container = document.getElementById('fireBg');
         if (!container) return;
         for (let i = 0; i < 35; i++) {
@@ -912,14 +900,16 @@
             particle.style.left = Math.random() * 100 + '%';
             particle.style.animationDuration = 4 + Math.random() * 5 + 's';
             particle.style.animationDelay = Math.random() * 4 + 's';
+            particle.style.background = `radial-gradient(circle, rgba(124,${Math.floor(58 + Math.random() * 50)},237,0.6), transparent)`;
             container.appendChild(particle);
         }
     }
-    createFireParticles();
+    createParticles();
 
     loadKeys();
     loadGeneratedKeys();
     console.log('🔥 DRIP KEY GENERATOR BY PUTZZDEV READY 🔥');
+    console.log('📌 Password: 3 Hari = "putzzdev" | Premium = "Putzz XD"');
 </script>
 </body>
 </html>
