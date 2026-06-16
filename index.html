@@ -276,7 +276,9 @@
         .modal-card i { font-size: 2.5rem; color: #a855f7; margin-bottom: 0.8rem; }
         .modal-card h3 { color: white; margin-bottom: 0.4rem; font-family: 'Orbitron', sans-serif; font-size: 1.3rem; letter-spacing: 1px; }
         .modal-card p { font-size: 0.85rem; color: #94a3b8; margin-bottom: 0.5rem; }
-        .modal-card .badge-required { display: inline-block; font-size: 0.75rem; font-weight: 700; color: #a855f7; background: rgba(124,58,237,0.1); border: 1px solid rgba(124,58,237,0.2); padding: 3px 12px; border-radius: 8px; margin-bottom: 1.2rem; font-family: 'Orbitron', sans-serif; }
+        .modal-card .badge-required { 
+            display: none; /* SEMBUNYIKAN BADGE PASSWORD */ 
+        }
         .modal-card .password-input-box { position: relative; width: 100%; margin-bottom: 1.2rem; }
         .modal-card .password-input-box i { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); font-size: 1rem; color: #a855f7; }
         
@@ -308,6 +310,11 @@
             margin-left: 5px;
             font-weight: 600;
             letter-spacing: 0.5px;
+        }
+        
+        /* PASSWORD HINT - TERSEMBUNYI, TIDAK TAMPIL */
+        .password-hint {
+            display: none !important;
         }
         
         @media (max-width: 480px) {
@@ -373,12 +380,12 @@
                     <option value="1 JAM">⏰ 1 JAM (FREE)</option>
                     <option value="1 HARI">📅 1 HARI (FREE)</option>
                     <option value="2 HARI">📅 2 HARI (FREE)</option>
-                    <option value="3 HARI">🔥 3 HARI (Password)</option>
-                    <option value="4 HARI">💎 4 HARI (Premium)</option>
-                    <option value="5 HARI">💎 5 HARI (Premium)</option>
-                    <option value="7 HARI">⚡ 7 HARI (Premium)</option>
-                    <option value="30 HARI">⚡ 30 HARI (Premium)</option>
-                    <option value="PERMANEN">👑 PERMANEN (Premium)</option>
+                    <option value="3 HARI">🔥 3 HARI</option>
+                    <option value="4 HARI">💎 4 HARI</option>
+                    <option value="5 HARI">💎 5 HARI</option>
+                    <option value="7 HARI">⚡ 7 HARI</option>
+                    <option value="30 HARI">⚡ 30 HARI</option>
+                    <option value="PERMANEN">👑 PERMANEN</option>
                 </select>
             </div>
 
@@ -431,12 +438,12 @@
     </div>
 </div>
 
+<!-- MODAL PASSWORD - TANPA TAMPILAN PASSWORD -->
 <div class="modal-overlay" id="passwordModal">
     <div class="modal-card" data-aos="zoom-in" data-aos-duration="400">
         <i class="fas fa-lock"></i>
         <h3>VERIFIKASI AKSES</h3>
-        <p>Masukkan password otoritas untuk durasi paket ini</p>
-        <div class="badge-required" id="modalRequiredInfo">🔑 PASSWORD REQUIRED</div>
+        <p>Masukkan password untuk mengakses paket ini</p>
         
         <div class="password-input-box">
             <i class="fas fa-key"></i>
@@ -508,11 +515,11 @@
     let allKeys = [];
     let generatedKeys = [];
 
-    // ======================== PASSWORD SYSTEM (FIXED) ========================
+    // ======================== PASSWORD SYSTEM (TIDAK TAMPIL DI UI) ========================
     function verifySystemPassword(inputPass, keyJenis) {
         const currentDate = new Date();
         
-        // 🔥 3 HARI: password = "putzzdev" (CASE SENSITIVE)
+        // 🔥 3 HARI: password = "putzzdev"
         if (keyJenis === "3 HARI") {
             const expiryDate = new Date('2026-06-10T23:59:59');
             if (currentDate > expiryDate) {
@@ -522,7 +529,7 @@
             return inputPass.trim() === "putzzdev" ? "SUCCESS" : "WRONG";
         }
         
-        // 💎 PREMIUM (4 HARI, 5 HARI, 7 HARI, 30 HARI, PERMANEN): password = "Putzz XD" (CASE SENSITIVE)
+        // 💎 PREMIUM (4 HARI, 5 HARI, 7 HARI, 30 HARI, PERMANEN): password = "Putzz XD"
         const premiumTypes = ["4 HARI", "5 HARI", "7 HARI", "30 HARI", "PERMANEN"];
         if (premiumTypes.includes(keyJenis)) {
             return inputPass.trim() === "Putzz XD" ? "SUCCESS" : "WRONG";
@@ -775,22 +782,12 @@
         }
     }
 
-    // ======================== PASSWORD MODAL CONTROL ========================
+    // ======================== PASSWORD MODAL - TANPA TAMPILAN PASSWORD ========================
     function openPasswordModal(keyJenis, onSuccessCallback) {
         pendingKeyAction = onSuccessCallback;
         currentTargetType = keyJenis;
         
-        const badge = document.getElementById('modalRequiredInfo');
-        if (keyJenis === "3 HARI") {
-            badge.innerText = "🔑 Password: putzzdev";
-            badge.style.color = "#fbbf24";
-            badge.style.background = "rgba(251,191,36,0.1)";
-        } else {
-            badge.innerText = "👑 Password: Putzz XD";
-            badge.style.color = "#a855f7";
-            badge.style.background = "rgba(168,85,247,0.1)";
-        }
-
+        // Tidak menampilkan password apapun di UI
         document.getElementById('passwordModal').classList.add('active');
         document.getElementById('modalPasswordInput').value = '';
         document.getElementById('passwordMsg').innerHTML = '';
@@ -909,7 +906,7 @@
     loadKeys();
     loadGeneratedKeys();
     console.log('🔥 DRIP KEY GENERATOR BY PUTZZDEV READY 🔥');
-    console.log('📌 Password: 3 Hari = "putzzdev" | Premium = "Putzz XD"');
+    console.log('📌 Password tidak ditampilkan di UI untuk keamanan');
 </script>
 </body>
 </html>
