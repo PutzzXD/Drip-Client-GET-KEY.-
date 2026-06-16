@@ -6,6 +6,8 @@
     <title>DRIP KEY • Generator by Putzzdev</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800;900&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; }
         
@@ -105,6 +107,11 @@
             border-radius: 32px; padding: 2.2rem 1.8rem;
             border: 1px solid rgba(255, 51, 0, 0.25);
             box-shadow: 0 25px 50px rgba(0,0,0,0.6), 0 0 40px rgba(255,51,0,0.05);
+            transition: all 0.3s ease;
+        }
+        .key-card:hover {
+            border-color: rgba(255, 51, 0, 0.4);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.8), 0 0 60px rgba(255,51,0,0.08);
         }
         
         .header { text-align: center; margin-bottom: 2rem; }
@@ -113,13 +120,16 @@
             background: linear-gradient(135deg, #ff3300, #ff6600);
             border-radius: 20px; display: flex; align-items: center; justify-content: center;
             margin: 0 auto 0.8rem; box-shadow: 0 8px 25px rgba(255,51,0,0.3);
+            transition: transform 0.3s ease;
         }
+        .logo-icon:hover { transform: rotate(-10deg) scale(1.05); }
         .logo-icon i { font-size: 2.2rem; color: #fff; }
         .header h1 {
             font-family: 'Orbitron', sans-serif; font-size: 2.2rem; font-weight: 900;
             background: linear-gradient(135deg, #fff, #ff6600);
             -webkit-background-clip: text; background-clip: text; color: transparent;
             letter-spacing: 2px;
+            text-shadow: 0 0 30px rgba(255,51,0,0.1);
         }
         .header .dev-tag { color: rgba(255,255,255,0.4); font-size: 0.75rem; letter-spacing: 1px; margin-top: 4px; }
         .header .dev-tag span { color: #ff6600; font-weight: 600; }
@@ -160,9 +170,24 @@
             font-family: 'Orbitron', sans-serif; letter-spacing: 1px;
             background: linear-gradient(135deg, #ff3300, #ff6600);
             box-shadow: 0 6px 20px rgba(255,51,0,0.2);
+            position: relative;
+            overflow: hidden;
         }
-        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(255,51,0,0.4); }
-        .btn-primary:active { transform: translateY(0); }
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            transform: rotate(0deg);
+            animation: shimmer 3s infinite;
+        }
+        @keyframes shimmer {
+            0% { transform: translate(-30%, -30%) rotate(0deg); }
+            100% { transform: translate(30%, 30%) rotate(360deg); }
+        }
+        .btn-primary:hover { transform: translateY(-2px) scale(1.02); box-shadow: 0 10px 30px rgba(255,51,0,0.5); }
+        .btn-primary:active { transform: translateY(0) scale(0.98); }
         
         .btn-secondary {
             width: 100%; padding: 12px; border-radius: 16px; font-size: 0.95rem;
@@ -171,7 +196,7 @@
             margin-bottom: 1.2rem; background: rgba(255, 102, 0, 0.04);
             border: 1.5px solid rgba(255,102,0,0.4); color: #ffaa66;
         }
-        .btn-secondary:hover { background: rgba(255,102,0,0.12); border-color: #ff6600; color: #fff; }
+        .btn-secondary:hover { background: rgba(255,102,0,0.12); border-color: #ff6600; color: #fff; transform: translateY(-2px); box-shadow: 0 5px 20px rgba(255,51,0,0.1); }
         
         #hasilKey { color: #ffaa66; font-family: 'Orbitron', monospace; font-weight: 600; text-align: center; padding-left: 16px; padding-right: 16px; background: rgba(255,51,0,0.03); border-style: dashed; }
         
@@ -184,7 +209,7 @@
             padding: 5px 12px; border-radius: 10px; color: #ffaa66;
             cursor: pointer; font-size: 0.75rem; font-family: 'Poppins', sans-serif; font-weight: 500; transition: 0.2s;
         }
-        .sync-btn:hover { background: #ff6600; border-color: #ff6600; color: #fff; box-shadow: 0 0 10px rgba(255,51,0,0.2); }
+        .sync-btn:hover { background: #ff6600; border-color: #ff6600; color: #fff; box-shadow: 0 0 10px rgba(255,51,0,0.2); transform: scale(1.05); }
         
         .key-list { max-height: 260px; overflow-y: auto; padding-right: 4px; }
         .key-list::-webkit-scrollbar { width: 4px; }
@@ -197,6 +222,7 @@
             border-radius: 16px; padding: 14px; margin-bottom: 10px;
             border-left: 4px solid #ff6600; transition: all 0.3s ease;
         }
+        .key-item:hover { background: rgba(30,30,45,0.5); transform: translateX(5px); border-color: #ff6600; }
         .key-item.expired { border-left-color: #ef4444; opacity: 0.5; }
         .key-value { font-family: 'Orbitron', monospace; font-weight: 700; color: #ffaa66; font-size: 0.85rem; word-break: break-all; margin-bottom: 8px; }
         .key-info { display: flex; justify-content: space-between; align-items: center; font-size: 0.75rem; flex-wrap: wrap; gap: 8px; }
@@ -209,22 +235,25 @@
             border: none; padding: 4px 10px; border-radius: 8px; cursor: pointer; font-size: 0.7rem; font-weight: 600; font-family: 'Poppins', sans-serif; transition: 0.2s;
         }
         .key-copy-btn { background: rgba(255,102,0,0.15); color: #ffaa66; }
-        .key-copy-btn:hover { background: #ff6600; color: #fff; }
+        .key-copy-btn:hover { background: #ff6600; color: #fff; transform: scale(1.05); }
         .key-delete-btn { background: rgba(239,68,68,0.1); color: #fca5a5; }
-        .key-delete-btn:hover { background: #ef4444; color: #fff; }
+        .key-delete-btn:hover { background: #ef4444; color: #fff; transform: scale(1.05); }
         
         /* PANELS & FOOTER */
         .info-panel {
             margin-top: 1.5rem; padding: 1rem; background: rgba(255,51,0,0.04);
             border: 1px solid rgba(255,51,0,0.1); border-radius: 18px;
             font-size: 0.75rem; color: #94a3b8; line-height: 1.5;
+            transition: all 0.3s ease;
         }
+        .info-panel:hover { background: rgba(255,51,0,0.08); border-color: rgba(255,51,0,0.2); }
         .info-panel p { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
         .info-panel p:last-child { margin-bottom: 0; }
         .info-panel i { color: #ff6600; width: 14px; }
         .info-panel span { color: #ffaa66; font-weight: 600; }
         
         .developer-credit { text-align: center; margin-top: 1.2rem; color: rgba(255,255,255,0.25); font-size: 0.7rem; font-family: 'Orbitron', sans-serif; letter-spacing: 0.5px; }
+        .developer-credit i { color: #ff6600; }
         
         /* ==================== MODALS & TOAST (TENGAH LAYAR) ==================== */
         .success-modal, .modal-overlay {
@@ -247,7 +276,7 @@
         .success-card h2 { font-family: 'Orbitron', sans-serif; font-size: 1.3rem; color: #fff; font-weight: 700; margin-bottom: 1rem; }
         .success-card .generated-key { background: rgba(255,51,0,0.08); border: 1px dashed #ff6600; border-radius: 14px; padding: 12px; font-family: 'Orbitron', monospace; font-size: 0.9rem; color: #ffaa66; font-weight: 600; margin: 1.2rem 0; word-break: break-all; }
         .success-card button, .modal-card button { background: linear-gradient(135deg, #ff3300, #ff6600); border: none; padding: 11px 24px; border-radius: 12px; color: white; font-weight: 700; font-family: 'Orbitron', sans-serif; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 12px rgba(255,51,0,0.2); }
-        .success-card button:hover, .modal-card button:hover { transform: translateY(-1px); box-shadow: 0 6px 15px rgba(255,51,0,0.3); }
+        .success-card button:hover, .modal-card button:hover { transform: translateY(-2px) scale(1.02); box-shadow: 0 6px 20px rgba(255,51,0,0.4); }
         
         .modal-card i { font-size: 2.5rem; color: #ff6600; margin-bottom: 0.8rem; }
         .modal-card h3 { color: white; margin-bottom: 0.4rem; font-family: 'Orbitron', sans-serif; font-size: 1.3rem; letter-spacing: 1px; }
@@ -264,11 +293,59 @@
         .spinner { width: 45px; height: 45px; border: 3.5px solid rgba(255,51,0,0.15); border-top: 3.5px solid #ff3300; border-radius: 50%; animation: spin 0.8s linear infinite; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         
+        /* ==================== PASSWORD HIDE STYLES ==================== */
+        .password-hidden {
+            filter: blur(5px);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            user-select: none;
+        }
+        .password-hidden:hover {
+            filter: blur(0px);
+        }
+        
+        .password-protected-badge {
+            display: inline-block;
+            background: rgba(255,51,0,0.15);
+            color: #ff6600;
+            font-size: 0.6rem;
+            padding: 2px 8px;
+            border-radius: 4px;
+            margin-left: 5px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+        
         @media (max-width: 480px) {
             body { padding: 1rem; }
             .key-card { padding: 1.6rem 1.2rem; border-radius: 24px; }
             .header h1 { font-size: 1.8rem; }
             .loader-title { font-size: 1.8rem; }
+        }
+
+        /* Glow effect untuk elemen interaktif */
+        .glow-effect {
+            position: relative;
+        }
+        .glow-effect::after {
+            content: '';
+            position: absolute;
+            top: -2px; left: -2px; right: -2px; bottom: -2px;
+            background: linear-gradient(45deg, #ff3300, #ff6600, #ff3300);
+            background-size: 400% 400%;
+            border-radius: 18px;
+            z-index: -1;
+            animation: glowBorder 3s ease infinite;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .glow-effect:hover::after {
+            opacity: 0.3;
+        }
+        @keyframes glowBorder {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
     </style>
 </head>
@@ -289,59 +366,63 @@
     <div class="fire-bg" id="fireBg"></div>
 
     <div class="container">
-        <div class="key-card">
+        <div class="key-card" data-aos="fade-up" data-aos-duration="800">
             <div class="header">
-                <div class="logo-icon"><i class="fas fa-dragon"></i></div>
-                <h1>DRIP KEY</h1>
-                <div class="dev-tag">DEVELOPED BY <span>PUTZZDEV</span></div>
+                <div class="logo-icon" data-aos="zoom-in" data-aos-delay="200"><i class="fas fa-dragon"></i></div>
+                <h1 data-aos="fade-up" data-aos-delay="300">DRIP KEY</h1>
+                <div class="dev-tag" data-aos="fade-up" data-aos-delay="400">DEVELOPED BY <span>PUTZZDEV</span></div>
             </div>
 
-            <label class="field-label">⏰ Pilih Durasi Key</label>
-            <div class="select-wrapper">
+            <label class="field-label" data-aos="fade-right" data-aos-delay="100">⏰ Pilih Durasi Key</label>
+            <div class="select-wrapper" data-aos="fade-right" data-aos-delay="150">
                 <i class="fas fa-calendar-alt"></i>
                 <select id="keyTypeSelect">
                     <option value="1 JAM">⏰ 1 JAM (FREE ACCESS)</option>
                     <option value="1 HARI">📅 1 HARI (FREE ACCESS)</option>
                     <option value="2 HARI">📅 2 HARI (FREE ACCESS)</option>
-                    <option value="3 HARI">🔥 3 HARI (PASSWORD: putzzdev)</option>
-                    <option value="4 HARI">🔥 4 HARI (PASSWORD: Kreftz47)</option>
-                    <option value="5 HARI">🔥 5 HARI (PASSWORD: Kreftz47)</option>
-                    <option value="7 HARI">⚡ 7 HARI (PASSWORD: Kreftz47)</option>
-                    <option value="30 HARI">⚡ 30 HARI (PASSWORD: Kreftz47)</option>
-                    <option value="PERMANEN">👑 PERMANEN (PASSWORD: Kreftz47)</option>
+                    <option value="3 HARI">🔥 3 HARI</option>
+                    <option value="4 HARI">🔥 4 HARI</option>
+                    <option value="5 HARI">🔥 5 HARI</option>
+                    <option value="7 HARI">⚡ 7 HARI</option>
+                    <option value="30 HARI">⚡ 30 HARI</option>
+                    <option value="PERMANEN">👑 PERMANEN</option>
                 </select>
             </div>
 
-            <label class="field-label">✍️ Custom Value Key (Opsional)</label>
-            <div class="input-wrapper">
+            <label class="field-label" data-aos="fade-right" data-aos-delay="200">✍️ Custom Value Key (Opsional)</label>
+            <div class="input-wrapper" data-aos="fade-right" data-aos-delay="250">
                 <i class="fas fa-pencil-alt"></i>
                 <input type="text" id="manualKeyInput" placeholder="Atau ketik kustom key sendiri...">
             </div>
 
-            <button class="btn-primary" id="generateBtn"><i class="fas fa-magic"></i> GENERATE KEY</button>
+            <button class="btn-primary" id="generateBtn" data-aos="fade-up" data-aos-delay="300">
+                <i class="fas fa-magic"></i> GENERATE KEY
+            </button>
 
-            <div class="key-display">
+            <div class="key-display" data-aos="fade-up" data-aos-delay="350">
                 <i class="fas fa-id-card"></i>
                 <input type="text" id="hasilKey" placeholder="Hasil Key akan muncul di sini" readonly>
             </div>
 
-            <button class="btn-secondary" id="copyBtn"><i class="fas fa-copy"></i> SALIN KEY UTAMA</button>
+            <button class="btn-secondary" id="copyBtn" data-aos="fade-up" data-aos-delay="400">
+                <i class="fas fa-copy"></i> SALIN KEY UTAMA
+            </button>
 
-            <div class="key-list-section">
+            <div class="key-list-section" data-aos="fade-up" data-aos-delay="450">
                 <div class="key-list-title">
                     <span><i class="fas fa-history"></i> HISTORY GENERATE <span id="keyListCount">(0)</span></span>
-                    <button class="sync-btn" id="syncBtn"><i class="fas fa-sync-alt"></i> Sinkron database</button>
+                    <button class="sync-btn" id="syncBtn"><i class="fas fa-sync-alt"></i> Sinkron</button>
                 </div>
                 <div class="key-list" id="keyList"></div>
             </div>
 
-            <div class="info-panel">
+            <div class="info-panel" data-aos="fade-up" data-aos-delay="500">
                 <p><i class="fas fa-database"></i> Database Cloud: <span id="keyCount">0</span> key aktif</p>
                 <p><i class="fas fa-clock"></i> Hitung mundur waktu berjalan real-time di server</p>
                 <p><i class="fas fa-shield-alt"></i> Proteksi Sistem Multi-Password Terintegrasi</p>
             </div>
 
-            <div class="developer-credit">
+            <div class="developer-credit" data-aos="fade-up" data-aos-delay="550">
                 <i class="fas fa-code"></i> DRIP CLIENT • SYSTEM BY PUTZZDEV
             </div>
         </div>
@@ -349,20 +430,20 @@
 </div>
 
 <div class="success-modal" id="successModal">
-    <div class="success-card">
+    <div class="success-card" data-aos="zoom-in" data-aos-duration="400">
         <i class="fas fa-check-circle"></i>
         <h2>SUKSES GENERATE KEY</h2>
         <div class="generated-key" id="modalKeyValue">DRIP-XXXX-XXXX</div>
-        <button id="closeSuccessModal"><i class="fas fa-check"></i> CLOSE WINDOW</button>
+        <button id="closeSuccessModal"><i class="fas fa-check"></i> CLOSE</button>
     </div>
 </div>
 
 <div class="modal-overlay" id="passwordModal">
-    <div class="modal-card">
+    <div class="modal-card" data-aos="zoom-in" data-aos-duration="400">
         <i class="fas fa-lock"></i>
         <h3>VERIFIKASI AKSES</h3>
         <p>Gunakan password otoritas yang sesuai untuk durasi paket ini</p>
-        <div class="badge-required" id="modalRequiredInfo">PASSWORD REQUIRED</div>
+        <div class="badge-required" id="modalRequiredInfo">🔑 PASSWORD REQUIRED</div>
         
         <div class="password-input-box">
             <i class="fas fa-key"></i>
@@ -382,7 +463,15 @@
 
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <script>
+    // ======================== AOS INIT ========================
+    AOS.init({
+        once: true,
+        offset: 10,
+        duration: 600
+    });
+
     // ======================== LOADING SCREEN ========================
     const loaderBar = document.getElementById('loaderBar');
     const loaderPercent = document.getElementById('loaderPercent');
@@ -404,6 +493,8 @@
             loadingScreen.classList.add('fade-out');
             mainContent.classList.add('visible');
             setTimeout(() => { loadingScreen.style.display = 'none'; }, 500);
+            // Refresh AOS after loading
+            setTimeout(() => AOS.refresh(), 600);
         }
     }, 50);
     
@@ -461,7 +552,15 @@
     function showSuccessModal(keyValue, keyJenis) {
         const modal = document.getElementById('successModal');
         const modalKey = document.getElementById('modalKeyValue');
-        modalKey.innerHTML = `<i class="fas fa-key"></i> ${keyValue}<br><span style="font-size:0.75rem; color:#a5b4fc; display:block; margin-top:5px;">Durasi Paket: ${keyJenis}</span>`;
+        const isProtected = ["3 HARI", "4 HARI", "5 HARI", "7 HARI", "30 HARI", "PERMANEN"].includes(keyJenis);
+        modalKey.innerHTML = `
+            <i class="fas fa-key"></i> ${keyValue}
+            <br>
+            <span style="font-size:0.75rem; color:#a5b4fc; display:block; margin-top:5px;">
+                Durasi: ${keyJenis}
+                ${isProtected ? ' <span class="password-protected-badge"><i class="fas fa-lock"></i> Protected</span>' : ''}
+            </span>
+        `;
         modal.classList.add('active');
         setTimeout(() => { modal.classList.remove('active'); }, 4000);
     }
@@ -571,6 +670,7 @@
         else return `${seconds}d`;
     }
 
+    // ======================== RENDER KEY LIST (PASSWORD HIDDEN) ========================
     function renderKeyList() {
         const container = document.getElementById('keyList');
         const countSpan = document.getElementById('keyListCount');
@@ -580,6 +680,8 @@
         generatedKeys.forEach((item) => {
             const isExpired = item.expiryTime && now > item.expiryTime;
             const expiredClass = isExpired ? 'expired' : '';
+            const isProtected = ["3 HARI", "4 HARI", "5 HARI", "7 HARI", "30 HARI", "PERMANEN"].includes(item.jenis);
+            
             let timerText = '';
             if (item.jenis === "PERMANEN") {
                 timerText = '<span style="color:#ff6600; font-weight:bold;">👑 PERMANEN</span>';
@@ -589,9 +691,15 @@
                 const timeLeft = formatTimeRemaining(item.expiryTime);
                 timerText = `<span class="key-timer">⏳ ${timeLeft}</span>`;
             }
+
+            // Sembunyikan password dengan blur, tampilkan badge jika protected
+            const displayKey = isProtected ? 
+                `<span class="password-hidden" title="Klik untuk melihat">${item.key}</span> <span class="password-protected-badge"><i class="fas fa-lock"></i></span>` : 
+                item.key;
+
             html += `
-                <div class="key-item ${expiredClass}">
-                    <div class="key-value"><i class="fas fa-key"></i> ${item.key}</div>
+                <div class="key-item ${expiredClass}" data-aos="fade-right" data-aos-duration="300">
+                    <div class="key-value"><i class="fas fa-key"></i> ${displayKey}</div>
                     <div class="key-info">
                         <span class="key-type">${item.jenis}</span>
                         <span>${timerText}</span>
@@ -608,6 +716,9 @@
         }
         container.innerHTML = html;
         countSpan.innerText = `(${generatedKeys.length})`;
+        
+        // Re-init AOS for new elements
+        AOS.refresh();
     }
 
     setInterval(() => { renderKeyList(); }, 1000);
@@ -683,11 +794,11 @@
         
         const badge = document.getElementById('modalRequiredInfo');
         if (keyJenis === "3 HARI") {
-            badge.innerText = "🔑 REQUIRE PASSWORD: putzzdev";
+            badge.innerText = "🔑 REQUIRE PASSWORD";
             badge.style.color = "#ff6600";
             badge.style.background = "rgba(255,51,0,0.1)";
         } else {
-            badge.innerText = "👑 REQUIRE PREMIUM PASS: Kreftz47";
+            badge.innerText = "👑 REQUIRE PREMIUM PASS";
             badge.style.color = "#a5b4fc";
             badge.style.background = "rgba(165,180,252,0.1)";
         }
@@ -720,7 +831,7 @@
                 }
             }, 600);
         } else if (result === "EXPIRED") {
-            msgDiv.innerHTML = '<span style="color:#ef4444;">🚫 Sesi Pasword Telah Kedaluwarsa!</span>';
+            msgDiv.innerHTML = '<span style="color:#ef4444;">🚫 Sesi Password Telah Kedaluwarsa!</span>';
         } else {
             msgDiv.innerHTML = '<span style="color:#ef4444;">❌ Password Salah / Keliru!</span>';
             document.getElementById('modalPasswordInput').value = '';
@@ -743,7 +854,7 @@
                 openPasswordModal(keyJenis, action);
             }
         } else {
-            action(); // Paket free tanpa password
+            action();
         }
     }
 
@@ -776,7 +887,19 @@
     document.getElementById('modalPasswordInput').addEventListener('keypress', (e) => { if (e.key === 'Enter') checkSubmitPassword(); });
     document.getElementById('manualKeyInput').addEventListener('keypress', (e) => { if (e.key === 'Enter') handleGenerate(); });
 
-    // BACKGROUND PARTICLES EFFECT
+    // ======================== TAMPILKAN PASSWORD SAAT DI-HOVER ========================
+    document.addEventListener('mouseover', function(e) {
+        if (e.target.classList.contains('password-hidden')) {
+            e.target.style.filter = 'blur(0px)';
+        }
+    });
+    document.addEventListener('mouseout', function(e) {
+        if (e.target.classList.contains('password-hidden')) {
+            e.target.style.filter = 'blur(5px)';
+        }
+    });
+
+    // ======================== BACKGROUND PARTICLES EFFECT ========================
     function createFireParticles() {
         const container = document.getElementById('fireBg');
         if (!container) return;
