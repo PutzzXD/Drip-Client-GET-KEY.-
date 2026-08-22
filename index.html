@@ -75,8 +75,8 @@
         }
         .loader-percent { font-family: 'Orbitron', sans-serif; color: #a855f7; font-size: 0.8rem; margin-top: 8px; font-weight: 600; }
         
-        .main-content { opacity: 0; transition: opacity 0.5s ease; width: 100%; display: flex; justify-content: center; }
-        .main-content.visible { opacity: 1; }
+        .main-content { opacity: 0; transition: opacity 0.5s ease; width: 100%; display: none; justify-content: center; }
+        .main-content.visible { opacity: 1; display: flex; }
         
         .cyber-grid {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -138,11 +138,12 @@
             color: #a855f7; z-index: 2; font-size: 1rem;
         }
         
-        select, #manualKeyInput, #modalPasswordInput, #hasilKey {
-            width: 100%; padding: 13px 16px 13px 46px;
+        select, #manualKeyInput, #modalPasswordInput, #hasilKey,
+        .input-wrapper input, .select-wrapper select {
+            width: 100%; padding: 17px 18px 17px 50px;
             background: rgba(10, 10, 20, 0.85);
             border: 1.5px solid rgba(124,58,237,0.25);
-            border-radius: 16px; font-size: 0.95rem; color: white;
+            border-radius: 16px; font-size: 1.05rem; color: white;
             font-family: 'Poppins', sans-serif; transition: all 0.3s ease;
         }
         select:focus, #manualKeyInput:focus, #modalPasswordInput:focus {
@@ -158,7 +159,7 @@
         }
         
         .btn-primary {
-            width: 100%; padding: 14px; border-radius: 16px; font-size: 1rem;
+            width: 100%; padding: 18px; border-radius: 16px; font-size: 1.05rem;
             font-weight: 700; cursor: pointer; display: flex; align-items: center;
             justify-content: center; gap: 10px; transition: all 0.3s ease;
             margin-bottom: 1rem; border: none; color: #fff;
@@ -185,7 +186,7 @@
         .btn-primary:active { transform: translateY(0) scale(0.98); }
         
         .btn-secondary {
-            width: 100%; padding: 12px; border-radius: 16px; font-size: 0.95rem;
+            width: 100%; padding: 15px; border-radius: 16px; font-size: 1rem;
             font-weight: 600; cursor: pointer; display: flex; align-items: center;
             justify-content: center; gap: 10px; transition: all 0.3s ease;
             margin-bottom: 1.2rem; background: rgba(124, 58, 237, 0.04);
@@ -312,6 +313,68 @@
         .spinner { width: 45px; height: 45px; border: 3.5px solid rgba(124,58,237,0.15); border-top: 3.5px solid #7c3aed; border-radius: 50%; animation: spin 0.8s linear infinite; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         
+        /* ======================== AUTH SCREEN ======================== */
+        .auth-screen {
+            opacity: 0; transition: opacity 0.5s ease; width: 100%;
+            display: none; align-items: center; justify-content: center;
+            position: relative; z-index: 10;
+        }
+        .auth-screen.visible { opacity: 1; display: flex; }
+
+        .auth-tabs {
+            display: flex; gap: 8px; background: rgba(10,10,20,0.85);
+            border: 1.5px solid rgba(124,58,237,0.25); border-radius: 16px;
+            padding: 5px; margin-bottom: 1.6rem;
+        }
+        .auth-tab {
+            flex: 1; text-align: center; padding: 14px; border-radius: 12px;
+            font-family: 'Orbitron', sans-serif; font-size: 0.9rem; font-weight: 700;
+            letter-spacing: 1px; color: #94a3b8; cursor: pointer; transition: 0.25s;
+            border: none; background: transparent;
+        }
+        .auth-tab.active {
+            background: linear-gradient(135deg, #7c3aed, #a855f7); color: #fff;
+            box-shadow: 0 4px 14px rgba(124,58,237,0.3);
+        }
+
+        .auth-form { display: none; }
+        .auth-form.active { display: block; }
+
+        .input-wrapper input#loginPassword,
+        .input-wrapper input#registerPassword,
+        .input-wrapper input#registerPasswordConfirm {
+            padding-right: 46px;
+        }
+
+        .toggle-pass {
+            position: absolute; right: 16px; top: 50%; transform: translateY(-50%);
+            color: #a855f7; cursor: pointer; font-size: 1.1rem; z-index: 3;
+        }
+
+        .auth-msg {
+            font-size: 0.8rem; font-weight: 600; text-align: center;
+            min-height: 18px; margin-bottom: 0.8rem;
+        }
+
+        .session-bar {
+            display: flex; align-items: center; justify-content: space-between;
+            background: rgba(124,58,237,0.06); border: 1px solid rgba(124,58,237,0.15);
+            border-radius: 14px; padding: 10px 14px; margin-bottom: 1.4rem;
+            font-size: 0.8rem; color: #c084fc; flex-wrap: wrap; gap: 8px;
+        }
+        .session-bar span i { color: #a855f7; margin-right: 6px; }
+        .coin-badge {
+            background: rgba(250,204,21,0.1); border: 1px solid rgba(250,204,21,0.35);
+            color: #facc15; padding: 5px 12px; border-radius: 10px; font-weight: 700;
+        }
+        .coin-badge i { color: #facc15 !important; }
+        .logout-btn {
+            background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.35);
+            color: #fca5a5; padding: 5px 12px; border-radius: 10px; cursor: pointer;
+            font-size: 0.72rem; font-weight: 600; font-family: 'Poppins', sans-serif; transition: 0.2s;
+        }
+        .logout-btn:hover { background: #ef4444; color: #fff; border-color: #ef4444; }
+
         @media (max-width: 480px) {
             body { padding: 1rem; }
             .key-card { padding: 1.6rem 1.2rem; border-radius: 24px; }
@@ -332,6 +395,79 @@
     </div>
 </div>
 
+<div class="auth-screen" id="authScreen">
+    <div class="cyber-grid"></div>
+    <div class="fire-bg" id="fireBgAuth"></div>
+
+    <div class="container">
+        <div class="key-card" data-aos="fade-up" data-aos-duration="800">
+            <div class="header">
+                <div class="logo-icon" data-aos="zoom-in" data-aos-delay="200"><i class="fas fa-dragon"></i></div>
+                <h1 data-aos="fade-up" data-aos-delay="300">DRIP KEY</h1>
+                <div class="dev-tag" data-aos="fade-up" data-aos-delay="400">DEVELOPED BY <span>PUTZZDEV</span></div>
+            </div>
+
+            <div class="auth-tabs" data-aos="fade-up" data-aos-delay="150">
+                <button class="auth-tab active" id="tabLoginBtn">MASUK</button>
+                <button class="auth-tab" id="tabRegisterBtn">DAFTAR</button>
+            </div>
+
+            <div id="authMsg" class="auth-msg"></div>
+
+            <!-- LOGIN FORM -->
+            <div class="auth-form active" id="loginForm">
+                <label class="field-label">👤 Username</label>
+                <div class="input-wrapper">
+                    <i class="fas fa-user"></i>
+                    <input type="text" id="loginUsername" placeholder="Masukkan username..." autocomplete="username">
+                </div>
+
+                <label class="field-label">🔒 Password</label>
+                <div class="input-wrapper">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="loginPassword" placeholder="Masukkan password..." autocomplete="current-password">
+                    <i class="fas fa-eye toggle-pass" data-target="loginPassword"></i>
+                </div>
+
+                <button class="btn-primary" id="loginBtn">
+                    <i class="fas fa-sign-in-alt"></i> MASUK
+                </button>
+            </div>
+
+            <!-- REGISTER FORM -->
+            <div class="auth-form" id="registerForm">
+                <label class="field-label">👤 Username</label>
+                <div class="input-wrapper">
+                    <i class="fas fa-user"></i>
+                    <input type="text" id="registerUsername" placeholder="Buat username..." autocomplete="username">
+                </div>
+
+                <label class="field-label">🔒 Password</label>
+                <div class="input-wrapper">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="registerPassword" placeholder="Buat password..." autocomplete="new-password">
+                    <i class="fas fa-eye toggle-pass" data-target="registerPassword"></i>
+                </div>
+
+                <label class="field-label">🔒 Konfirmasi Password</label>
+                <div class="input-wrapper">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="registerPasswordConfirm" placeholder="Ulangi password..." autocomplete="new-password">
+                    <i class="fas fa-eye toggle-pass" data-target="registerPasswordConfirm"></i>
+                </div>
+
+                <button class="btn-primary" id="registerBtn">
+                    <i class="fas fa-user-plus"></i> DAFTAR SEKARANG
+                </button>
+            </div>
+
+            <div class="developer-credit" data-aos="fade-up" data-aos-delay="550">
+                <i class="fas fa-code"></i> DRIP CLIENT • SYSTEM BY PUTZZDEV
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="main-content" id="mainContent">
     <div class="cyber-grid"></div>
     <div class="fire-bg" id="fireBg"></div>
@@ -344,19 +480,25 @@
                 <div class="dev-tag" data-aos="fade-up" data-aos-delay="400">DEVELOPED BY <span>PUTZZDEV</span></div>
             </div>
 
+            <div class="session-bar" data-aos="fade-up" data-aos-delay="80">
+                <span><i class="fas fa-user-circle"></i> <span id="sessionUsername">-</span></span>
+                <span class="coin-badge"><i class="fas fa-coins"></i> <span id="sessionCoins">0</span></span>
+                <button class="logout-btn" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> LOGOUT</button>
+            </div>
+
             <label class="field-label" data-aos="fade-right" data-aos-delay="100">⏰ Pilih Durasi Key</label>
             <div class="select-wrapper" data-aos="fade-right" data-aos-delay="150">
                 <i class="fas fa-calendar-alt"></i>
                 <select id="keyTypeSelect">
-                    <option value="1 JAM">⏰ 1 JAM</option>
-                    <option value="1 HARI">📅 1 HARI</option>
-                    <option value="2 HARI">📅 2 HARI</option>
-                    <option value="3 HARI">🔥 3 HARI</option>
-                    <option value="4 HARI">💎 4 HARI</option>
-                    <option value="5 HARI">💎 5 HARI</option>
-                    <option value="7 HARI">⚡ 7 HARI</option>
-                    <option value="30 HARI">⚡ 30 HARI</option>
-                    <option value="PERMANEN">👑 PERMANEN</option>
+                    <option value="1 JAM">⏰ 1 JAM — 3.000 koin</option>
+                    <option value="1 HARI">📅 1 HARI — 5.000 koin</option>
+                    <option value="2 HARI">📅 2 HARI — 10.000 koin</option>
+                    <option value="3 HARI">🔥 3 HARI — 15.000 koin</option>
+                    <option value="4 HARI">💎 4 HARI — 20.000 koin</option>
+                    <option value="5 HARI">💎 5 HARI — 25.000 koin</option>
+                    <option value="7 HARI">⚡ 7 HARI — 35.000 koin</option>
+                    <option value="30 HARI">⚡ 30 HARI — 100.000 koin</option>
+                    <option value="PERMANEN">👑 PERMANEN — 250.000 koin</option>
                 </select>
             </div>
 
@@ -456,6 +598,7 @@
     const loaderPercent = document.getElementById('loaderPercent');
     const loadingScreen = document.getElementById('loadingScreen');
     const mainContent = document.getElementById('mainContent');
+    const authScreen = document.getElementById('authScreen');
     
     function updateLoading(progress) {
         const percent = Math.floor(progress * 100);
@@ -470,11 +613,238 @@
         if (progress >= 1) {
             clearInterval(loadingInterval);
             loadingScreen.classList.add('fade-out');
-            mainContent.classList.add('visible');
+            revealApp();
             setTimeout(() => { loadingScreen.style.display = 'none'; }, 500);
             setTimeout(() => AOS.refresh(), 600);
         }
     }, 50);
+
+    // ======================== SHOW SCREEN AFTER LOADING ========================
+    function revealApp() {
+        const savedUser = localStorage.getItem('dripUsername');
+        const savedUserKey = localStorage.getItem('dripUserKey');
+        if (savedUser && savedUserKey) {
+            currentUserKey = savedUserKey;
+            currentCoins = parseInt(localStorage.getItem('dripCoins') || '0', 10);
+            currentLastClaim = localStorage.getItem('dripLastClaim') || '';
+            document.getElementById('sessionUsername').innerText = savedUser;
+            updateCoinUI();
+            mainContent.classList.add('visible');
+            checkDailyClaim();
+        } else {
+            authScreen.classList.add('visible');
+        }
+    }
+
+    // ======================== AKUN SYSTEM (FIREBASE) ========================
+    const AKUN_URL = "https://akun-dript-default-rtdb.asia-southeast1.firebasedatabase.app/users.json";
+
+    function sanitizeUsername(name) {
+        return name.trim().toLowerCase().replace(/[.#$\[\]\/\s]/g, '_');
+    }
+
+    function setAuthMsg(text, isError) {
+        const el = document.getElementById('authMsg');
+        el.innerText = text;
+        el.style.color = isError ? '#ef4444' : '#22c55e';
+    }
+
+    function getTodayStr() {
+        const d = new Date();
+        return `${d.getFullYear()}-${(d.getMonth()+1).toString().padStart(2,'0')}-${d.getDate().toString().padStart(2,'0')}`;
+    }
+
+    function updateCoinUI() {
+        const el = document.getElementById('sessionCoins');
+        if (el) el.innerText = currentCoins.toLocaleString('id-ID');
+    }
+
+    function persistCoinSession() {
+        localStorage.setItem('dripCoins', currentCoins);
+        localStorage.setItem('dripLastClaim', currentLastClaim);
+    }
+
+    // Cek & berikan bonus koin harian (klaim otomatis setelah lewat jam 00.00)
+    async function checkDailyClaim() {
+        if (!currentUserKey) return;
+        const today = getTodayStr();
+        if (currentLastClaim === today) return;
+
+        currentCoins += DAILY_CLAIM_COINS;
+        currentLastClaim = today;
+        updateCoinUI();
+        persistCoinSession();
+
+        try {
+            await fetch(`${AKUN_URL.replace('.json', '')}/${currentUserKey}.json`, {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ coins: currentCoins, lastClaimDate: currentLastClaim })
+            });
+            showToast(`🎁 Bonus harian +${DAILY_CLAIM_COINS.toLocaleString('id-ID')} koin!`, true);
+        } catch (err) {
+            console.error('Gagal sinkron bonus harian:', err);
+        }
+    }
+
+    // Cek ulang setiap menit, supaya bonus otomatis masuk begitu lewat tengah malam tanpa reload
+    setInterval(() => { if (currentUserKey) checkDailyClaim(); }, 60000);
+
+    async function deductCoins(amount) {
+        currentCoins = Math.max(0, currentCoins - amount);
+        updateCoinUI();
+        persistCoinSession();
+        if (!currentUserKey) return;
+        try {
+            await fetch(`${AKUN_URL.replace('.json', '')}/${currentUserKey}/coins.json`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(currentCoins)
+            });
+        } catch (err) {
+            console.error('Gagal update koin ke server:', err);
+        }
+    }
+
+    async function handleRegister() {
+        const rawUsername = document.getElementById('registerUsername').value.trim();
+        const password = document.getElementById('registerPassword').value;
+        const confirmPassword = document.getElementById('registerPasswordConfirm').value;
+
+        if (!rawUsername || !password) { setAuthMsg('⚠️ Username & password wajib diisi!', true); return; }
+        if (rawUsername.length < 3) { setAuthMsg('⚠️ Username minimal 3 karakter!', true); return; }
+        if (password.length < 4) { setAuthMsg('⚠️ Password minimal 4 karakter!', true); return; }
+        if (password !== confirmPassword) { setAuthMsg('⚠️ Konfirmasi password tidak cocok!', true); return; }
+
+        const userKey = sanitizeUsername(rawUsername);
+        showLoading(true);
+        try {
+            const checkRes = await fetch(`${AKUN_URL.replace('.json', '')}/${userKey}.json`);
+            const existing = await checkRes.json();
+            if (existing) {
+                setAuthMsg('❌ Username sudah dipakai, pilih yang lain!', true);
+                showLoading(false);
+                return;
+            }
+
+            const todayStr = getTodayStr();
+            const saveRes = await fetch(`${AKUN_URL.replace('.json', '')}/${userKey}.json`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    username: rawUsername,
+                    password: password,
+                    coins: INITIAL_COINS,
+                    lastClaimDate: todayStr,
+                    createdAt: Date.now()
+                })
+            });
+
+            if (!saveRes.ok) throw new Error('Gagal menyimpan akun');
+
+            showLoading(false);
+            currentUserKey = userKey;
+            currentCoins = INITIAL_COINS;
+            currentLastClaim = todayStr;
+            localStorage.setItem('dripUsername', rawUsername);
+            localStorage.setItem('dripUserKey', userKey);
+            persistCoinSession();
+            document.getElementById('sessionUsername').innerText = rawUsername;
+            updateCoinUI();
+            showToast(`✅ Registrasi berhasil! Bonus +${INITIAL_COINS.toLocaleString('id-ID')} koin 🎉`, true);
+            goToGenerator();
+        } catch (err) {
+            showLoading(false);
+            setAuthMsg('❌ Gagal terhubung ke server, coba lagi!', true);
+        }
+    }
+
+    async function handleLogin() {
+        const rawUsername = document.getElementById('loginUsername').value.trim();
+        const password = document.getElementById('loginPassword').value;
+
+        if (!rawUsername || !password) { setAuthMsg('⚠️ Username & password wajib diisi!', true); return; }
+
+        const userKey = sanitizeUsername(rawUsername);
+        showLoading(true);
+        try {
+            const res = await fetch(`${AKUN_URL.replace('.json', '')}/${userKey}.json`);
+            const data = await res.json();
+            showLoading(false);
+
+            if (!data) { setAuthMsg('❌ Akun tidak ditemukan!', true); return; }
+            if (data.password !== password) { setAuthMsg('❌ Password salah!', true); return; }
+
+            currentUserKey = userKey;
+            currentCoins = typeof data.coins === 'number' ? data.coins : 0;
+            currentLastClaim = data.lastClaimDate || '';
+            localStorage.setItem('dripUsername', data.username);
+            localStorage.setItem('dripUserKey', userKey);
+            persistCoinSession();
+            document.getElementById('sessionUsername').innerText = data.username;
+            updateCoinUI();
+            showToast('✅ Login berhasil!', true);
+            goToGenerator();
+            await checkDailyClaim();
+        } catch (err) {
+            showLoading(false);
+            setAuthMsg('❌ Gagal terhubung ke server, coba lagi!', true);
+        }
+    }
+
+    function goToGenerator() {
+        authScreen.classList.remove('visible');
+        setTimeout(() => {
+            authScreen.style.display = 'none';
+            mainContent.classList.add('visible');
+            AOS.refresh();
+        }, 300);
+    }
+
+    function handleLogout() {
+        localStorage.removeItem('dripUsername');
+        localStorage.removeItem('dripUserKey');
+        localStorage.removeItem('dripCoins');
+        localStorage.removeItem('dripLastClaim');
+        location.reload();
+    }
+
+
+    // TAB SWITCH
+    document.getElementById('tabLoginBtn').addEventListener('click', () => {
+        document.getElementById('tabLoginBtn').classList.add('active');
+        document.getElementById('tabRegisterBtn').classList.remove('active');
+        document.getElementById('loginForm').classList.add('active');
+        document.getElementById('registerForm').classList.remove('active');
+        setAuthMsg('', false);
+    });
+    document.getElementById('tabRegisterBtn').addEventListener('click', () => {
+        document.getElementById('tabRegisterBtn').classList.add('active');
+        document.getElementById('tabLoginBtn').classList.remove('active');
+        document.getElementById('registerForm').classList.add('active');
+        document.getElementById('loginForm').classList.remove('active');
+        setAuthMsg('', false);
+    });
+
+    // TOGGLE PASSWORD VISIBILITY
+    document.querySelectorAll('.toggle-pass').forEach(icon => {
+        icon.addEventListener('click', () => {
+            const target = document.getElementById(icon.dataset.target);
+            if (target.type === 'password') {
+                target.type = 'text';
+                icon.classList.replace('fa-eye', 'fa-eye-slash');
+            } else {
+                target.type = 'password';
+                icon.classList.replace('fa-eye-slash', 'fa-eye');
+            }
+        });
+    });
+
+    document.getElementById('loginBtn').addEventListener('click', handleLogin);
+    document.getElementById('registerBtn').addEventListener('click', handleRegister);
+    document.getElementById('logoutBtn').addEventListener('click', handleLogout);
+    document.getElementById('loginPassword').addEventListener('keypress', (e) => { if (e.key === 'Enter') handleLogin(); });
+    document.getElementById('registerPasswordConfirm').addEventListener('keypress', (e) => { if (e.key === 'Enter') handleRegister(); });
 
     // ======================== KONEKSI KE FIREBASE PAKAI FETCH ========================
     const FIREBASE_URL = "https://key-database-701af-default-rtdb.asia-southeast1.firebasedatabase.app/keys.json";
@@ -483,6 +853,25 @@
     let currentTargetType = ""; 
     let allKeys = [];
     let generatedKeys = [];
+
+    // ======================== COIN SYSTEM ========================
+    const KEY_PRICES = {
+        "1 JAM": 3000,
+        "1 HARI": 5000,
+        "2 HARI": 10000,
+        "3 HARI": 15000,
+        "4 HARI": 20000,
+        "5 HARI": 25000,
+        "7 HARI": 35000,
+        "30 HARI": 100000,
+        "PERMANEN": 250000
+    };
+    const INITIAL_COINS = 5000;
+    const DAILY_CLAIM_COINS = 5000;
+
+    let currentUserKey = null;
+    let currentCoins = 0;
+    let currentLastClaim = "";
 
     // ======================== JEDA SYSTEM ========================
     function getSecondsFromJenis(jenis) {
@@ -764,9 +1153,11 @@
         
         const success = await saveKeyToFirebase(keyData);
         if (success) {
+            const price = KEY_PRICES[keyJenis] || 0;
+            if (price > 0) await deductCoins(price);
             document.getElementById('hasilKey').value = keyValue;
             addGeneratedKey(keyValue, keyJenis, expiryTime);
-            showToast(`✨ Key Berhasil Dibuat! ✨`, true);
+            showToast(`✨ Key Berhasil Dibuat! (-${price.toLocaleString('id-ID')} koin) ✨`, true);
             showSuccessModal(keyValue, keyJenis, expiryTime);
         }
     }
@@ -816,6 +1207,16 @@
         const keyJenis = document.getElementById('keyTypeSelect').value;
         const manualKey = document.getElementById('manualKeyInput').value.trim();
         let finalKey = manualKey || generateRandomKey();
+        const price = KEY_PRICES[keyJenis] || 0;
+
+        if (currentCoins <= 0) {
+            showToast('🚫 Koin kamu habis! Tunggu bonus jam 00.00 atau top up.', false);
+            return;
+        }
+        if (currentCoins < price) {
+            showToast(`🚫 Koin tidak cukup! Butuh ${price.toLocaleString('id-ID')}, koin kamu ${currentCoins.toLocaleString('id-ID')}.`, false);
+            return;
+        }
 
         if (hasActiveKeyForDuration(keyJenis)) {
             const activeKey = getActiveKeyForDuration(keyJenis);
@@ -943,8 +1344,8 @@
     document.getElementById('manualKeyInput').addEventListener('keypress', (e) => { if (e.key === 'Enter') handleGenerate(); });
 
     // PARTICLES
-    function createParticles() {
-        const container = document.getElementById('fireBg');
+    function createParticles(containerId) {
+        const container = document.getElementById(containerId);
         if (!container) return;
         for (let i = 0; i < 35; i++) {
             const particle = document.createElement('div');
@@ -959,7 +1360,8 @@
             container.appendChild(particle);
         }
     }
-    createParticles();
+    createParticles('fireBg');
+    createParticles('fireBgAuth');
 
     loadKeys();
     loadGeneratedKeys();
