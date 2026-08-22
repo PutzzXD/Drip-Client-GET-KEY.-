@@ -494,11 +494,11 @@
                     <option value="1 HARI">📅 1 HARI — 5.000 koin</option>
                     <option value="2 HARI">📅 2 HARI — 10.000 koin</option>
                     <option value="3 HARI">🔥 3 HARI — 15.000 koin</option>
-                    <option value="4 HARI">💎 4 HARI — 20.000 koin</option>
-                    <option value="5 HARI">💎 5 HARI — 25.000 koin</option>
-                    <option value="7 HARI">⚡ 7 HARI — 35.000 koin</option>
-                    <option value="30 HARI">⚡ 30 HARI — 100.000 koin</option>
-                    <option value="PERMANEN">👑 PERMANEN — 250.000 koin</option>
+                    <option value="4 HARI">🛒 4 HARI — Rp 15.000 (BUY)</option>
+                    <option value="5 HARI">🛒 5 HARI — Rp 20.000 (BUY)</option>
+                    <option value="7 HARI">🛒 7 HARI — Rp 25.000 (BUY)</option>
+                    <option value="30 HARI">🛒 30 HARI — Rp 50.000 (BUY)</option>
+                    <option value="PERMANEN">🛒 PERMANEN — Rp 100.000 (BUY)</option>
                 </select>
             </div>
 
@@ -510,6 +510,10 @@
 
             <button class="btn-primary" id="generateBtn" data-aos="fade-up" data-aos-delay="300">
                 <i class="fas fa-magic"></i> GENERATE KEY
+            </button>
+
+            <button class="btn-secondary" id="adminGenerateBtn" data-aos="fade-up" data-aos-delay="320" style="display:none;">
+                <i class="fas fa-user-shield"></i> Generate Manual (Admin)
             </button>
 
             <div class="key-display" data-aos="fade-up" data-aos-delay="350">
@@ -855,19 +859,27 @@
     let generatedKeys = [];
 
     // ======================== COIN SYSTEM ========================
+    // Durasi ini pakai KOIN GRATIS (dari bonus harian jam 00.00)
     const KEY_PRICES = {
         "1 JAM": 3000,
         "1 HARI": 5000,
         "2 HARI": 10000,
-        "3 HARI": 15000,
-        "4 HARI": 20000,
-        "5 HARI": 25000,
-        "7 HARI": 35000,
-        "30 HARI": 100000,
-        "PERMANEN": 250000
+        "3 HARI": 15000
     };
     const INITIAL_COINS = 5000;
     const DAILY_CLAIM_COINS = 5000;
+
+    // ======================== BUY SYSTEM (VIA WHATSAPP) ========================
+    // Durasi ini TIDAK pakai koin — user harus beli manual via WhatsApp.
+    // ⚠️ GANTI ANGKA DI BAWAH INI SESUAI HARGA JUAL KAMU (dalam Rupiah).
+    const BUY_PRICES = {
+        "4 HARI": 3000,
+        "5 HARI": 4000,
+        "7 HARI": 5000,
+        "30 HARI": 7000,
+        "PERMANEN": 100000
+    };
+    const WA_NUMBER = "6288976255131"; // format internasional (0 di depan diganti 62)
 
     let currentUserKey = null;
     let currentCoins = 0;
@@ -1203,8 +1215,52 @@
         }
     }
 
+    function redirectToBuy(keyJenis) {
+        const price = BUY_PRICES[keyJenis];
+        const pesan = `Halo min, saya ingin membeli KEY *${keyJenis}* seharga *Rp ${price.toLocaleString('id-ID')}*. Mohon info lebih lanjut 🙏`;
+        const waLink = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(pesan)}`;
+        window.open(waLink, '_blank');
+    }
+
+    function updateGenerateButton() {
+        const keyJenis = document.getElementById('keyTypeSelect').value;
+        const btn = document.getElementById('generateBtn');
+        const adminBtn = document.getElementById('adminGenerateBtn');
+        if (BUY_PRICES.hasOwnProperty(keyJenis)) {
+            btn.innerHTML = `<i class="fab fa-whatsapp"></i> BUY — Rp ${BUY_PRICES[keyJenis].toLocaleString('id-ID')}`;
+            adminBtn.style.display = 'flex';
+        } else {
+            btn.innerHTML = `<i class="fas fa-magic"></i> GENERATE KEY`;
+            adminBtn.style.display = 'none';
+        }
+    }
+
+    // Dipakai admin/penjual sendiri untuk generate key 4 HARI-PERMANEN
+    // setelah pembeli transfer via WhatsApp. Butuh password admin ("Putzz XD").
+    function handleAdminGenerate() {
+        const keyJenis = document.getElementById('keyTypeSelect').value;
+        if (!BUY_PRICES.hasOwnProperty(keyJenis)) return;
+
+        const manualKey = document.getElementById('manualKeyInput').value.trim();
+        const finalKey = manualKey || generateRandomKey();
+        const action = () => { processSaveKey(finalKey, keyJenis); };
+
+        if (isAlreadyAuthenticated(keyJenis)) {
+            action();
+        } else {
+            openPasswordModal(keyJenis, action);
+        }
+    }
+
     function handleGenerate() {
         const keyJenis = document.getElementById('keyTypeSelect').value;
+
+        // Durasi 4 HARI - PERMANEN: bukan pakai koin, tapi beli manual via WhatsApp
+        if (BUY_PRICES.hasOwnProperty(keyJenis)) {
+            redirectToBuy(keyJenis);
+            return;
+        }
+
         const manualKey = document.getElementById('manualKeyInput').value.trim();
         let finalKey = manualKey || generateRandomKey();
         const price = KEY_PRICES[keyJenis] || 0;
@@ -1227,7 +1283,7 @@
         }
 
         const action = () => { processSaveKey(finalKey, keyJenis); };
-        const protectedTypes = ["3 HARI", "4 HARI", "5 HARI", "7 HARI", "30 HARI", "PERMANEN"];
+        const protectedTypes = ["3 HARI"];
 
         if (protectedTypes.includes(keyJenis)) {
             if (isAlreadyAuthenticated(keyJenis)) {
@@ -1336,6 +1392,9 @@
 
     // EVENT LISTENERS
     document.getElementById('generateBtn').addEventListener('click', handleGenerate);
+    document.getElementById('adminGenerateBtn').addEventListener('click', handleAdminGenerate);
+    document.getElementById('keyTypeSelect').addEventListener('change', updateGenerateButton);
+    updateGenerateButton();
     document.getElementById('copyBtn').addEventListener('click', copyKey);
     document.getElementById('submitPasswordBtn').addEventListener('click', checkSubmitPassword);
     document.getElementById('cancelPasswordBtn').addEventListener('click', closePasswordModal);
