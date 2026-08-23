@@ -375,11 +375,85 @@
         }
         .logout-btn:hover { background: #ef4444; color: #fff; border-color: #ef4444; }
 
+        /* ======================== ONLINE BADGE ======================== */
+        .online-badge {
+            display: inline-flex; align-items: center; gap: 6px; margin-top: 10px;
+            background: rgba(34,197,94,0.08); border: 1px solid rgba(34,197,94,0.3);
+            color: #4ade80; padding: 5px 14px; border-radius: 20px;
+            font-size: 0.72rem; font-weight: 600; letter-spacing: 0.5px;
+        }
+        .online-badge i { font-size: 0.55rem; animation: onlinePulse 1.5s infinite; }
+        @keyframes onlinePulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+        /* ======================== ANNOUNCEMENT BANNER ======================== */
+        .announcement-banner {
+            background: rgba(250,204,21,0.08); border: 1px solid rgba(250,204,21,0.35);
+            color: #facc15; padding: 10px 14px; border-radius: 12px; font-size: 0.8rem;
+            margin-bottom: 1.2rem; display: flex; align-items: center; gap: 8px;
+            line-height: 1.4;
+        }
+
+        /* ======================== COIN HISTORY ======================== */
+        .coin-history-toggle {
+            display: flex; align-items: center; justify-content: space-between;
+            background: rgba(124,58,237,0.04); border: 1px solid rgba(124,58,237,0.18);
+            border-radius: 12px; padding: 9px 14px; margin-bottom: 0; cursor: pointer;
+            font-size: 0.78rem; color: #c084fc; font-weight: 600; transition: 0.2s;
+        }
+        .coin-history-toggle:hover { background: rgba(124,58,237,0.08); }
+        .coin-history-toggle i:last-child { transition: transform 0.25s; }
+        .coin-history-toggle.open i:last-child { transform: rotate(180deg); }
+        .coin-history-panel {
+            background: rgba(10,10,20,0.6); border: 1px solid rgba(124,58,237,0.15);
+            border-top: none; border-radius: 0 0 12px 12px; padding: 10px 14px;
+            margin-bottom: 1.2rem; max-height: 220px; overflow-y: auto;
+        }
+        .coin-hist-item {
+            display: flex; align-items: center; justify-content: space-between; gap: 8px;
+            padding: 7px 0; border-bottom: 1px dashed rgba(124,58,237,0.12);
+            font-size: 0.75rem; color: #cbd5e1;
+        }
+        .coin-hist-item:last-child { border-bottom: none; }
+        .coin-hist-amount.plus { color: #4ade80; font-weight: 700; }
+        .coin-hist-amount.minus { color: #f87171; font-weight: 700; }
+        .coin-hist-time { color: #64748b; font-size: 0.68rem; white-space: nowrap; }
+        .coin-hist-empty { text-align: center; color: #64748b; font-size: 0.75rem; padding: 10px 0; }
+
+        /* ======================== THEME TOGGLE ======================== */
+        .theme-toggle-btn {
+            position: fixed; top: 18px; right: 18px; z-index: 999;
+            width: 44px; height: 44px; border-radius: 50%; border: 1.5px solid rgba(124,58,237,0.3);
+            background: rgba(10,10,20,0.85); color: #a855f7; font-size: 1.1rem;
+            cursor: pointer; display: flex; align-items: center; justify-content: center;
+            transition: 0.25s; backdrop-filter: blur(6px);
+        }
+        .theme-toggle-btn:hover { transform: rotate(20deg) scale(1.08); background: rgba(124,58,237,0.15); }
+
+        /* ======================== LIGHT MODE ======================== */
+        body.light-mode { background: #f1f0fb; }
+        body.light-mode .key-card {
+            background: rgba(255,255,255,0.92); border-color: rgba(124,58,237,0.15);
+            box-shadow: 0 20px 60px rgba(124,58,237,0.1);
+        }
+        body.light-mode .header h1, body.light-mode .field-label,
+        body.light-mode #sessionUsername, body.light-mode .coin-history-toggle,
+        body.light-mode .coin-hist-item { color: #4c1d95; }
+        body.light-mode select, body.light-mode #manualKeyInput,
+        body.light-mode #modalPasswordInput, body.light-mode #hasilKey,
+        body.light-mode .input-wrapper input, body.light-mode .select-wrapper select {
+            background: #ffffff; color: #1e1b2e; border-color: rgba(124,58,237,0.2);
+        }
+        body.light-mode .session-bar, body.light-mode .coin-history-panel,
+        body.light-mode .coin-history-toggle { background: rgba(124,58,237,0.04); }
+        body.light-mode .dev-tag { color: rgba(76,29,149,0.5); }
+        body.light-mode .developer-credit { color: rgba(76,29,149,0.4); }
+
         @media (max-width: 480px) {
             body { padding: 1rem; }
             .key-card { padding: 1.6rem 1.2rem; border-radius: 24px; }
             .header h1 { font-size: 1.8rem; }
             .loader-title { font-size: 1.8rem; }
+            .theme-toggle-btn { top: 12px; right: 12px; width: 38px; height: 38px; font-size: 0.95rem; }
         }
     </style>
 </head>
@@ -405,6 +479,7 @@
                 <div class="logo-icon" data-aos="zoom-in" data-aos-delay="200"><i class="fas fa-dragon"></i></div>
                 <h1 data-aos="fade-up" data-aos-delay="300">DRIP KEY</h1>
                 <div class="dev-tag" data-aos="fade-up" data-aos-delay="400">DEVELOPED BY <span>PUTZZDEV</span></div>
+                <div class="online-badge" data-aos="fade-up" data-aos-delay="450"><i class="fas fa-circle"></i> <span class="online-count">-</span> User Online</div>
             </div>
 
             <div class="auth-tabs" data-aos="fade-up" data-aos-delay="150">
@@ -478,12 +553,22 @@
                 <div class="logo-icon" data-aos="zoom-in" data-aos-delay="200"><i class="fas fa-dragon"></i></div>
                 <h1 data-aos="fade-up" data-aos-delay="300">DRIP KEY</h1>
                 <div class="dev-tag" data-aos="fade-up" data-aos-delay="400">DEVELOPED BY <span>PUTZZDEV</span></div>
+                <div class="online-badge" data-aos="fade-up" data-aos-delay="450"><i class="fas fa-circle"></i> <span class="online-count">-</span> User Online</div>
             </div>
+
+            <div id="announcementBanner" class="announcement-banner" style="display:none;"></div>
 
             <div class="session-bar" data-aos="fade-up" data-aos-delay="80">
                 <span><i class="fas fa-user-circle"></i> <span id="sessionUsername">-</span></span>
                 <span class="coin-badge"><i class="fas fa-coins"></i> <span id="sessionCoins">0</span></span>
                 <button class="logout-btn" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> LOGOUT</button>
+            </div>
+
+            <div class="coin-history-toggle" id="coinHistoryToggle">
+                <i class="fas fa-receipt"></i> Riwayat Koin <i class="fas fa-chevron-down" id="coinHistoryChevron"></i>
+            </div>
+            <div class="coin-history-panel" id="coinHistoryPanel" style="display:none;">
+                <div id="coinHistoryList" class="coin-hist-list"></div>
             </div>
 
             <label class="field-label" data-aos="fade-right" data-aos-delay="100">⏰ Pilih Durasi Key</label>
@@ -633,9 +718,11 @@
             currentLastClaim = localStorage.getItem('dripLastClaim') || '';
             document.getElementById('sessionUsername').innerText = savedUser;
             updateCoinUI();
+            renderCoinHistory();
             mainContent.classList.add('visible');
             checkDailyClaim();
-            syncCoinsFromServer();
+            syncAccountFromServer();
+            sendHeartbeat();
         } else {
             authScreen.classList.add('visible');
         }
@@ -644,8 +731,38 @@
     // ======================== AKUN SYSTEM (FIREBASE) ========================
     const AKUN_URL = "https://akun-dript-default-rtdb.asia-southeast1.firebasedatabase.app/users.json";
 
+    // Kata-kata yang tidak boleh dipakai sebagai username
+    const USERNAME_BLACKLIST = [
+        "kontol","memek","anjing","bangsat","goblok","tolol","babi","asu","jancok",
+        "kampret","ngentot","peju","pepek","itil","pukimak","kimak","bego","idiot",
+        "bajingan","kunyuk","perek","lonte","pelacur","admin","administrator","moderator","owner"
+    ];
+
     function sanitizeUsername(name) {
         return name.trim().toLowerCase().replace(/[.#$\[\]\/\s]/g, '_');
+    }
+
+    // Validasi username harus "terlihat seperti nama manusia", bukan asal ketik
+    function isValidHumanName(rawUsername) {
+        const name = rawUsername.trim().toLowerCase();
+        if (name.length < 3) return { valid: false, reason: "Username minimal 3 karakter!" };
+        if (name.length > 20) return { valid: false, reason: "Username maksimal 20 karakter!" };
+        if (!/^[a-z0-9_. ]+$/.test(name)) {
+            return { valid: false, reason: "Username hanya boleh huruf, angka, spasi, titik, underscore!" };
+        }
+        if (USERNAME_BLACKLIST.some(bad => name.includes(bad))) {
+            return { valid: false, reason: "Username mengandung kata yang tidak pantas!" };
+        }
+        if (!/[aeiou]/.test(name)) {
+            return { valid: false, reason: "Username harus terlihat seperti nama manusia (pakai huruf vokal)!" };
+        }
+        if (/(.)\1{3,}/.test(name)) {
+            return { valid: false, reason: "Username terlihat asal ketik (huruf berulang)!" };
+        }
+        if (/^(.{1,3})\1{2,}$/.test(name.replace(/\s/g,''))) {
+            return { valid: false, reason: "Username terlihat asal ketik (pola berulang)!" };
+        }
+        return { valid: true };
     }
 
     function setAuthMsg(text, isError) {
@@ -669,6 +786,43 @@
         localStorage.setItem('dripLastClaim', currentLastClaim);
     }
 
+    // Catat mutasi koin ke riwayat (ditampilkan di panel "Riwayat Koin")
+    async function logCoinHistory(note, amount) {
+        if (!currentUserKey) return;
+        const entry = { note, amount, time: Date.now() };
+        let history = JSON.parse(localStorage.getItem('dripCoinHistory') || '[]');
+        history.unshift(entry);
+        history = history.slice(0, 20);
+        localStorage.setItem('dripCoinHistory', JSON.stringify(history));
+        renderCoinHistory();
+        try {
+            await fetch(`${AKUN_URL.replace('.json', '')}/${currentUserKey}/coinHistory.json`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(entry)
+            });
+        } catch (err) { console.error('Gagal simpan riwayat koin:', err); }
+    }
+
+    function renderCoinHistory() {
+        const box = document.getElementById('coinHistoryList');
+        if (!box) return;
+        const history = JSON.parse(localStorage.getItem('dripCoinHistory') || '[]');
+        if (history.length === 0) {
+            box.innerHTML = '<div class="coin-hist-empty">Belum ada riwayat.</div>';
+            return;
+        }
+        box.innerHTML = history.map(h => {
+            const positive = h.amount > 0;
+            const waktu = new Date(h.time).toLocaleString('id-ID', { day:'2-digit', month:'2-digit', hour:'2-digit', minute:'2-digit' });
+            return `<div class="coin-hist-item">
+                <span>${h.note}</span>
+                <span class="coin-hist-amount ${positive ? 'plus' : 'minus'}">${positive ? '+' : ''}${h.amount.toLocaleString('id-ID')}</span>
+                <span class="coin-hist-time">${waktu}</span>
+            </div>`;
+        }).join('');
+    }
+
     // Cek & berikan bonus koin harian (klaim otomatis setelah lewat jam 00.00)
     async function checkDailyClaim() {
         if (!currentUserKey) return;
@@ -679,6 +833,7 @@
         currentLastClaim = today;
         updateCoinUI();
         persistCoinSession();
+        logCoinHistory('🎁 Bonus harian', DAILY_CLAIM_COINS);
 
         try {
             await fetch(`${AKUN_URL.replace('.json', '')}/${currentUserKey}.json`, {
@@ -692,52 +847,102 @@
         }
     }
 
-    // Ambil ulang saldo koin dari Firebase — supaya kalau admin ubah koin
-    // manual lewat Firebase Console, angkanya langsung update di layar
-    // tanpa user perlu logout/login ulang.
-    async function syncCoinsFromServer() {
+    // Tandai user sedang online (dipakai untuk hitung "user online")
+    async function sendHeartbeat() {
         if (!currentUserKey) return;
         try {
-            const res = await fetch(`${AKUN_URL.replace('.json', '')}/${currentUserKey}/coins.json`);
-            const serverCoins = await res.json();
-            if (typeof serverCoins === 'number' && serverCoins !== currentCoins) {
-                const diff = serverCoins - currentCoins;
-                currentCoins = serverCoins;
+            await fetch(`${AKUN_URL.replace('.json', '')}/${currentUserKey}/lastActive.json`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(Date.now())
+            });
+        } catch (err) { /* diamkan, tidak kritikal */ }
+    }
+
+    // Hitung jumlah user yang online (aktif dalam 30 detik terakhir)
+    async function updateOnlineCount() {
+        try {
+            const res = await fetch(AKUN_URL);
+            const all = await res.json();
+            let count = 0;
+            if (all) {
+                const now = Date.now();
+                Object.values(all).forEach(u => {
+                    if (u && typeof u.lastActive === 'number' && (now - u.lastActive) < 30000) count++;
+                });
+            }
+            document.querySelectorAll('.online-count').forEach(el => { el.innerText = count; });
+        } catch (err) { console.error('Gagal ambil jumlah online:', err); }
+    }
+    updateOnlineCount();
+    setInterval(updateOnlineCount, 15000);
+
+    // Paksa logout kalau akun kena ban
+    function forceBanLogout(reason) {
+        localStorage.removeItem('dripUsername');
+        localStorage.removeItem('dripUserKey');
+        localStorage.removeItem('dripCoins');
+        localStorage.removeItem('dripLastClaim');
+        localStorage.removeItem('dripCoinHistory');
+        alert(`🚫 Akun kamu telah di-BAN.\n\nAlasan: ${reason || 'Tidak disebutkan'}`);
+        location.reload();
+    }
+
+    // Ambil ulang data akun dari Firebase — koin & status ban langsung ter-update
+    // tanpa user perlu logout/login ulang.
+    async function syncAccountFromServer() {
+        if (!currentUserKey) return;
+        try {
+            const res = await fetch(`${AKUN_URL.replace('.json', '')}/${currentUserKey}.json`);
+            const data = await res.json();
+            if (!data) return;
+
+            if (data.banned === true) {
+                forceBanLogout(data.banReason);
+                return;
+            }
+
+            if (typeof data.coins === 'number' && data.coins !== currentCoins) {
+                const diff = data.coins - currentCoins;
+                currentCoins = data.coins;
                 updateCoinUI();
                 persistCoinSession();
                 if (diff > 0) {
                     showToast(`💰 Koin bertambah +${diff.toLocaleString('id-ID')} (update dari admin)`, true);
                 } else {
-                    showToast(`⚠️ Koin diperbarui oleh admin: ${serverCoins.toLocaleString('id-ID')}`, false);
+                    showToast(`⚠️ Koin diperbarui oleh admin: ${data.coins.toLocaleString('id-ID')}`, false);
                 }
             }
         } catch (err) {
-            console.error('Gagal sinkron koin:', err);
+            console.error('Gagal sinkron akun:', err);
         }
     }
 
-    // Cek ulang setiap 10 detik: sinkron koin dari server + cek klaim harian.
-    // Jadi kalau koin diubah manual dari Firebase Console, otomatis kelihatan
-    // di layar tanpa perlu logout-login lagi.
+    // Cek ulang setiap 10 detik: sinkron akun (koin+ban) dari server, cek klaim
+    // harian, dan kirim heartbeat online. Jadi kalau admin ubah koin/ban lewat
+    // Firebase Console, otomatis kelihatan tanpa perlu logout-login lagi.
     setInterval(() => {
         if (currentUserKey) {
-            syncCoinsFromServer();
+            syncAccountFromServer();
             checkDailyClaim();
+            sendHeartbeat();
         }
     }, 10000);
 
     // Sinkron langsung begitu user balik ke tab ini (misal habis buka WA)
     document.addEventListener('visibilitychange', () => {
         if (!document.hidden && currentUserKey) {
-            syncCoinsFromServer();
+            syncAccountFromServer();
             checkDailyClaim();
+            sendHeartbeat();
         }
     });
 
-    async function deductCoins(amount) {
+    async function deductCoins(amount, note) {
         currentCoins = Math.max(0, currentCoins - amount);
         updateCoinUI();
         persistCoinSession();
+        if (note) logCoinHistory(note, -amount);
         if (!currentUserKey) return;
         try {
             await fetch(`${AKUN_URL.replace('.json', '')}/${currentUserKey}/coins.json`, {
@@ -756,7 +961,8 @@
         const confirmPassword = document.getElementById('registerPasswordConfirm').value;
 
         if (!rawUsername || !password) { setAuthMsg('⚠️ Username & password wajib diisi!', true); return; }
-        if (rawUsername.length < 3) { setAuthMsg('⚠️ Username minimal 3 karakter!', true); return; }
+        const nameCheck = isValidHumanName(rawUsername);
+        if (!nameCheck.valid) { setAuthMsg(`⚠️ ${nameCheck.reason}`, true); return; }
         if (password.length < 4) { setAuthMsg('⚠️ Password minimal 4 karakter!', true); return; }
         if (password !== confirmPassword) { setAuthMsg('⚠️ Konfirmasi password tidak cocok!', true); return; }
 
@@ -780,6 +986,9 @@
                     password: password,
                     coins: INITIAL_COINS,
                     lastClaimDate: todayStr,
+                    banned: false,
+                    banReason: "",
+                    lastActive: Date.now(),
                     createdAt: Date.now()
                 })
             });
@@ -792,9 +1001,11 @@
             currentLastClaim = todayStr;
             localStorage.setItem('dripUsername', rawUsername);
             localStorage.setItem('dripUserKey', userKey);
+            localStorage.removeItem('dripCoinHistory');
             persistCoinSession();
             document.getElementById('sessionUsername').innerText = rawUsername;
             updateCoinUI();
+            logCoinHistory('✨ Bonus akun baru', INITIAL_COINS);
             showToast(`✅ Registrasi berhasil! Bonus +${INITIAL_COINS.toLocaleString('id-ID')} koin 🎉`, true);
             goToGenerator();
         } catch (err) {
@@ -818,15 +1029,22 @@
 
             if (!data) { setAuthMsg('❌ Akun tidak ditemukan!', true); return; }
             if (data.password !== password) { setAuthMsg('❌ Password salah!', true); return; }
+            if (data.banned === true) {
+                setAuthMsg(`🚫 Akun ini di-BAN. Alasan: ${data.banReason || 'Tidak disebutkan'}`, true);
+                return;
+            }
 
             currentUserKey = userKey;
             currentCoins = typeof data.coins === 'number' ? data.coins : 0;
             currentLastClaim = data.lastClaimDate || '';
             localStorage.setItem('dripUsername', data.username);
             localStorage.setItem('dripUserKey', userKey);
+            localStorage.removeItem('dripCoinHistory');
             persistCoinSession();
             document.getElementById('sessionUsername').innerText = data.username;
             updateCoinUI();
+            renderCoinHistory();
+            sendHeartbeat();
             showToast('✅ Login berhasil!', true);
             goToGenerator();
             await checkDailyClaim();
@@ -850,6 +1068,7 @@
         localStorage.removeItem('dripUserKey');
         localStorage.removeItem('dripCoins');
         localStorage.removeItem('dripLastClaim');
+        localStorage.removeItem('dripCoinHistory');
         location.reload();
     }
 
@@ -889,6 +1108,70 @@
     document.getElementById('logoutBtn').addEventListener('click', handleLogout);
     document.getElementById('loginPassword').addEventListener('keypress', (e) => { if (e.key === 'Enter') handleLogin(); });
     document.getElementById('registerPasswordConfirm').addEventListener('keypress', (e) => { if (e.key === 'Enter') handleRegister(); });
+
+    // ======================== DARK / LIGHT MODE ======================== 
+    const themeToggleBtn = document.getElementById('themeToggleBtn');
+    function applyTheme(mode) {
+        if (mode === 'light') {
+            document.body.classList.add('light-mode');
+            themeToggleBtn.innerHTML = '<i class="fas fa-moon"></i>';
+        } else {
+            document.body.classList.remove('light-mode');
+            themeToggleBtn.innerHTML = '<i class="fas fa-sun"></i>';
+        }
+    }
+    let currentTheme = localStorage.getItem('dripTheme') || 'dark';
+    applyTheme(currentTheme);
+    themeToggleBtn.addEventListener('click', () => {
+        currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        localStorage.setItem('dripTheme', currentTheme);
+        applyTheme(currentTheme);
+    });
+
+    // ======================== RIWAYAT KOIN (buka/tutup panel) ======================== 
+    document.getElementById('coinHistoryToggle').addEventListener('click', () => {
+        const panel = document.getElementById('coinHistoryPanel');
+        const toggle = document.getElementById('coinHistoryToggle');
+        const isOpen = panel.style.display !== 'none';
+        panel.style.display = isOpen ? 'none' : 'block';
+        toggle.classList.toggle('open', !isOpen);
+        if (!isOpen) renderCoinHistory();
+    });
+
+    // ======================== BROADCAST PENGUMUMAN ======================== 
+    // Admin cukup PUT/PATCH ke node "announcement" di Firebase users DB, contoh:
+    // { "text": "Server maintenance jam 00.00-01.00", "active": true }
+    async function loadAnnouncement() {
+        try {
+            const res = await fetch(AKUN_URL.replace('/users.json', '/announcement.json'));
+            const data = await res.json();
+            const banner = document.getElementById('announcementBanner');
+            if (data && data.active && data.text) {
+                banner.innerHTML = `<i class="fas fa-bullhorn"></i> ${data.text}`;
+                banner.style.display = 'flex';
+            } else {
+                banner.style.display = 'none';
+            }
+        } catch (err) { console.error('Gagal ambil pengumuman:', err); }
+    }
+    loadAnnouncement();
+    setInterval(loadAnnouncement, 30000);
+
+    // ======================== REMINDER KEY MAU EXPIRED ======================== 
+    let notifiedExpiring = new Set();
+    function checkExpiringKeys() {
+        if (!generatedKeys || generatedKeys.length === 0) return;
+        const now = Date.now();
+        generatedKeys.forEach(k => {
+            if (!k.expiryTime) return; // PERMANEN, skip
+            const sisa = k.expiryTime - now;
+            if (sisa > 0 && sisa <= 5 * 60 * 1000 && !notifiedExpiring.has(k.key)) {
+                notifiedExpiring.add(k.key);
+                showToast(`⏰ Key "${k.key}" (${k.jenis}) akan expired sebentar lagi!`, false);
+            }
+        });
+    }
+    setInterval(checkExpiringKeys, 15000);
 
     // ======================== KONEKSI KE FIREBASE PAKAI FETCH ========================
     const FIREBASE_URL = "https://key-database-701af-default-rtdb.asia-southeast1.firebasedatabase.app/keys.json";
@@ -1206,7 +1489,7 @@
         const success = await saveKeyToFirebase(keyData);
         if (success) {
             const price = KEY_PRICES[keyJenis] || 0;
-            if (price > 0) await deductCoins(price);
+            if (price > 0) await deductCoins(price, `🔑 Generate ${keyJenis}`);
             document.getElementById('hasilKey').value = keyValue;
             addGeneratedKey(keyValue, keyJenis, expiryTime);
             showToast(`✨ Key Berhasil Dibuat! (-${price.toLocaleString('id-ID')} koin) ✨`, true);
@@ -1468,5 +1751,9 @@
     console.log('⏳ JEDA SYSTEM: 1 key per durasi, tunggu expired untuk generate ulang');
     console.log('📡 Terhubung ke Firebase via Fetch API');
 </script>
+<button id="themeToggleBtn" class="theme-toggle-btn" title="Ganti tema">
+    <i class="fas fa-sun"></i>
+</button>
+
 </body>
 </html>
