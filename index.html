@@ -635,6 +635,7 @@
             updateCoinUI();
             mainContent.classList.add('visible');
             checkDailyClaim();
+            syncCoinsFromServer();
         } else {
             authScreen.classList.add('visible');
         }
@@ -691,8 +692,47 @@
         }
     }
 
-    // Cek ulang setiap menit, supaya bonus otomatis masuk begitu lewat tengah malam tanpa reload
-    setInterval(() => { if (currentUserKey) checkDailyClaim(); }, 60000);
+    // Ambil ulang saldo koin dari Firebase — supaya kalau admin ubah koin
+    // manual lewat Firebase Console, angkanya langsung update di layar
+    // tanpa user perlu logout/login ulang.
+    async function syncCoinsFromServer() {
+        if (!currentUserKey) return;
+        try {
+            const res = await fetch(`${AKUN_URL.replace('.json', '')}/${currentUserKey}/coins.json`);
+            const serverCoins = await res.json();
+            if (typeof serverCoins === 'number' && serverCoins !== currentCoins) {
+                const diff = serverCoins - currentCoins;
+                currentCoins = serverCoins;
+                updateCoinUI();
+                persistCoinSession();
+                if (diff > 0) {
+                    showToast(`💰 Koin bertambah +${diff.toLocaleString('id-ID')} (update dari admin)`, true);
+                } else {
+                    showToast(`⚠️ Koin diperbarui oleh admin: ${serverCoins.toLocaleString('id-ID')}`, false);
+                }
+            }
+        } catch (err) {
+            console.error('Gagal sinkron koin:', err);
+        }
+    }
+
+    // Cek ulang setiap 10 detik: sinkron koin dari server + cek klaim harian.
+    // Jadi kalau koin diubah manual dari Firebase Console, otomatis kelihatan
+    // di layar tanpa perlu logout-login lagi.
+    setInterval(() => {
+        if (currentUserKey) {
+            syncCoinsFromServer();
+            checkDailyClaim();
+        }
+    }, 10000);
+
+    // Sinkron langsung begitu user balik ke tab ini (misal habis buka WA)
+    document.addEventListener('visibilitychange', () => {
+        if (!document.hidden && currentUserKey) {
+            syncCoinsFromServer();
+            checkDailyClaim();
+        }
+    });
 
     async function deductCoins(amount) {
         currentCoins = Math.max(0, currentCoins - amount);
