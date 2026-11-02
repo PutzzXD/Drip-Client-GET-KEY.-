@@ -7,7 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- HUBUNGKAN FILE CSS LU DI SINI -->
+    <!-- CSS TETAP DIPANGGIL DARI SINI -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -76,7 +76,7 @@
         </div>
     </div>
 
-    <!-- DASHBOARD CARD -->
+    <!-- DASHBOARD CARD (USER) -->
     <div class="card" id="dashCard">
         <div class="user-bar">
             <div class="user-info">
@@ -124,6 +124,39 @@
         </div>
         <div class="history-list" id="historyList"></div>
     </div>
+
+    <!-- ========================================== -->
+    <!-- ADMIN CARD (TAMBAHAN FITUR BARU)           -->
+    <!-- ========================================== -->
+    <div class="card" id="adminCard">
+        <div class="user-bar" style="margin-bottom: 1.5rem;">
+            <div class="user-info">
+                <span>Selamat datang,</span>
+                <span style="color: var(--accent); font-weight: 700;">ADMIN PUTZZDEV</span>
+            </div>
+            <button class="btn-logout" onclick="location.reload()"><i class="fas fa-sign-out-alt"></i></button>
+        </div>
+
+        <h1 style="margin-bottom: 1.5rem;">Broadcast Notif</h1>
+        
+        <label class="field-label">Judul Notifikasi</label>
+        <div class="input-group">
+            <i class="fas fa-heading"></i>
+            <input type="text" id="notifTitle" placeholder="Contoh: UPDATE FITUR BARU">
+        </div>
+
+        <label class="field-label">Pesan Notifikasi</label>
+        <div class="input-group">
+            <i class="fas fa-comment-dots"></i>
+            <input type="text" id="notifMsg" placeholder="Tulis pesan untuk semua user...">
+        </div>
+
+        <button class="btn btn-primary" id="btnSendNotif">
+            <i class="fas fa-paper-plane"></i> KIRIM KE SEMUA USER
+        </button>
+    </div>
+    <!-- ========================================== -->
+
 </div>
 
 <!-- MODALS -->
@@ -153,7 +186,7 @@
 
 <div class="toast" id="toastBox"></div>
 
-<!-- HUBUNGKAN FILE JS LU DI SINI -->
+<!-- JS TETAP DIPANGGIL DARI SINI -->
 <script src="script.js"></script>
 </body>
 </html>

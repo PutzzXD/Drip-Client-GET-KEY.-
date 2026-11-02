@@ -2,9 +2,9 @@
 // KONFIGURASI DATABASE (URL FIREBASE)
 // ==========================================
 const FB_BASE = "https://akun-dript-default-rtdb.asia-southeast1.firebasedatabase.app";
-const FB_KEYS = `${FB_BASE}/keys.json`; // Path database key
-const FB_USERS = `${FB_BASE}/users.json`; // Path database user
-const FB_NOTIF = `${FB_BASE}/global_notif.json`; // Path notifikasi global
+const FB_KEYS = `${FB_BASE}/keys.json`; 
+const FB_USERS = `${FB_BASE}/users.json`; 
+const FB_NOTIF = `${FB_BASE}/global_notif.json`; 
 
 // ==========================================
 // KONFIGURASI HARGA & SYSTEM
@@ -15,6 +15,10 @@ const WA_NUM = "6288976255131";
 const INIT_COINS = 5000;
 const DAILY_COINS = 5000;
 
+// AKUN ADMIN (Sesuai request lu)
+const ADMIN_USER = "putzzdev";
+const ADMIN_PASS = "PutzzVIP";
+
 // ==========================================
 // STATE GLOBAL
 // ==========================================
@@ -24,10 +28,8 @@ let curLastClaim = "";
 let localKeys = [];
 let pendingAction = null;
 let lastNotifId = null;
+let isAdmin = false;
 
-// ==========================================
-// UI HELPERS
-// ==========================================
 const $ = (id) => document.getElementById(id);
 
 function showCard(id) {
@@ -90,12 +92,10 @@ function playNotifSound() {
         const osc = ctx.createOscillator();
         const gain = ctx.createGain();
         osc.type = 'sine';
-        osc.frequency.setValueAtTime(880, ctx.currentTime); // Nada A5
-        osc.frequency.exponentialRampToValueAtTime(1760, ctx.currentTime + 0.1); // Naik ke A6
-        
+        osc.frequency.setValueAtTime(880, ctx.currentTime); 
+        osc.frequency.exponentialRampToValueAtTime(1760, ctx.currentTime + 0.1); 
         gain.gain.setValueAtTime(0.3, ctx.currentTime);
         gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.4);
-        
         osc.connect(gain);
         gain.connect(ctx.destination);
         osc.start();
@@ -117,10 +117,8 @@ function showPopup(title, msg, isGlobal = false) {
         </div>
     `;
     wrapper.appendChild(popup);
-    
     setTimeout(() => popup.classList.add('show'), 100);
     playNotifSound();
-
     setTimeout(() => {
         popup.classList.remove('show');
         setTimeout(() => popup.remove(), 300);
@@ -139,13 +137,15 @@ async function checkNotifs() {
                 showPopup(globalNotif.title || 'PENGUMUMAN', globalNotif.message, true);
                 
                 const banner = $('authBanner');
-                banner.innerHTML = `<i class="fas fa-bullhorn"></i> <b>${globalNotif.title}:</b> ${globalNotif.message}`;
-                banner.classList.add('show');
+                if(banner) {
+                    banner.innerHTML = `<i class="fas fa-bullhorn"></i> <b>${globalNotif.title}:</b> ${globalNotif.message}`;
+                    banner.classList.add('show');
+                }
             }
         }
 
         // 2. Cek Notifikasi Per-Akun (Koin nambah dari Admin)
-        if (curUser) {
+        if (curUser && !isAdmin) {
             const resUser = await fetch(`${FB_BASE}/users/${curUser}.json`);
             const userData = await resUser.json();
             
@@ -162,7 +162,6 @@ async function checkNotifs() {
     } catch (e) { }
 }
 
-// Jalanin cek notif tiap 5 detik
 setInterval(checkNotifs, 5000);
 
 // ==========================================
@@ -218,6 +217,10 @@ $('btnRegister').onclick = async () => {
     if (p !== cp) return showMsg('authMsg', 'Konfirmasi password salah!');
 
     const uname = cleanUser(u);
+    
+    // Cegah orang daftar pake nama admin
+    if (uname === ADMIN_USER) return showMsg('authMsg', 'Username ini tidak tersedia!');
+
     showLoading(true);
     const users = await fetchUsers();
     
@@ -234,7 +237,6 @@ $('btnRegister').onclick = async () => {
     };
     await saveUser(uname, newUser);
     
-    // Notifikasi Per-Akun saat berhasil daftar
     setTimeout(() => {
         showPopup('Akun Dibuat', `Selamat datang ${u}! Kamu dapat ${INIT_COINS} koin gratis.`, false);
     }, 500);
@@ -251,6 +253,15 @@ $('btnLogin').onclick = async () => {
     if (!u || !p) return showMsg('authMsg', 'Isi username & password!');
 
     const uname = cleanUser(u);
+    
+    // --- CEK LOGIN ADMIN ---
+    if (uname === ADMIN_USER && p === ADMIN_PASS) {
+        isAdmin = true;
+        curUser = "admin";
+        showCard('adminCard'); // Pindah ke tampilan Admin Panel
+        return;
+    }
+
     showLoading(true);
     const users = await fetchUsers();
     const data = users[uname];
@@ -259,6 +270,7 @@ $('btnLogin').onclick = async () => {
     if (!data) return showMsg('authMsg', 'Akun tidak ditemukan!');
     if (data.password !== p) return showMsg('authMsg', 'Password salah!');
 
+    isAdmin = false;
     curUser = uname;
     curCoins = data.coins || 0;
     curLastClaim = data.lastClaim || "";
@@ -269,20 +281,53 @@ $('btnLogin').onclick = async () => {
     showCard('dashCard');
     loadLocalKeys();
     checkDaily();
-    checkNotifs(); // Cek notif langsung pas login
+    checkNotifs(); 
 };
 
 $('btnLogout').onclick = () => {
-    curUser = null; curCoins = 0;
+    curUser = null; curCoins = 0; isAdmin = false;
     showCard('authCard');
     $('loginPass').value = '';
 };
 
 // ==========================================
-// DASHBOARD LOGIC
+// ADMIN PANEL LOGIC
+// ==========================================
+$('btnSendNotif')?.addEventListener('click', async () => {
+    const title = $('notifTitle').value;
+    const message = $('notifMsg').value;
+    
+    if (!title || !message) return showToast('Isi judul & pesan!', true);
+
+    showLoading(true);
+    const newNotif = {
+        active: true,
+        id: "notif_" + Date.now(),
+        title: title,
+        message: message
+    };
+
+    try {
+        await fetch(FB_NOTIF, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(newNotif)
+        });
+        showLoading(false);
+        showToast('Notifikasi berhasil dikirim ke semua user!');
+        $('notifTitle').value = '';
+        $('notifMsg').value = '';
+    } catch (e) {
+        showLoading(false);
+        showToast('Gagal kirim notifikasi!', true);
+    }
+});
+
+// ==========================================
+// DASHBOARD USER LOGIC
 // ==========================================
 async function checkDaily() {
-    if (!curUser) return;
+    if (!curUser || isAdmin) return;
     const today = new Date().toDateString();
     if (curLastClaim === today) return;
 
@@ -318,6 +363,7 @@ function saveLocalKeys() {
 
 function renderHistory() {
     const list = $('historyList');
+    if(!list) return;
     list.innerHTML = '';
     $('historyCount').textContent = `(${localKeys.length})`;
     const now = Date.now();
@@ -364,7 +410,7 @@ window.delKey = (keyStr) => {
     saveLocalKeys();
 };
 
-$('btnSync').onclick = async () => {
+$('btnSync')?.addEventListener('click', async () => {
     showLoading(true);
     const dbK = await fetchKeys();
     const dbKeyStrings = dbK.map(k => k.key);
@@ -372,12 +418,12 @@ $('btnSync').onclick = async () => {
     saveLocalKeys();
     showLoading(false);
     showToast('Database disinkronkan.');
-};
+});
 
 // ==========================================
 // KEY GENERATOR LOGIC
 // ==========================================
-$('btnGenerate').onclick = () => {
+$('btnGenerate')?.addEventListener('click', () => {
     const type = $('keyDuration').value;
     
     if (BUY_PRICES[type]) {
@@ -439,9 +485,9 @@ $('btnGenerate').onclick = () => {
     } else {
         pendingAction();
     }
-};
+});
 
-$('btnSubmitPass').onclick = () => {
+$('btnSubmitPass')?.addEventListener('click', () => {
     const p = $('inputSysPass').value;
     if (p === "putzzdev") {
         $('modalPass').classList.remove('active');
@@ -449,18 +495,18 @@ $('btnSubmitPass').onclick = () => {
     } else {
         $('passMsg').textContent = "Password Sistem Salah!";
     }
-};
+});
 
-$('btnCancelPass').onclick = () => {
+$('btnCancelPass')?.addEventListener('click', () => {
     $('modalPass').classList.remove('active');
     pendingAction = null;
-};
+});
 
-$('btnCloseWarn').onclick = () => $('modalWarn').classList.remove('active');
-$('btnCopyKey').onclick = () => {
+$('btnCloseWarn')?.addEventListener('click', () => $('modalWarn').classList.remove('active'));
+$('btnCopyKey')?.addEventListener('click', () => {
     const k = $('resultKey').value;
     if (k) copyTxt(k);
-};
+});
 
 // Init Awal
 showLoading(false);
