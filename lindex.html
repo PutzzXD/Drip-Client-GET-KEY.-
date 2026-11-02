@@ -1,0 +1,1854 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>DRIP KEY • Generator by Putzzdev</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800;900&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; }
+        
+        body {
+            min-height: 100vh;
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            position: relative;
+            background: #0a0a12;
+            color: #e2e8f0;
+            overflow-x: hidden;
+        }
+        
+        .loading-screen {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at center, #0d0d1a 0%, #0a0a12 100%);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+        .loading-screen.fade-out { opacity: 0; visibility: hidden; }
+        .loader-container { text-align: center; animation: fadeInUp 0.6s ease; }
+        
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .loader-logo {
+            width: 90px; height: 90px;
+            background: linear-gradient(135deg, #7c3aed, #a855f7);
+            border-radius: 28px;
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 1.5rem;
+            box-shadow: 0 0 35px rgba(124, 58, 237, 0.4);
+            animation: logoPulse 1.8s ease-in-out infinite;
+        }
+        
+        @keyframes logoPulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 30px rgba(124,58,237,0.4); }
+            50% { transform: scale(1.05); box-shadow: 0 0 50px rgba(124,58,237,0.7); }
+        }
+        
+        .loader-logo i { font-size: 3rem; color: #fff; }
+        .loader-title {
+            font-family: 'Orbitron', sans-serif; font-size: 2.2rem; font-weight: 800;
+            background: linear-gradient(135deg, #a855f7, #7c3aed);
+            -webkit-background-clip: text; background-clip: text; color: transparent;
+            letter-spacing: 4px; margin-bottom: 0.5rem;
+            filter: drop-shadow(0 2px 10px rgba(124,58,237,0.2));
+        }
+        .loader-sub { color: rgba(255,255,255,0.4); font-size: 0.85rem; letter-spacing: 2px; margin-bottom: 1.5rem; }
+        .loader-sub span { color: #a855f7; font-weight: bold; }
+        .loader-bar-container { width: 220px; height: 4px; background: rgba(124,58,237,0.15); border-radius: 10px; margin: 0 auto; overflow: hidden; }
+        .loader-bar { width: 0%; height: 100%; background: linear-gradient(90deg, #7c3aed, #a855f7); animation: loadingBar 3.5s ease-out forwards; box-shadow: 0 0 10px #7c3aed; }
+        
+        @keyframes loadingBar {
+            0% { width: 0%; } 100% { width: 100%; }
+        }
+        .loader-percent { font-family: 'Orbitron', sans-serif; color: #a855f7; font-size: 0.8rem; margin-top: 8px; font-weight: 600; }
+        
+        .main-content { opacity: 0; transition: opacity 0.5s ease; width: 100%; display: none; justify-content: center; }
+        .main-content.visible { opacity: 1; display: flex; }
+        
+        .cyber-grid {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: 
+                linear-gradient(rgba(124, 58, 237, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(124, 58, 237, 0.03) 1px, transparent 1px);
+            background-size: 40px 40px; z-index: -1; animation: gridMove 30s linear infinite;
+        }
+        @keyframes gridMove { 0% { transform: translate(0, 0); } 100% { transform: translate(40px, 40px); } }
+        
+        .fire-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
+        .particle { position: absolute; background: radial-gradient(circle, rgba(124,58,237,0.6), transparent); border-radius: 50%; opacity: 0; animation: floatUp 6s infinite linear; }
+        @keyframes floatUp {
+            0% { transform: translateY(105vh) scale(0.3); opacity: 0; }
+            30% { opacity: 0.3; }
+            90% { opacity: 0.1; }
+            100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
+        }
+        
+        .container { max-width: 520px; width: 100%; position: relative; z-index: 10; }
+        
+        .key-card {
+            background: rgba(16, 16, 28, 0.85);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border-radius: 32px; padding: 2.2rem 1.8rem;
+            border: 1px solid rgba(124, 58, 237, 0.25);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.6), 0 0 40px rgba(124,58,237,0.05);
+            transition: all 0.3s ease;
+        }
+        .key-card:hover {
+            border-color: rgba(124, 58, 237, 0.4);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.8), 0 0 60px rgba(124,58,237,0.08);
+        }
+        
+        .header { text-align: center; margin-bottom: 2rem; }
+        .logo-icon {
+            width: 65px; height: 65px;
+            background: linear-gradient(135deg, #7c3aed, #a855f7);
+            border-radius: 20px; display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 0.8rem; box-shadow: 0 8px 25px rgba(124,58,237,0.3);
+            transition: transform 0.3s ease;
+        }
+        .logo-icon:hover { transform: rotate(-10deg) scale(1.05); }
+        .logo-icon i { font-size: 2.2rem; color: #fff; }
+        .header h1 {
+            font-family: 'Orbitron', sans-serif; font-size: 2.2rem; font-weight: 900;
+            background: linear-gradient(135deg, #fff, #a855f7);
+            -webkit-background-clip: text; background-clip: text; color: transparent;
+            letter-spacing: 2px;
+            text-shadow: 0 0 30px rgba(124,58,237,0.1);
+        }
+        .header .dev-tag { color: rgba(255,255,255,0.4); font-size: 0.75rem; letter-spacing: 1px; margin-top: 4px; }
+        .header .dev-tag span { color: #a855f7; font-weight: 600; }
+        
+        .field-label { font-size: 0.8rem; color: #a855f7; font-weight: 600; letter-spacing: 1px; margin-bottom: 6px; padding-left: 8px; text-transform: uppercase; display: block; }
+        .select-wrapper, .input-wrapper, .key-display { position: relative; margin-bottom: 1.2rem; }
+        .select-wrapper i, .input-wrapper i, .key-display i {
+            position: absolute; left: 16px; top: 50%; transform: translateY(-50%);
+            color: #a855f7; z-index: 2; font-size: 1rem;
+        }
+        
+        select, #manualKeyInput, #modalPasswordInput, #hasilKey,
+        .input-wrapper input, .select-wrapper select {
+            width: 100%; padding: 17px 18px 17px 50px;
+            background: rgba(10, 10, 20, 0.85);
+            border: 1.5px solid rgba(124,58,237,0.25);
+            border-radius: 16px; font-size: 1.05rem; color: white;
+            font-family: 'Poppins', sans-serif; transition: all 0.3s ease;
+        }
+        select:focus, #manualKeyInput:focus, #modalPasswordInput:focus {
+            outline: none; border-color: #7c3aed; background: rgba(20,20,35,0.95);
+            box-shadow: 0 0 15px rgba(124,58,237,0.25);
+        }
+        
+        select { appearance: none; -webkit-appearance: none; cursor: pointer; }
+        .select-wrapper::after {
+            content: '\f078'; font-family: 'Font Awesome 6 Free'; font-weight: 900;
+            position: absolute; right: 18px; top: 50%; transform: translateY(-50%);
+            color: #a855f7; pointer-events: none; font-size: 0.8rem;
+        }
+        
+        .btn-primary {
+            width: 100%; padding: 18px; border-radius: 16px; font-size: 1.05rem;
+            font-weight: 700; cursor: pointer; display: flex; align-items: center;
+            justify-content: center; gap: 10px; transition: all 0.3s ease;
+            margin-bottom: 1rem; border: none; color: #fff;
+            font-family: 'Orbitron', sans-serif; letter-spacing: 1px;
+            background: linear-gradient(135deg, #7c3aed, #a855f7);
+            box-shadow: 0 6px 20px rgba(124,58,237,0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            transform: rotate(0deg);
+            animation: shimmer 3s infinite;
+        }
+        @keyframes shimmer {
+            0% { transform: translate(-30%, -30%) rotate(0deg); }
+            100% { transform: translate(30%, 30%) rotate(360deg); }
+        }
+        .btn-primary:hover { transform: translateY(-2px) scale(1.02); box-shadow: 0 10px 30px rgba(124,58,237,0.5); }
+        .btn-primary:active { transform: translateY(0) scale(0.98); }
+        
+        .btn-secondary {
+            width: 100%; padding: 15px; border-radius: 16px; font-size: 1rem;
+            font-weight: 600; cursor: pointer; display: flex; align-items: center;
+            justify-content: center; gap: 10px; transition: all 0.3s ease;
+            margin-bottom: 1.2rem; background: rgba(124, 58, 237, 0.04);
+            border: 1.5px solid rgba(124,58,237,0.4); color: #c084fc;
+        }
+        .btn-secondary:hover { background: rgba(124,58,237,0.12); border-color: #a855f7; color: #fff; transform: translateY(-2px); box-shadow: 0 5px 20px rgba(124,58,237,0.1); }
+        
+        #hasilKey { color: #c084fc; font-family: 'Orbitron', monospace; font-weight: 600; text-align: center; padding-left: 16px; padding-right: 16px; background: rgba(124,58,237,0.03); border-style: dashed; }
+        
+        .key-list-section { margin-top: 1.8rem; padding-top: 1.2rem; border-top: 1px solid rgba(124,58,237,0.15); }
+        .key-list-title { color: #a855f7; font-size: 0.85rem; font-weight: 700; margin-bottom: 1rem; display: flex; align-items: center; gap: 8px; justify-content: space-between; font-family: 'Orbitron', sans-serif; letter-spacing: 0.5px; }
+        
+        .sync-btn {
+            background: rgba(124,58,237,0.1); border: 1px solid rgba(124,58,237,0.25);
+            padding: 5px 12px; border-radius: 10px; color: #c084fc;
+            cursor: pointer; font-size: 0.75rem; font-family: 'Poppins', sans-serif; font-weight: 500; transition: 0.2s;
+        }
+        .sync-btn:hover { background: #7c3aed; border-color: #7c3aed; color: #fff; box-shadow: 0 0 10px rgba(124,58,237,0.2); transform: scale(1.05); }
+        
+        .key-list { max-height: 260px; overflow-y: auto; padding-right: 4px; }
+        .key-list::-webkit-scrollbar { width: 4px; }
+        .key-list::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); border-radius: 10px; }
+        .key-list::-webkit-scrollbar-thumb { background: rgba(124,58,237,0.4); border-radius: 10px; }
+        .key-list::-webkit-scrollbar-thumb:hover { background: #7c3aed; }
+        
+        .key-item {
+            background: rgba(20,20,40,0.4); border: 1px solid rgba(255,255,255,0.03);
+            border-radius: 16px; padding: 14px; margin-bottom: 10px;
+            border-left: 4px solid #a855f7; transition: all 0.3s ease;
+        }
+        .key-item:hover { background: rgba(30,30,55,0.5); transform: translateX(5px); border-color: #7c3aed; }
+        .key-item.expired { border-left-color: #ef4444; opacity: 0.5; }
+        .key-value { font-family: 'Orbitron', monospace; font-weight: 700; color: #c084fc; font-size: 0.85rem; word-break: break-all; margin-bottom: 8px; }
+        .key-info { display: flex; justify-content: space-between; align-items: center; font-size: 0.75rem; flex-wrap: wrap; gap: 8px; }
+        .key-type { color: #a5b4fc; background: rgba(165,180,252,0.1); padding: 2px 8px; border-radius: 6px; font-weight: 500; }
+        .key-timer { font-family: monospace; color: #22c55e; font-weight: 600; }
+        .key-timer.expired { color: #ef4444; }
+        
+        .key-actions { display: flex; gap: 6px; }
+        .key-copy-btn, .key-delete-btn {
+            border: none; padding: 4px 10px; border-radius: 8px; cursor: pointer; font-size: 0.7rem; font-weight: 600; font-family: 'Poppins', sans-serif; transition: 0.2s;
+        }
+        .key-copy-btn { background: rgba(124,58,237,0.15); color: #c084fc; }
+        .key-copy-btn:hover { background: #7c3aed; color: #fff; transform: scale(1.05); }
+        .key-delete-btn { background: rgba(239,68,68,0.1); color: #fca5a5; }
+        .key-delete-btn:hover { background: #ef4444; color: #fff; transform: scale(1.05); }
+        
+        .info-panel {
+            margin-top: 1.5rem; padding: 1rem; background: rgba(124,58,237,0.04);
+            border: 1px solid rgba(124,58,237,0.1); border-radius: 18px;
+            font-size: 0.75rem; color: #94a3b8; line-height: 1.5;
+            transition: all 0.3s ease;
+        }
+        .info-panel:hover { background: rgba(124,58,237,0.08); border-color: rgba(124,58,237,0.2); }
+        .info-panel p { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+        .info-panel p:last-child { margin-bottom: 0; }
+        .info-panel i { color: #a855f7; width: 14px; }
+        .info-panel span { color: #c084fc; font-weight: 600; }
+        
+        .developer-credit { text-align: center; margin-top: 1.2rem; color: rgba(255,255,255,0.25); font-size: 0.7rem; font-family: 'Orbitron', sans-serif; letter-spacing: 0.5px; }
+        .developer-credit i { color: #a855f7; }
+        
+        .success-modal, .modal-overlay, .warning-modal {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(3, 3, 5, 0.9); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+            z-index: 2000; display: flex; align-items: center; justify-content: center;
+            opacity: 0; visibility: hidden; transition: all 0.3s ease;
+        }
+        .success-modal.active, .modal-overlay.active, .warning-modal.active { opacity: 1; visibility: visible; }
+        
+        .success-card, .modal-card, .warning-card {
+            background: #0d0d1a; border-radius: 24px; padding: 2.2rem 1.8rem;
+            text-align: center; max-width: 380px; width: 88%;
+            animation: modalPop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .success-card { border: 2px solid #22c55e; box-shadow: 0 0 40px rgba(34,197,94,0.25); }
+        .modal-card { border: 2px solid #7c3aed; box-shadow: 0 0 40px rgba(124,58,237,0.25); }
+        .warning-card { border: 2px solid #f59e0b; box-shadow: 0 0 40px rgba(245,158,11,0.25); }
+        
+        @keyframes modalPop { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        
+        .success-card i { font-size: 3.2rem; color: #22c55e; margin-bottom: 1rem; filter: drop-shadow(0 0 10px rgba(34,197,94,0.3)); }
+        .warning-card i { font-size: 3.2rem; color: #f59e0b; margin-bottom: 1rem; filter: drop-shadow(0 0 10px rgba(245,158,11,0.3)); }
+        .success-card h2, .warning-card h2 { font-family: 'Orbitron', sans-serif; font-size: 1.3rem; color: #fff; font-weight: 700; margin-bottom: 1rem; }
+        .warning-card p { font-size: 0.9rem; color: #94a3b8; margin-bottom: 1.2rem; line-height: 1.6; }
+        .warning-card .key-info-box { 
+            background: rgba(245,158,11,0.08); 
+            border: 1px dashed #f59e0b; 
+            border-radius: 14px; 
+            padding: 12px; 
+            margin: 1rem 0;
+            font-family: 'Orbitron', monospace;
+            font-size: 0.85rem;
+            color: #fbbf24;
+            word-break: break-all;
+        }
+        .warning-card .time-left { color: #22c55e; font-weight: 700; }
+        .success-card .generated-key { background: rgba(34,197,94,0.08); border: 1px dashed #22c55e; border-radius: 14px; padding: 12px; font-family: 'Orbitron', monospace; font-size: 0.9rem; color: #4ade80; font-weight: 600; margin: 1.2rem 0; word-break: break-all; }
+        .success-card button, .modal-card button, .warning-card button { 
+            background: linear-gradient(135deg, #7c3aed, #a855f7); 
+            border: none; padding: 11px 24px; border-radius: 12px; 
+            color: white; font-weight: 700; font-family: 'Orbitron', sans-serif; 
+            cursor: pointer; transition: 0.2s; box-shadow: 0 4px 12px rgba(124,58,237,0.2); 
+        }
+        .warning-card button { background: linear-gradient(135deg, #f59e0b, #d97706); box-shadow: 0 4px 12px rgba(245,158,11,0.2); }
+        .success-card button:hover, .modal-card button:hover, .warning-card button:hover { 
+            transform: translateY(-2px) scale(1.02); 
+            box-shadow: 0 6px 20px rgba(124,58,237,0.4); 
+        }
+        .warning-card button:hover { box-shadow: 0 6px 20px rgba(245,158,11,0.4); }
+        
+        .modal-card i { font-size: 2.5rem; color: #a855f7; margin-bottom: 0.8rem; }
+        .modal-card h3 { color: white; margin-bottom: 0.4rem; font-family: 'Orbitron', sans-serif; font-size: 1.3rem; letter-spacing: 1px; }
+        .modal-card p { font-size: 0.85rem; color: #94a3b8; margin-bottom: 0.5rem; }
+        .modal-card .badge-required { display: none; }
+        .modal-card .password-input-box { position: relative; width: 100%; margin-bottom: 1.2rem; }
+        .modal-card .password-input-box i { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); font-size: 1rem; color: #a855f7; }
+        
+        .toast-msg { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: #7c3aed; color: #fff; padding: 12px 24px; border-radius: 50px; text-align: center; font-weight: 700; font-size: 0.9rem; z-index: 2500; opacity: 0; visibility: hidden; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); box-shadow: 0 10px 25px rgba(0,0,0,0.4); width: 85%; max-width: 340px; }
+        .toast-msg.show { opacity: 1; visibility: visible; bottom: 40px; }
+        
+        .loading { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(3,3,5,0.85); z-index: 2200; display: flex; align-items: center; justify-content: center; opacity: 0; visibility: hidden; transition: 0.3s; backdrop-filter: blur(4px); }
+        .loading.active { opacity: 1; visibility: visible; }
+        .spinner { width: 45px; height: 45px; border: 3.5px solid rgba(124,58,237,0.15); border-top: 3.5px solid #7c3aed; border-radius: 50%; animation: spin 0.8s linear infinite; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        
+        /* ======================== AUTH SCREEN ======================== */
+        .auth-screen {
+            opacity: 0; transition: opacity 0.5s ease; width: 100%;
+            display: none; align-items: center; justify-content: center;
+            position: relative; z-index: 10;
+        }
+        .auth-screen.visible { opacity: 1; display: flex; }
+
+        .auth-tabs {
+            display: flex; gap: 8px; background: rgba(10,10,20,0.85);
+            border: 1.5px solid rgba(124,58,237,0.25); border-radius: 16px;
+            padding: 5px; margin-bottom: 1.6rem;
+        }
+        .auth-tab {
+            flex: 1; text-align: center; padding: 14px; border-radius: 12px;
+            font-family: 'Orbitron', sans-serif; font-size: 0.9rem; font-weight: 700;
+            letter-spacing: 1px; color: #94a3b8; cursor: pointer; transition: 0.25s;
+            border: none; background: transparent;
+        }
+        .auth-tab.active {
+            background: linear-gradient(135deg, #7c3aed, #a855f7); color: #fff;
+            box-shadow: 0 4px 14px rgba(124,58,237,0.3);
+        }
+
+        .auth-form { display: none; }
+        .auth-form.active { display: block; }
+
+        .input-wrapper input#loginPassword,
+        .input-wrapper input#registerPassword,
+        .input-wrapper input#registerPasswordConfirm {
+            padding-right: 46px;
+        }
+
+        .toggle-pass {
+            position: absolute; right: 16px; top: 50%; transform: translateY(-50%);
+            color: #a855f7; cursor: pointer; font-size: 1.1rem; z-index: 3;
+        }
+
+        .auth-msg {
+            font-size: 0.8rem; font-weight: 600; text-align: center;
+            min-height: 18px; margin-bottom: 0.8rem;
+        }
+
+        .session-bar {
+            display: flex; align-items: center; justify-content: space-between;
+            background: rgba(124,58,237,0.06); border: 1px solid rgba(124,58,237,0.15);
+            border-radius: 14px; padding: 10px 14px; margin-bottom: 1.4rem;
+            font-size: 0.8rem; color: #c084fc; flex-wrap: wrap; gap: 8px;
+        }
+        .session-bar span i { color: #a855f7; margin-right: 6px; }
+        .coin-badge {
+            background: rgba(250,204,21,0.1); border: 1px solid rgba(250,204,21,0.35);
+            color: #facc15; padding: 5px 12px; border-radius: 10px; font-weight: 700;
+        }
+        .coin-badge i { color: #facc15 !important; }
+        .logout-btn {
+            background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.35);
+            color: #fca5a5; padding: 5px 12px; border-radius: 10px; cursor: pointer;
+            font-size: 0.72rem; font-weight: 600; font-family: 'Poppins', sans-serif; transition: 0.2s;
+        }
+        .logout-btn:hover { background: #ef4444; color: #fff; border-color: #ef4444; }
+
+        /* ======================== ONLINE BADGE ======================== */
+        .online-badge {
+            display: inline-flex; align-items: center; gap: 6px; margin-top: 10px;
+            background: rgba(34,197,94,0.08); border: 1px solid rgba(34,197,94,0.3);
+            color: #4ade80; padding: 5px 14px; border-radius: 20px;
+            font-size: 0.72rem; font-weight: 600; letter-spacing: 0.5px;
+        }
+        .online-badge i { font-size: 0.55rem; animation: onlinePulse 1.5s infinite; }
+        @keyframes onlinePulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+        /* ======================== ANNOUNCEMENT BANNER ======================== */
+        .announcement-banner {
+            background: rgba(250,204,21,0.08); border: 1px solid rgba(250,204,21,0.35);
+            color: #facc15; padding: 10px 14px; border-radius: 12px; font-size: 0.8rem;
+            margin-bottom: 1.2rem; display: flex; align-items: center; gap: 8px;
+            line-height: 1.4;
+        }
+
+        /* ======================== COIN HISTORY ======================== */
+        .coin-history-toggle {
+            display: flex; align-items: center; justify-content: space-between;
+            background: rgba(124,58,237,0.04); border: 1px solid rgba(124,58,237,0.18);
+            border-radius: 12px; padding: 9px 14px; margin-bottom: 0; cursor: pointer;
+            font-size: 0.78rem; color: #c084fc; font-weight: 600; transition: 0.2s;
+        }
+        .coin-history-toggle:hover { background: rgba(124,58,237,0.08); }
+        .coin-history-toggle i:last-child { transition: transform 0.25s; }
+        .coin-history-toggle.open i:last-child { transform: rotate(180deg); }
+        .coin-history-panel {
+            background: rgba(10,10,20,0.6); border: 1px solid rgba(124,58,237,0.15);
+            border-top: none; border-radius: 0 0 12px 12px; padding: 10px 14px;
+            margin-bottom: 1.2rem; max-height: 220px; overflow-y: auto;
+        }
+        .coin-hist-item {
+            display: flex; align-items: center; justify-content: space-between; gap: 8px;
+            padding: 7px 0; border-bottom: 1px dashed rgba(124,58,237,0.12);
+            font-size: 0.75rem; color: #cbd5e1;
+        }
+        .coin-hist-item:last-child { border-bottom: none; }
+        .coin-hist-amount.plus { color: #4ade80; font-weight: 700; }
+        .coin-hist-amount.minus { color: #f87171; font-weight: 700; }
+        .coin-hist-time { color: #64748b; font-size: 0.68rem; white-space: nowrap; }
+        .coin-hist-empty { text-align: center; color: #64748b; font-size: 0.75rem; padding: 10px 0; }
+
+        /* ======================== THEME TOGGLE ======================== */
+        .theme-toggle-btn {
+            position: fixed; top: 18px; right: 18px; z-index: 999;
+            width: 44px; height: 44px; border-radius: 50%; border: 1.5px solid rgba(124,58,237,0.3);
+            background: rgba(10,10,20,0.85); color: #a855f7; font-size: 1.1rem;
+            cursor: pointer; display: flex; align-items: center; justify-content: center;
+            transition: 0.25s; backdrop-filter: blur(6px);
+        }
+        .theme-toggle-btn:hover { transform: rotate(20deg) scale(1.08); background: rgba(124,58,237,0.15); }
+
+        /* ======================== LIGHT MODE ======================== */
+        body.light-mode { background: #f1f0fb; }
+        body.light-mode .key-card {
+            background: rgba(255,255,255,0.92); border-color: rgba(124,58,237,0.15);
+            box-shadow: 0 20px 60px rgba(124,58,237,0.1);
+        }
+        body.light-mode .header h1, body.light-mode .field-label,
+        body.light-mode #sessionUsername, body.light-mode .coin-history-toggle,
+        body.light-mode .coin-hist-item { color: #4c1d95; }
+        body.light-mode select, body.light-mode #manualKeyInput,
+        body.light-mode #modalPasswordInput, body.light-mode #hasilKey,
+        body.light-mode .input-wrapper input, body.light-mode .select-wrapper select {
+            background: #ffffff; color: #1e1b2e; border-color: rgba(124,58,237,0.2);
+        }
+        body.light-mode .session-bar, body.light-mode .coin-history-panel,
+        body.light-mode .coin-history-toggle { background: rgba(124,58,237,0.04); }
+        body.light-mode .dev-tag { color: rgba(76,29,149,0.5); }
+        body.light-mode .developer-credit { color: rgba(76,29,149,0.4); }
+
+        /* ======================== NOTIFIKASI POPUP ======================== */
+        .notif-wrapper {
+            position: fixed; top: 20px; right: 20px; z-index: 10000;
+            display: flex; flex-direction: column; gap: 10px; pointer-events: none;
+        }
+        .notif-popup {
+            background: rgba(16, 16, 28, 0.95); border: 1px solid #a855f7;
+            border-left: 4px solid #a855f7; border-radius: 12px;
+            padding: 14px 18px; width: 300px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6), 0 0 15px rgba(124,58,237,0.2);
+            transform: translateX(120%); opacity: 0;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            pointer-events: auto; display: flex; gap: 12px; align-items: flex-start;
+        }
+        .notif-popup.show { transform: translateX(0); opacity: 1; }
+        .notif-icon { color: #a855f7; font-size: 1.4rem; margin-top: 2px; }
+        .notif-content { flex: 1; }
+        .notif-title { font-weight: 700; font-size: 0.9rem; margin-bottom: 4px; color: #fff; font-family: 'Orbitron', sans-serif; }
+        .notif-msg { font-size: 0.8rem; color: #cbd5e1; line-height: 1.5; }
+
+        /* ======================== ADMIN PANEL ======================== */
+        .admin-panel {
+            display: none; margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px dashed rgba(124,58,237,0.3);
+        }
+        .admin-panel.active { display: block; }
+
+        /* ======================== GLOBAL CHAT ======================== */
+        .global-chat-section {
+            margin-top: 1.5rem;
+            padding-top: 1.2rem;
+            border-top: 1px solid rgba(124,58,237,0.15);
+        }
+        .chat-toggle {
+            display: flex; align-items: center; justify-content: space-between;
+            background: rgba(124,58,237,0.06); border: 1px solid rgba(124,58,237,0.25);
+            border-radius: 14px; padding: 11px 16px; cursor: pointer;
+            font-size: 0.85rem; color: #c084fc; font-weight: 700;
+            font-family: 'Orbitron', sans-serif; letter-spacing: 0.5px;
+            transition: 0.2s;
+        }
+        .chat-toggle:hover { background: rgba(124,58,237,0.12); border-color: #a855f7; }
+        .chat-toggle .chat-online-dot {
+            display: inline-block; width: 8px; height: 8px; border-radius: 50%;
+            background: #22c55e; margin-right: 6px; animation: onlinePulse 1.5s infinite;
+        }
+        .chat-toggle i:last-child { transition: transform 0.25s; }
+        .chat-toggle.open i:last-child { transform: rotate(180deg); }
+
+        .chat-panel {
+            display: none; margin-top: 10px;
+            background: rgba(10,10,20,0.6);
+            border: 1px solid rgba(124,58,237,0.2);
+            border-radius: 14px; overflow: hidden;
+        }
+        .chat-panel.open { display: block; }
+
+        .chat-messages {
+            height: 280px; overflow-y: auto; padding: 12px;
+            display: flex; flex-direction: column; gap: 8px;
+            scroll-behavior: smooth;
+        }
+        .chat-messages::-webkit-scrollbar { width: 5px; }
+        .chat-messages::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); }
+        .chat-messages::-webkit-scrollbar-thumb { background: rgba(124,58,237,0.4); border-radius: 10px; }
+
+        .chat-empty {
+            text-align: center; color: #64748b; font-size: 0.78rem;
+            padding: 2rem 1rem; font-style: italic;
+        }
+
+        .chat-msg {
+            display: flex; gap: 8px; align-items: flex-start;
+            animation: chatIn 0.25s ease;
+        }
+        @keyframes chatIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+        .chat-avatar {
+            width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0;
+            display: flex; align-items: center; justify-content: center;
+            font-family: 'Orbitron', sans-serif; font-weight: 800; font-size: 0.8rem;
+            color: #fff; background: linear-gradient(135deg, #7c3aed, #a855f7);
+            box-shadow: 0 2px 8px rgba(124,58,237,0.3);
+        }
+        .chat-msg.self .chat-avatar { background: linear-gradient(135deg, #22c55e, #16a34a); }
+
+        .chat-bubble-wrap { flex: 1; min-width: 0; }
+        .chat-meta {
+            display: flex; align-items: center; gap: 6px; margin-bottom: 2px;
+            font-size: 0.65rem; color: #94a3b8; flex-wrap: wrap;
+        }
+        .chat-name { font-weight: 700; color: #c084fc; font-family: 'Poppins', sans-serif; }
+        .chat-msg.self .chat-name { color: #4ade80; }
+        .chat-time { color: #64748b; font-size: 0.6rem; }
+
+        .chat-bubble {
+            background: rgba(124,58,237,0.12); border: 1px solid rgba(124,58,237,0.2);
+            border-radius: 4px 12px 12px 12px;
+            padding: 7px 11px; font-size: 0.82rem; color: #e2e8f0;
+            line-height: 1.45; word-break: break-word; white-space: pre-wrap;
+        }
+        .chat-msg.self .chat-bubble {
+            background: rgba(34,197,94,0.12); border-color: rgba(34,197,94,0.25);
+            color: #d1fae5;
+        }
+        .chat-msg.self { flex-direction: row-reverse; }
+        .chat-msg.self .chat-meta { flex-direction: row-reverse; }
+        .chat-msg.self .chat-bubble { border-radius: 12px 4px 12px 12px; }
+
+        .chat-input-area {
+            display: flex; gap: 8px; padding: 10px;
+            border-top: 1px solid rgba(124,58,237,0.15);
+            background: rgba(16,16,28,0.6);
+        }
+        .chat-input {
+            flex: 1; padding: 10px 14px; border-radius: 12px;
+            background: rgba(10,10,20,0.85); color: #fff;
+            border: 1.5px solid rgba(124,58,237,0.25);
+            font-family: 'Poppins', sans-serif; font-size: 0.85rem;
+            outline: none; transition: 0.2s;
+        }
+        .chat-input:focus { border-color: #7c3aed; box-shadow: 0 0 10px rgba(124,58,237,0.2); }
+        .chat-send-btn {
+            width: 42px; height: 42px; border-radius: 12px; border: none; cursor: pointer;
+            background: linear-gradient(135deg, #7c3aed, #a855f7); color: #fff;
+            font-size: 1rem; display: flex; align-items: center; justify-content: center;
+            transition: 0.2s; box-shadow: 0 4px 12px rgba(124,58,237,0.25);
+        }
+        .chat-send-btn:hover { transform: scale(1.06); box-shadow: 0 6px 18px rgba(124,58,237,0.4); }
+        .chat-send-btn:active { transform: scale(0.95); }
+        .chat-send-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+        body.light-mode .chat-panel { background: rgba(255,255,255,0.7); }
+        body.light-mode .chat-bubble { background: rgba(124,58,237,0.08); color: #1e1b2e; }
+        body.light-mode .chat-msg.self .chat-bubble { background: rgba(34,197,94,0.15); color: #14532d; }
+        body.light-mode .chat-input { background: #fff; color: #1e1b2e; }
+        body.light-mode .chat-input-area { background: rgba(240,240,255,0.6); }
+
+        @media (max-width: 480px) {
+            body { padding: 1rem; }
+            .key-card { padding: 1.6rem 1.2rem; border-radius: 24px; }
+            .header h1 { font-size: 1.8rem; }
+            .loader-title { font-size: 1.8rem; }
+            .theme-toggle-btn { top: 12px; right: 12px; width: 38px; height: 38px; font-size: 0.95rem; }
+            .notif-popup { width: 280px; right: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- NOTIFIKASI POPUP (KANAN ATAS) -->
+<div class="notif-wrapper" id="notifContainer"></div>
+
+<div class="loading-screen" id="loadingScreen">
+    <div class="loader-container">
+        <div class="loader-logo"><i class="fas fa-dragon"></i></div>
+        <div class="loader-title">DRIP KEY</div>
+        <div class="loader-sub">DEVELOPED BY <span>PUTZZDEV</span></div>
+        <div class="loader-bar-container"><div class="loader-bar" id="loaderBar"></div></div>
+        <div class="loader-percent" id="loaderPercent">0%</div>
+    </div>
+</div>
+
+<div class="auth-screen" id="authScreen">
+    <div class="cyber-grid"></div>
+    <div class="fire-bg" id="fireBgAuth"></div>
+
+    <div class="container">
+        <div class="key-card" data-aos="fade-up" data-aos-duration="800">
+            <div class="header">
+                <div class="logo-icon" data-aos="zoom-in" data-aos-delay="200"><i class="fas fa-dragon"></i></div>
+                <h1 data-aos="fade-up" data-aos-delay="300">DRIP KEY</h1>
+                <div class="dev-tag" data-aos="fade-up" data-aos-delay="400">DEVELOPED BY <span>PUTZZDEV</span></div>
+                <div class="online-badge" data-aos="fade-up" data-aos-delay="450"><i class="fas fa-circle"></i> <span class="online-count">-</span> User Online</div>
+            </div>
+
+            <div class="auth-tabs" data-aos="fade-up" data-aos-delay="150">
+                <button class="auth-tab active" id="tabLoginBtn">MASUK</button>
+                <button class="auth-tab" id="tabRegisterBtn">DAFTAR</button>
+            </div>
+
+            <div id="authMsg" class="auth-msg"></div>
+
+            <!-- LOGIN FORM -->
+            <div class="auth-form active" id="loginForm">
+                <label class="field-label">👤 Username</label>
+                <div class="input-wrapper">
+                    <i class="fas fa-user"></i>
+                    <input type="text" id="loginUsername" placeholder="Masukkan username..." autocomplete="username">
+                </div>
+
+                <label class="field-label">🔒 Password</label>
+                <div class="input-wrapper">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="loginPassword" placeholder="Masukkan password..." autocomplete="current-password">
+                    <i class="fas fa-eye toggle-pass" data-target="loginPassword"></i>
+                </div>
+
+                <button class="btn-primary" id="loginBtn">
+                    <i class="fas fa-sign-in-alt"></i> MASUK
+                </button>
+            </div>
+
+            <!-- REGISTER FORM -->
+            <div class="auth-form" id="registerForm">
+                <label class="field-label">👤 Username</label>
+                <div class="input-wrapper">
+                    <i class="fas fa-user"></i>
+                    <input type="text" id="registerUsername" placeholder="Buat username..." autocomplete="username">
+                </div>
+
+                <label class="field-label">🔒 Password</label>
+                <div class="input-wrapper">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="registerPassword" placeholder="Buat password..." autocomplete="new-password">
+                    <i class="fas fa-eye toggle-pass" data-target="registerPassword"></i>
+                </div>
+
+                <label class="field-label">🔒 Konfirmasi Password</label>
+                <div class="input-wrapper">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="registerPasswordConfirm" placeholder="Ulangi password..." autocomplete="new-password">
+                    <i class="fas fa-eye toggle-pass" data-target="registerPasswordConfirm"></i>
+                </div>
+
+                <button class="btn-primary" id="registerBtn">
+                    <i class="fas fa-user-plus"></i> DAFTAR SEKARANG
+                </button>
+            </div>
+
+            <div class="developer-credit" data-aos="fade-up" data-aos-delay="550">
+                <i class="fas fa-code"></i> DRIP CLIENT • SYSTEM BY PUTZZDEV
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="main-content" id="mainContent">
+    <div class="cyber-grid"></div>
+    <div class="fire-bg" id="fireBg"></div>
+
+    <div class="container">
+        <div class="key-card" data-aos="fade-up" data-aos-duration="800">
+            <div class="header">
+                <div class="logo-icon" data-aos="zoom-in" data-aos-delay="200"><i class="fas fa-dragon"></i></div>
+                <h1 data-aos="fade-up" data-aos-delay="300">DRIP KEY</h1>
+                <div class="dev-tag" data-aos="fade-up" data-aos-delay="400">DEVELOPED BY <span>PUTZZDEV</span></div>
+                <div class="online-badge" data-aos="fade-up" data-aos-delay="450"><i class="fas fa-circle"></i> <span class="online-count">-</span> User Online</div>
+            </div>
+
+            <div id="announcementBanner" class="announcement-banner" style="display:none;"></div>
+
+            <div class="session-bar" data-aos="fade-up" data-aos-delay="80">
+                <span><i class="fas fa-user-circle"></i> <span id="sessionUsername">-</span></span>
+                <span class="coin-badge"><i class="fas fa-coins"></i> <span id="sessionCoins">0</span></span>
+                <button class="logout-btn" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> LOGOUT</button>
+            </div>
+
+            <!-- PANEL KHUSUS ADMIN PUTZZDEV -->
+            <div class="admin-panel" id="adminPanel">
+                <label class="field-label" style="color: #facc15;"><i class="fas fa-bullhorn"></i> Kirim Notifikasi Global</label>
+                <div class="input-wrapper" style="margin-bottom: 10px;">
+                    <i class="fas fa-heading"></i>
+                    <input type="text" id="adminNotifTitle" placeholder="Judul pesan...">
+                </div>
+                <div class="input-wrapper">
+                    <i class="fas fa-comment-dots"></i>
+                    <input type="text" id="adminNotifMsg" placeholder="Isi pesan notifikasi...">
+                </div>
+                <button class="btn-secondary" id="btnSendNotif" style="border-color: #facc15; color: #facc15; background: rgba(250,204,21,0.1);">
+                    <i class="fas fa-paper-plane"></i> KIRIM KE SEMUA USER
+                </button>
+                <div style="border-bottom: 1px dashed rgba(124,58,237,0.3); margin: 1.5rem 0;"></div>
+            </div>
+            <!-- END ADMIN PANEL -->
+
+            <div class="coin-history-toggle" id="coinHistoryToggle">
+                <i class="fas fa-receipt"></i> Riwayat Koin <i class="fas fa-chevron-down" id="coinHistoryChevron"></i>
+            </div>
+            <div class="coin-history-panel" id="coinHistoryPanel" style="display:none;">
+                <div id="coinHistoryList" class="coin-hist-list"></div>
+            </div>
+
+            <label class="field-label" data-aos="fade-right" data-aos-delay="100">⏰ Pilih Durasi Key</label>
+            <div class="select-wrapper" data-aos="fade-right" data-aos-delay="150">
+                <i class="fas fa-calendar-alt"></i>
+                <select id="keyTypeSelect">
+                    <option value="1 JAM">⏰ 1 JAM — 3.000 koin</option>
+                    <option value="1 HARI">📅 1 HARI — 5.000 koin</option>
+                    <option value="2 HARI">📅 2 HARI — 10.000 koin</option>
+                    <option value="3 HARI">🔥 3 HARI — 15.000 koin</option>
+                    <option value="4 HARI">🛒 4 HARI — Rp 3.000 (BUY)</option>
+                    <option value="5 HARI">🛒 5 HARI — Rp 4.000 (BUY)</option>
+                    <option value="7 HARI">🛒 7 HARI — Rp 5.000 (BUY)</option>
+                    <option value="30 HARI">🛒 30 HARI — Rp 7.000 (BUY)</option>
+                    <option value="PERMANEN">🛒 PERMANEN — Rp 100.000 (BUY)</option>
+                </select>
+            </div>
+
+            <label class="field-label" data-aos="fade-right" data-aos-delay="200">✍️ Custom Key (Opsional)</label>
+            <div class="input-wrapper" data-aos="fade-right" data-aos-delay="250">
+                <i class="fas fa-pencil-alt"></i>
+                <input type="text" id="manualKeyInput" placeholder="Ketik key custom sendiri...">
+            </div>
+
+            <button class="btn-primary" id="generateBtn" data-aos="fade-up" data-aos-delay="300">
+                <i class="fas fa-magic"></i> GENERATE KEY
+            </button>
+
+            <button class="btn-secondary" id="adminGenerateBtn" data-aos="fade-up" data-aos-delay="320" style="display:none;">
+                <i class="fas fa-user-shield"></i> Generate Manual (Admin)
+            </button>
+
+            <div class="key-display" data-aos="fade-up" data-aos-delay="350">
+                <i class="fas fa-id-card"></i>
+                <input type="text" id="hasilKey" placeholder="Hasil Key akan muncul di sini" readonly>
+            </div>
+
+            <button class="btn-secondary" id="copyBtn" data-aos="fade-up" data-aos-delay="400">
+                <i class="fas fa-copy"></i> SALIN KEY UTAMA
+            </button>
+
+            <div class="key-list-section" data-aos="fade-up" data-aos-delay="450">
+                <div class="key-list-title">
+                    <span><i class="fas fa-history"></i> HISTORY <span id="keyListCount">(0)</span></span>
+                    <button class="sync-btn" id="syncBtn"><i class="fas fa-sync-alt"></i> Sinkron</button>
+                </div>
+                <div class="key-list" id="keyList"></div>
+            </div>
+
+            <div class="info-panel" data-aos="fade-up" data-aos-delay="500">
+                <p><i class="fas fa-database"></i> Database Cloud: <span id="keyCount">0</span> key aktif</p>
+                <p><i class="fas fa-clock"></i> JEDA: 1 key per durasi, tunggu expired untuk generate ulang</p>
+                <p><i class="fas fa-shield-alt"></i> Proteksi Sistem Multi-Password</p>
+            </div>
+
+            <!-- ================= GLOBAL CHAT ================= -->
+            <div class="global-chat-section" data-aos="fade-up" data-aos-delay="520">
+                <div class="chat-toggle" id="chatToggle">
+                    <span><span class="chat-online-dot"></span><i class="fas fa-comments"></i> CHAT GLOBAL <span id="chatCount" style="color:#94a3b8; font-weight:500; font-size:0.75rem;"></span></span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="chat-panel" id="chatPanel">
+                    <div class="chat-messages" id="chatMessages">
+                        <div class="chat-empty">💬 Belum ada pesan. Jadilah yang pertama!</div>
+                    </div>
+                    <div class="chat-input-area">
+                        <input type="text" class="chat-input" id="chatInput" placeholder="Tulis pesan..." maxlength="300" autocomplete="off">
+                        <button class="chat-send-btn" id="chatSendBtn" title="Kirim"><i class="fas fa-paper-plane"></i></button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="developer-credit" data-aos="fade-up" data-aos-delay="550">
+                <i class="fas fa-code"></i> DRIP CLIENT • SYSTEM BY PUTZZDEV
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="success-modal" id="successModal">
+    <div class="success-card" data-aos="zoom-in" data-aos-duration="400">
+        <i class="fas fa-check-circle"></i>
+        <h2>SUKSES GENERATE KEY</h2>
+        <div class="generated-key" id="modalKeyValue">Putzz-XXXX-XXXX</div>
+        <button id="closeSuccessModal"><i class="fas fa-check"></i> CLOSE</button>
+    </div>
+</div>
+
+<div class="warning-modal" id="warningModal">
+    <div class="warning-card" data-aos="zoom-in" data-aos-duration="400">
+        <i class="fas fa-clock"></i>
+        <h2>⏳ JEDA AKTIF</h2>
+        <p>Key anda masih bisa digunakan! Tunggu hingga key expired untuk generate ulang.</p>
+        <div class="key-info-box" id="warningKeyInfo">Putzz-XXXX-XXXX</div>
+        <p style="font-size:0.8rem; color:#94a3b8;">Sisa waktu: <span class="time-left" id="warningTimeLeft">--</span></p>
+        <br>
+        <button id="closeWarningModal"><i class="fas fa-check"></i> OK, SAYA TUNGGU</button>
+    </div>
+</div>
+
+<div class="modal-overlay" id="passwordModal">
+    <div class="modal-card" data-aos="zoom-in" data-aos-duration="400">
+        <i class="fas fa-lock"></i>
+        <h3>VERIFIKASI AKSES</h3>
+        <p>Masukkan password untuk mengakses paket ini</p>
+        
+        <div class="password-input-box">
+            <i class="fas fa-key"></i>
+            <input type="password" id="modalPasswordInput" placeholder="Ketik Password..." autocomplete="off">
+        </div>
+        
+        <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
+            <button id="submitPasswordBtn">PROSES</button>
+            <button id="cancelPasswordBtn" style="background:transparent; border:1px solid #ef4444; color:#ef4444; box-shadow:none;">BATAL</button>
+        </div>
+        <div id="passwordMsg" style="margin-top:12px; font-size:0.85rem; font-weight:600;"></div>
+    </div>
+</div>
+
+<div class="loading" id="loading"><div class="spinner"></div></div>
+<div class="toast-msg" id="toastMsg"></div>
+<button id="themeToggleBtn" class="theme-toggle-btn" title="Ganti tema">
+    <i class="fas fa-sun"></i>
+</button>
+
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+    // ======================== INITIALIZATION ========================
+    const AKUN_URL = "https://akun-dript-default-rtdb.asia-southeast1.firebasedatabase.app/users.json";
+    const NOTIF_URL = "https://akun-dript-default-rtdb.asia-southeast1.firebasedatabase.app/global_notif.json";
+    const FIREBASE_URL = "https://key-database-701af-default-rtdb.asia-southeast1.firebasedatabase.app/keys.json";
+    const CHAT_URL = "https://key-database-701af-default-rtdb.asia-southeast1.firebasedatabase.app/global_chat.json";
+    const MAX_CHAT_RENDER = 100;
+    
+    let currentUserKey = null;
+    let currentCoins = 0;
+    let currentLastClaim = "";
+    let lastNotifId = null;
+    let pendingKeyAction = null;
+    let currentTargetType = ""; 
+    let allKeys = [];
+    let generatedKeys = [];
+    let chatPollingInterval = null;
+    let lastRenderedChatCount = 0;
+
+    const KEY_PRICES = { "1 JAM": 3000, "1 HARI": 5000, "2 HARI": 10000, "3 HARI": 15000 };
+    const BUY_PRICES = { "4 HARI": 3000, "5 HARI": 4000, "7 HARI": 5000, "30 HARI": 7000, "PERMANEN": 100000 };
+    const WA_NUMBER = "6288976255131";
+    const INITIAL_COINS = 5000;
+    const DAILY_CLAIM_COINS = 5000;
+
+    function safeAOSInit() {
+        try { if (typeof AOS !== 'undefined') AOS.init({ once: true, offset: 10, duration: 600 }); } catch (e) {}
+    }
+    function safeAOSRefresh() {
+        try { if (typeof AOS !== 'undefined') AOS.refresh(); } catch (e) {}
+    }
+    safeAOSInit();
+
+    // ======================== NOTIFIKASI SYSTEM ========================
+    function playNotifSound() {
+        try {
+            const ctx = new (window.AudioContext || window.webkitAudioContext)();
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(880, ctx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(1760, ctx.currentTime + 0.1);
+            gain.gain.setValueAtTime(0.3, ctx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.4);
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.start(); osc.stop(ctx.currentTime + 0.4);
+        } catch(e) {}
+    }
+
+    function showPopup(title, msg) {
+        const wrapper = document.getElementById('notifContainer');
+        const popup = document.createElement('div');
+        popup.className = 'notif-popup';
+        popup.innerHTML = `
+            <div class="notif-icon"><i class="fas fa-bell"></i></div>
+            <div class="notif-content">
+                <div class="notif-title">${title}</div>
+                <div class="notif-msg">${msg}</div>
+            </div>
+        `;
+        wrapper.appendChild(popup);
+        setTimeout(() => popup.classList.add('show'), 100);
+        playNotifSound();
+        setTimeout(() => {
+            popup.classList.remove('show');
+            setTimeout(() => popup.remove(), 300);
+        }, 8000);
+    }
+
+    async function checkGlobalNotif() {
+        try {
+            const res = await fetch(NOTIF_URL);
+            const data = await res.json();
+            
+            if (data && data.active) {
+                if (lastNotifId !== data.id) {
+                    lastNotifId = data.id;
+                    showPopup(data.title || 'PENGUMUMAN', data.message);
+                    
+                    const banner = document.getElementById('announcementBanner');
+                    if (banner) {
+                        banner.innerHTML = `<i class="fas fa-bullhorn"></i> <b>${data.title}:</b> ${data.message}`;
+                        banner.style.display = 'flex';
+                    }
+                }
+            }
+        } catch (e) {}
+    }
+    setInterval(checkGlobalNotif, 5000);
+
+    // ======================== UI & LOADING ========================
+    const loadingScreen = document.getElementById('loadingScreen');
+    const mainContent = document.getElementById('mainContent');
+    const authScreen = document.getElementById('authScreen');
+
+    let startTime = Date.now();
+    const loadingInterval = setInterval(() => {
+        const elapsed = (Date.now() - startTime) / 1000;
+        const progress = Math.min(elapsed / 2.5, 1);
+        document.getElementById('loaderPercent').innerText = Math.floor(progress * 100) + '%';
+        
+        if (progress >= 1) {
+            clearInterval(loadingInterval);
+            loadingScreen.classList.add('fade-out');
+            revealApp();
+            setTimeout(() => { loadingScreen.style.display = 'none'; }, 500);
+            setTimeout(() => safeAOSRefresh(), 600);
+        }
+    }, 50);
+
+    function revealApp() {
+        const savedUser = localStorage.getItem('dripUsername');
+        const savedUserKey = localStorage.getItem('dripUserKey');
+        if (savedUser && savedUserKey) {
+            currentUserKey = savedUserKey;
+            currentCoins = parseInt(localStorage.getItem('dripCoins') || '0', 10);
+            currentLastClaim = localStorage.getItem('dripLastClaim') || '';
+            document.getElementById('sessionUsername').innerText = savedUser;
+            updateCoinUI();
+            renderCoinHistory();
+            mainContent.classList.add('visible');
+            
+            if (savedUser.toLowerCase() === 'putzzdev') {
+                document.getElementById('adminPanel').classList.add('active');
+            }
+
+            checkDailyClaim();
+            syncAccountFromServer();
+            sendHeartbeat();
+            checkGlobalNotif();
+        } else {
+            authScreen.classList.add('visible');
+        }
+    }
+
+    // ======================== ADMIN NOTIF LOGIC ========================
+    document.getElementById('btnSendNotif').addEventListener('click', async () => {
+        const title = document.getElementById('adminNotifTitle').value.trim();
+        const msg = document.getElementById('adminNotifMsg').value.trim();
+        
+        if (!title || !msg) return showToast("⚠️ Judul dan pesan wajib diisi!", false);
+
+        showLoading(true);
+        const newNotif = {
+            active: true,
+            id: "notif_" + Date.now(),
+            title: title,
+            message: msg
+        };
+
+        try {
+            await fetch(NOTIF_URL, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(newNotif)
+            });
+            showLoading(false);
+            showToast("✅ Notifikasi berhasil dikirim ke semua user!", true);
+            document.getElementById('adminNotifTitle').value = '';
+            document.getElementById('adminNotifMsg').value = '';
+            checkGlobalNotif();
+        } catch (e) {
+            showLoading(false);
+            showToast("❌ Gagal mengirim notifikasi!", false);
+        }
+    });
+
+    // ======================== USER DB LOGIC ========================
+    function sanitizeUsername(name) {
+        return name.trim().toLowerCase().replace(/[.#$\[\]\/\s]/g, '_');
+    }
+    function getTodayStr() {
+        const d = new Date();
+        return `${d.getFullYear()}-${(d.getMonth()+1).toString().padStart(2,'0')}-${d.getDate().toString().padStart(2,'0')}`;
+    }
+    function updateCoinUI() {
+        const el = document.getElementById('sessionCoins');
+        if (el) el.innerText = currentCoins.toLocaleString('id-ID');
+    }
+    function persistCoinSession() {
+        localStorage.setItem('dripCoins', currentCoins);
+        localStorage.setItem('dripLastClaim', currentLastClaim);
+    }
+    function renderCoinHistory() {
+        const box = document.getElementById('coinHistoryList');
+        if (!box) return;
+        const history = JSON.parse(localStorage.getItem('dripCoinHistory') || '[]');
+        if (history.length === 0) {
+            box.innerHTML = '<div class="coin-hist-empty">Belum ada riwayat.</div>';
+            return;
+        }
+        box.innerHTML = history.map(h => {
+            const positive = h.amount > 0;
+            const waktu = new Date(h.time).toLocaleString('id-ID', { day:'2-digit', month:'2-digit', hour:'2-digit', minute:'2-digit' });
+            return `<div class="coin-hist-item">
+                <span>${h.note}</span>
+                <span class="coin-hist-amount ${positive ? 'plus' : 'minus'}">${positive ? '+' : ''}${h.amount.toLocaleString('id-ID')}</span>
+                <span class="coin-hist-time">${waktu}</span>
+            </div>`;
+        }).join('');
+    }
+    async function logCoinHistory(note, amount) {
+        if (!currentUserKey) return;
+        const entry = { note, amount, time: Date.now() };
+        let history = JSON.parse(localStorage.getItem('dripCoinHistory') || '[]');
+        history.unshift(entry);
+        history = history.slice(0, 20);
+        localStorage.setItem('dripCoinHistory', JSON.stringify(history));
+        renderCoinHistory();
+        try {
+            await fetch(`${AKUN_URL.replace('.json', '')}/${currentUserKey}/coinHistory.json`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(entry)
+            });
+        } catch (err) {}
+    }
+    async function checkDailyClaim() {
+        if (!currentUserKey) return;
+        const today = getTodayStr();
+        if (currentLastClaim === today) return;
+
+        currentCoins += DAILY_CLAIM_COINS;
+        currentLastClaim = today;
+        updateCoinUI();
+        persistCoinSession();
+        logCoinHistory('🎁 Bonus harian', DAILY_CLAIM_COINS);
+
+        try {
+            await fetch(`${AKUN_URL.replace('.json', '')}/${currentUserKey}.json`, {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ coins: currentCoins, lastClaimDate: currentLastClaim })
+            });
+            showToast(`🎁 Bonus harian +${DAILY_CLAIM_COINS.toLocaleString('id-ID')} koin!`, true);
+        } catch (err) {}
+    }
+    async function sendHeartbeat() {
+        if (!currentUserKey) return;
+        try {
+            await fetch(`${AKUN_URL.replace('.json', '')}/${currentUserKey}/lastActive.json`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(Date.now())
+            });
+        } catch (err) {}
+    }
+    async function updateOnlineCount() {
+        try {
+            const res = await fetch(AKUN_URL);
+            const all = await res.json();
+            let count = 0;
+            if (all) {
+                const now = Date.now();
+                Object.values(all).forEach(u => {
+                    if (u && typeof u.lastActive === 'number' && (now - u.lastActive) < 30000) count++;
+                });
+            }
+            document.querySelectorAll('.online-count').forEach(el => { el.innerText = count; });
+        } catch (err) {}
+    }
+    updateOnlineCount();
+    setInterval(updateOnlineCount, 15000);
+
+    function forceBanLogout(reason) {
+        localStorage.clear();
+        alert(`🚫 Akun kamu telah di-BAN.\n\nAlasan: ${reason || 'Tidak disebutkan'}`);
+        location.reload();
+    }
+    async function syncAccountFromServer() {
+        if (!currentUserKey) return;
+        try {
+            const res = await fetch(`${AKUN_URL.replace('.json', '')}/${currentUserKey}.json`);
+            const data = await res.json();
+            if (!data) return;
+
+            if (data.banned === true) {
+                forceBanLogout(data.banReason);
+                return;
+            }
+
+            if (typeof data.coins === 'number' && data.coins !== currentCoins) {
+                const diff = data.coins - currentCoins;
+                currentCoins = data.coins;
+                updateCoinUI();
+                persistCoinSession();
+                if (diff > 0) {
+                    showToast(`💰 Koin bertambah +${diff.toLocaleString('id-ID')} (update dari admin)`, true);
+                } else {
+                    showToast(`⚠️ Koin diperbarui oleh admin: ${data.coins.toLocaleString('id-ID')}`, false);
+                }
+            }
+        } catch (err) {}
+    }
+    setInterval(() => {
+        if (currentUserKey) {
+            syncAccountFromServer();
+            checkDailyClaim();
+            sendHeartbeat();
+        }
+    }, 10000);
+
+    async function deductCoins(amount, note) {
+        currentCoins = Math.max(0, currentCoins - amount);
+        updateCoinUI();
+        persistCoinSession();
+        if (note) logCoinHistory(note, -amount);
+        if (!currentUserKey) return;
+        try {
+            await fetch(`${AKUN_URL.replace('.json', '')}/${currentUserKey}/coins.json`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(currentCoins)
+            });
+        } catch (err) {}
+    }
+
+    async function handleRegister() {
+        const rawUsername = document.getElementById('registerUsername').value.trim();
+        const password = document.getElementById('registerPassword').value;
+        const confirmPassword = document.getElementById('registerPasswordConfirm').value;
+
+        if (!rawUsername || !password) { setAuthMsg('⚠️ Username & password wajib diisi!', true); return; }
+        if (password.length < 4) { setAuthMsg('⚠️ Password minimal 4 karakter!', true); return; }
+        if (password !== confirmPassword) { setAuthMsg('⚠️ Konfirmasi password tidak cocok!', true); return; }
+
+        const userKey = sanitizeUsername(rawUsername);
+        showLoading(true);
+        try {
+            const checkRes = await fetch(`${AKUN_URL.replace('.json', '')}/${userKey}.json`);
+            const existing = await checkRes.json();
+            if (existing) {
+                setAuthMsg('❌ Username sudah dipakai, pilih yang lain!', true);
+                showLoading(false);
+                return;
+            }
+
+            const todayStr = getTodayStr();
+            await fetch(`${AKUN_URL.replace('.json', '')}/${userKey}.json`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    username: rawUsername,
+                    password: password,
+                    coins: INITIAL_COINS,
+                    lastClaimDate: todayStr,
+                    banned: false,
+                    banReason: "",
+                    lastActive: Date.now(),
+                    createdAt: Date.now()
+                })
+            });
+
+            showLoading(false);
+            currentUserKey = userKey;
+            currentCoins = INITIAL_COINS;
+            currentLastClaim = todayStr;
+            localStorage.setItem('dripUsername', rawUsername);
+            localStorage.setItem('dripUserKey', userKey);
+            localStorage.removeItem('dripCoinHistory');
+            persistCoinSession();
+            document.getElementById('sessionUsername').innerText = rawUsername;
+            updateCoinUI();
+            logCoinHistory('✨ Bonus akun baru', INITIAL_COINS);
+            
+            if (rawUsername.toLowerCase() === 'putzzdev') {
+                document.getElementById('adminPanel').classList.add('active');
+            }
+
+            showToast(`✅ Registrasi berhasil! Bonus +${INITIAL_COINS.toLocaleString('id-ID')} koin 🎉`, true);
+            goToGenerator();
+        } catch (err) {
+            showLoading(false);
+            setAuthMsg('❌ Gagal terhubung ke server, coba lagi!', true);
+        }
+    }
+
+    async function handleLogin() {
+        const rawUsername = document.getElementById('loginUsername').value.trim();
+        const password = document.getElementById('loginPassword').value;
+
+        if (!rawUsername || !password) { setAuthMsg('⚠️ Username & password wajib diisi!', true); return; }
+
+        const userKey = sanitizeUsername(rawUsername);
+        showLoading(true);
+        try {
+            const res = await fetch(`${AKUN_URL.replace('.json', '')}/${userKey}.json`);
+            const data = await res.json();
+            showLoading(false);
+
+            if (!data) { setAuthMsg('❌ Akun tidak ditemukan!', true); return; }
+            if (data.password !== password) { setAuthMsg('❌ Password salah!', true); return; }
+            if (data.banned === true) {
+                setAuthMsg(`🚫 Akun ini di-BAN. Alasan: ${data.banReason || 'Tidak disebutkan'}`, true);
+                return;
+            }
+
+            currentUserKey = userKey;
+            currentCoins = typeof data.coins === 'number' ? data.coins : 0;
+            currentLastClaim = data.lastClaimDate || '';
+            localStorage.setItem('dripUsername', data.username);
+            localStorage.setItem('dripUserKey', userKey);
+            localStorage.removeItem('dripCoinHistory');
+            persistCoinSession();
+            document.getElementById('sessionUsername').innerText = data.username;
+            updateCoinUI();
+            renderCoinHistory();
+            sendHeartbeat();
+            
+            if (data.username.toLowerCase() === 'putzzdev') {
+                document.getElementById('adminPanel').classList.add('active');
+            }
+
+            showToast('✅ Login berhasil!', true);
+            goToGenerator();
+            await checkDailyClaim();
+        } catch (err) {
+            showLoading(false);
+            setAuthMsg('❌ Gagal terhubung ke server, coba lagi!', true);
+        }
+    }
+
+    function goToGenerator() {
+        authScreen.classList.remove('visible');
+        setTimeout(() => {
+            authScreen.style.display = 'none';
+            mainContent.classList.add('visible');
+            safeAOSRefresh();
+        }, 300);
+    }
+
+    function handleLogout() {
+        localStorage.removeItem('dripUsername');
+        localStorage.removeItem('dripUserKey');
+        localStorage.removeItem('dripCoins');
+        localStorage.removeItem('dripLastClaim');
+        localStorage.removeItem('dripCoinHistory');
+        location.reload();
+    }
+
+    // ======================== TAB & PASS TOGGLE ========================
+    document.getElementById('tabLoginBtn').addEventListener('click', () => {
+        document.getElementById('tabLoginBtn').classList.add('active');
+        document.getElementById('tabRegisterBtn').classList.remove('active');
+        document.getElementById('loginForm').classList.add('active');
+        document.getElementById('registerForm').classList.remove('active');
+        setAuthMsg('', false);
+    });
+    document.getElementById('tabRegisterBtn').addEventListener('click', () => {
+        document.getElementById('tabRegisterBtn').classList.add('active');
+        document.getElementById('tabLoginBtn').classList.remove('active');
+        document.getElementById('registerForm').classList.add('active');
+        document.getElementById('loginForm').classList.remove('active');
+        setAuthMsg('', false);
+    });
+
+    document.querySelectorAll('.toggle-pass').forEach(icon => {
+        icon.addEventListener('click', () => {
+            const target = document.getElementById(icon.dataset.target);
+            if (target.type === 'password') {
+                target.type = 'text';
+                icon.classList.replace('fa-eye', 'fa-eye-slash');
+            } else {
+                target.type = 'password';
+                icon.classList.replace('fa-eye-slash', 'fa-eye');
+            }
+        });
+    });
+
+    document.getElementById('loginBtn').addEventListener('click', handleLogin);
+    document.getElementById('registerBtn').addEventListener('click', handleRegister);
+    document.getElementById('logoutBtn').addEventListener('click', handleLogout);
+
+    // ======================== THEME ========================
+    const themeToggleBtn = document.getElementById('themeToggleBtn');
+    function applyTheme(mode) {
+        if (mode === 'light') {
+            document.body.classList.add('light-mode');
+            themeToggleBtn.innerHTML = '<i class="fas fa-moon"></i>';
+        } else {
+            document.body.classList.remove('light-mode');
+            themeToggleBtn.innerHTML = '<i class="fas fa-sun"></i>';
+        }
+    }
+    let currentTheme = localStorage.getItem('dripTheme') || 'dark';
+    applyTheme(currentTheme);
+    themeToggleBtn.addEventListener('click', () => {
+        currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        localStorage.setItem('dripTheme', currentTheme);
+        applyTheme(currentTheme);
+    });
+
+    document.getElementById('coinHistoryToggle').addEventListener('click', () => {
+        const panel = document.getElementById('coinHistoryPanel');
+        const toggle = document.getElementById('coinHistoryToggle');
+        const isOpen = panel.style.display !== 'none';
+        panel.style.display = isOpen ? 'none' : 'block';
+        toggle.classList.toggle('open', !isOpen);
+        if (!isOpen) renderCoinHistory();
+    });
+
+    // ======================== KEY GENERATOR & DB ========================
+    function getSecondsFromJenis(jenis) {
+        switch(jenis) {
+            case "1 JAM": return 3600; case "1 HARI": return 86400;
+            case "2 HARI": return 172800; case "3 HARI": return 259200;
+            case "4 HARI": return 345600; case "5 HARI": return 432000;
+            case "7 HARI": return 604800; case "30 HARI": return 2592000;
+            case "PERMANEN": return 999999999; default: return 0;
+        }
+    }
+    function formatTimeRemaining(expiryTime) {
+        const now = Date.now(); const remaining = expiryTime - now;
+        if (remaining <= 0) return null;
+        const hours = Math.floor(remaining / (1000 * 3600));
+        const minutes = Math.floor((remaining % (1000 * 3600)) / (1000 * 60));
+        const seconds = Math.floor((remaining % (1000 * 60)) / 1000);
+        if (hours > 0) return `${hours} Jam ${minutes} Menit ${seconds} Detik`;
+        else if (minutes > 0) return `${minutes} Menit ${seconds} Detik`;
+        else return `${seconds} Detik`;
+    }
+    function formatTimeRemainingShort(expiryTime) {
+        const now = Date.now(); const remaining = expiryTime - now;
+        if (remaining <= 0) return null;
+        const hours = Math.floor(remaining / (1000 * 3600));
+        const minutes = Math.floor((remaining % (1000 * 3600)) / (1000 * 60));
+        const seconds = Math.floor((remaining % (1000 * 60)) / 1000);
+        if (hours > 0) return `${hours}j ${minutes}m ${seconds}d`;
+        else if (minutes > 0) return `${minutes}m ${seconds}d`;
+        else return `${seconds}d`;
+    }
+    function hasActiveKeyForDuration(keyJenis) {
+        const now = Date.now();
+        for (let item of generatedKeys) {
+            if (item.jenis === keyJenis) {
+                if (keyJenis === "PERMANEN") return true;
+                if (item.expiryTime && item.expiryTime > now) return true;
+            }
+        }
+        return false;
+    }
+    function getActiveKeyForDuration(keyJenis) {
+        const now = Date.now();
+        for (let item of generatedKeys) {
+            if (item.jenis === keyJenis) {
+                if (keyJenis === "PERMANEN") return item;
+                if (item.expiryTime && item.expiryTime > now) return item;
+            }
+        }
+        return null;
+    }
+    function verifySystemPassword(inputPass, keyJenis) {
+        const currentDate = new Date();
+        if (keyJenis === "3 HARI") {
+            const expiryDate = new Date('2026-06-10T23:59:59');
+            if (currentDate > expiryDate) { showToast("🚫 Sesi Password 3 Hari Telah Kedaluwarsa!", false); return "EXPIRED"; }
+            return inputPass.trim() === "putzzdev" ? "SUCCESS" : "WRONG";
+        }
+        const premiumTypes = ["4 HARI", "5 HARI", "7 HARI", "30 HARI", "PERMANEN"];
+        if (premiumTypes.includes(keyJenis)) return inputPass.trim() === "Putzz XD" ? "SUCCESS" : "WRONG";
+        return "SUCCESS";
+    }
+    function isAlreadyAuthenticated(keyJenis) {
+        const savedPass = localStorage.getItem(`auth_pass_${keyJenis}`);
+        if (savedPass && verifySystemPassword(savedPass, keyJenis) === "SUCCESS") return true;
+        return false;
+    }
+    function showWarningModal(keyValue, keyJenis, expiryTime) {
+        const modal = document.getElementById('warningModal');
+        const keyInfo = document.getElementById('warningKeyInfo');
+        const timeLeft = document.getElementById('warningTimeLeft');
+        keyInfo.textContent = `🔑 ${keyValue}`;
+        const timeStr = formatTimeRemaining(expiryTime);
+        timeLeft.textContent = timeStr || "Segera expired!";
+        modal.classList.add('active');
+        const interval = setInterval(() => {
+            const newTime = formatTimeRemaining(expiryTime);
+            if (newTime) timeLeft.textContent = newTime;
+            else {
+                timeLeft.textContent = "⏰ EXPIRED! Silakan generate ulang";
+                clearInterval(interval);
+                setTimeout(() => { modal.classList.remove('active'); showToast("⏰ Key telah expired!", true); }, 2000);
+            }
+        }, 1000);
+        document.getElementById('closeWarningModal').onclick = function() { clearInterval(interval); modal.classList.remove('active'); };
+    }
+    function showSuccessModal(keyValue, keyJenis, expiryTime) {
+        const modal = document.getElementById('successModal');
+        const modalKey = document.getElementById('modalKeyValue');
+        const isProtected = ["3 HARI", "4 HARI", "5 HARI", "7 HARI", "30 HARI", "PERMANEN"].includes(keyJenis);
+        const timeLeft = formatTimeRemainingShort(expiryTime);
+        const statusText = keyJenis === "PERMANEN" ? "👑 PERMANEN" : (timeLeft ? `⏳ ${timeLeft}` : "⏰ EXPIRED");
+        modalKey.innerHTML = `
+            <i class="fas fa-key"></i> ${keyValue}
+            <br>
+            <span style="font-size:0.75rem; color:#a5b4fc; display:block; margin-top:5px;">
+                Durasi: ${keyJenis} | ${statusText}
+                ${isProtected ? ' <span style="background:rgba(124,58,237,0.15); color:#a855f7; font-size:0.6rem; padding:2px 8px; border-radius:4px; margin-left:5px; font-weight:600;"><i class="fas fa-lock"></i> Protected</span>' : ''}
+            </span>
+        `;
+        modal.classList.add('active');
+        setTimeout(() => { modal.classList.remove('active'); }, 4000);
+    }
+    document.getElementById('closeSuccessModal').addEventListener('click', () => { document.getElementById('successModal').classList.remove('active'); });
+
+    async function loadKeys() {
+        try {
+            const response = await fetch(FIREBASE_URL);
+            if (!response.ok) throw new Error('Gagal fetch data');
+            const data = await response.json();
+            allKeys = data ? Object.values(data) : [];
+            document.getElementById('keyCount').innerText = allKeys.length;
+            return allKeys;
+        } catch(e) { document.getElementById('keyCount').innerText = '⚠️ Error'; return []; }
+    }
+    async function saveKeyToFirebase(keyData) {
+        showLoading(true);
+        try {
+            const response = await fetch(FIREBASE_URL, {
+                method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(keyData)
+            });
+            if (!response.ok) throw new Error('Gagal menyimpan ke database');
+            await loadKeys(); return true;
+        } catch(e) { showToast(`❌ Error: ${e.message}`, false); return false; }
+        finally { showLoading(false); }
+    }
+    async function syncWithDatabase() {
+        showLoading(true);
+        try {
+            const dbKeys = await loadKeys();
+            const dbKeyValues = new Set(dbKeys.map(k => k.key));
+            const validKeys = generatedKeys.filter(key => dbKeyValues.has(key.key));
+            if (validKeys.length !== generatedKeys.length) { generatedKeys = validKeys; saveGeneratedKeys(); showToast("🔄 Sinkronisasi Selesai!", true); }
+            else showToast("✅ Seluruh data key valid.", true);
+        } catch(e) { showToast("❌ Sinkronisasi Gagal", false); }
+        finally { showLoading(false); }
+    }
+    function loadGeneratedKeys() {
+        const saved = localStorage.getItem('drip_generated_keys');
+        if (saved) {
+            try {
+                generatedKeys = JSON.parse(saved);
+                const now = Date.now();
+                generatedKeys = generatedKeys.filter(key => {
+                    if (key.jenis === "PERMANEN") return true;
+                    if (!key.expiryTime) return true;
+                    return key.expiryTime > now;
+                });
+                saveGeneratedKeys();
+            } catch(e) {}
+        }
+        renderKeyList();
+    }
+    function saveGeneratedKeys() {
+        localStorage.setItem('drip_generated_keys', JSON.stringify(generatedKeys));
+        renderKeyList();
+    }
+    function addGeneratedKey(keyValue, keyJenis, expiryTime) {
+        const now = Date.now();
+        const newKey = { key: keyValue, jenis: keyJenis, createdAt: now, expiryTime: keyJenis !== "PERMANEN" ? expiryTime : null };
+        generatedKeys.unshift(newKey);
+        if (generatedKeys.length > 30) generatedKeys = generatedKeys.slice(0, 30);
+        saveGeneratedKeys();
+    }
+    function removeGeneratedKey(keyValue, keyJenis) {
+        generatedKeys = generatedKeys.filter(k => k.key !== keyValue);
+        saveGeneratedKeys();
+        showToast("🗑️ History lokal dihapus", true);
+    }
+    function generateRandomKey() {
+        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        let key = '';
+        for (let i = 0; i < 8; i++) key += chars.charAt(Math.floor(Math.random() * chars.length));
+        const timestamp = Date.now().toString().slice(-4);
+        return `Putzz-${key}-${timestamp}`;
+    }
+    async function processSaveKey(keyValue, keyJenis) {
+        const today = new Date();
+        const tanggal = `${today.getDate().toString().padStart(2,'0')}-${(today.getMonth()+1).toString().padStart(2,'0')}-${today.getFullYear()}`;
+        const jam = `${today.getHours().toString().padStart(2,'0')}:${today.getMinutes().toString().padStart(2,'0')}`;
+        const expirySeconds = getSecondsFromJenis(keyJenis);
+        const expiryTime = keyJenis !== "PERMANEN" ? Date.now() + (expirySeconds * 1000) : null;
+        const expiryDate = expiryTime ? new Date(expiryTime) : null;
+        const expiryDateStr = expiryDate ? `${expiryDate.getDate().toString().padStart(2,'0')}-${(expiryDate.getMonth()+1).toString().padStart(2,'0')}-${expiryDate.getFullYear()} ${expiryDate.getHours().toString().padStart(2,'0')}:${expiryDate.getMinutes().toString().padStart(2,'0')}` : "PERMANEN";
+        
+        const keyData = { key: keyValue, jenis: keyJenis, tanggal_dibuat: tanggal, jam_dibuat: jam, expiry_date: expiryDateStr, expiry_timestamp: expiryTime, status: "aktif" };
+        const success = await saveKeyToFirebase(keyData);
+        if (success) {
+            const price = KEY_PRICES[keyJenis] || 0;
+            if (price > 0) await deductCoins(price, `🔑 Generate ${keyJenis}`);
+            document.getElementById('hasilKey').value = keyValue;
+            addGeneratedKey(keyValue, keyJenis, expiryTime);
+            showToast(`✨ Key Berhasil Dibuat! (-${price.toLocaleString('id-ID')} koin) ✨`, true);
+            showSuccessModal(keyValue, keyJenis, expiryTime);
+        }
+    }
+    function openPasswordModal(keyJenis, onSuccessCallback) {
+        pendingKeyAction = onSuccessCallback; currentTargetType = keyJenis;
+        document.getElementById('passwordModal').classList.add('active');
+        document.getElementById('modalPasswordInput').value = '';
+        document.getElementById('passwordMsg').innerHTML = '';
+        setTimeout(() => document.getElementById('modalPasswordInput').focus(), 200);
+    }
+    function closePasswordModal() { document.getElementById('passwordModal').classList.remove('active'); pendingKeyAction = null; }
+    function checkSubmitPassword() {
+        const inputPass = document.getElementById('modalPasswordInput').value;
+        const msgDiv = document.getElementById('passwordMsg');
+        const result = verifySystemPassword(inputPass, currentTargetType);
+        if (result === "SUCCESS") {
+            msgDiv.innerHTML = '<span style="color:#22c55e;">✅ Akses Diterima!</span>';
+            localStorage.setItem(`auth_pass_${currentTargetType}`, inputPass);
+            setTimeout(() => {
+                document.getElementById('passwordModal').classList.remove('active');
+                if (pendingKeyAction) { pendingKeyAction(); pendingKeyAction = null; }
+            }, 600);
+        } else if (result === "EXPIRED") msgDiv.innerHTML = '<span style="color:#ef4444;">🚫 Sesi Password Telah Kedaluwarsa!</span>';
+        else {
+            msgDiv.innerHTML = '<span style="color:#ef4444;">❌ Password Salah!</span>';
+            document.getElementById('modalPasswordInput').value = '';
+            document.getElementById('modalPasswordInput').focus();
+        }
+    }
+    function redirectToBuy(keyJenis) {
+        const price = BUY_PRICES[keyJenis];
+        const pesan = `Halo min, saya ingin membeli KEY *${keyJenis}* seharga *Rp ${price.toLocaleString('id-ID')}*. Mohon info lebih lanjut 🙏`;
+        window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(pesan)}`, '_blank');
+    }
+    function updateGenerateButton() {
+        const keyJenis = document.getElementById('keyTypeSelect').value;
+        const btn = document.getElementById('generateBtn');
+        const adminBtn = document.getElementById('adminGenerateBtn');
+        if (BUY_PRICES.hasOwnProperty(keyJenis)) {
+            btn.innerHTML = `<i class="fab fa-whatsapp"></i> BUY — Rp ${BUY_PRICES[keyJenis].toLocaleString('id-ID')}`;
+            adminBtn.style.display = 'flex';
+        } else { btn.innerHTML = `<i class="fas fa-magic"></i> GENERATE KEY`; adminBtn.style.display = 'none'; }
+    }
+    function handleAdminGenerate() {
+        const keyJenis = document.getElementById('keyTypeSelect').value;
+        if (!BUY_PRICES.hasOwnProperty(keyJenis)) return;
+        const manualKey = document.getElementById('manualKeyInput').value.trim();
+        const finalKey = manualKey || generateRandomKey();
+        const action = () => { processSaveKey(finalKey, keyJenis); };
+        if (isAlreadyAuthenticated(keyJenis)) action();
+        else openPasswordModal(keyJenis, action);
+    }
+    function handleGenerate() {
+        const keyJenis = document.getElementById('keyTypeSelect').value;
+        if (BUY_PRICES.hasOwnProperty(keyJenis)) { redirectToBuy(keyJenis); return; }
+        const manualKey = document.getElementById('manualKeyInput').value.trim();
+        let finalKey = manualKey || generateRandomKey();
+        const price = KEY_PRICES[keyJenis] || 0;
+        if (currentCoins <= 0) { showToast('🚫 Koin kamu habis!', false); return; }
+        if (currentCoins < price) { showToast(`🚫 Koin tidak cukup! Butuh ${price}`, false); return; }
+        if (hasActiveKeyForDuration(keyJenis)) {
+            const activeKey = getActiveKeyForDuration(keyJenis);
+            if (activeKey) { showWarningModal(activeKey.key, keyJenis, activeKey.expiryTime); return; }
+        }
+        const action = () => { processSaveKey(finalKey, keyJenis); };
+        if (["3 HARI"].includes(keyJenis)) { if (isAlreadyAuthenticated(keyJenis)) action(); else openPasswordModal(keyJenis, action); }
+        else action();
+    }
+    function copyKey() {
+        const keyInput = document.getElementById('hasilKey');
+        if (!keyInput.value) { showToast("⚠️ Data key kosong!", false); return; }
+        copyToClipboard(keyInput.value);
+    }
+    function copyToClipboard(text) {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(() => showToast("✅ Salin Sukses!", true)).catch(() => fallbackCopy(text));
+        } else fallbackCopy(text);
+    }
+    function fallbackCopy(text) {
+        const textarea = document.createElement('textarea');
+        textarea.value = text; textarea.style.position = 'fixed'; textarea.style.top = '-9999px';
+        document.body.appendChild(textarea); textarea.select();
+        try { document.execCommand('copy'); showToast("✅ Salin Sukses!", true); }
+        catch (err) { showToast("❌ Gagal menyalin", false); }
+        document.body.removeChild(textarea);
+    }
+    window.copySpecificKey = copyToClipboard;
+    window.deleteGeneratedKey = removeGeneratedKey;
+    function showToast(msg, isSuccess) {
+        const toast = document.getElementById('toastMsg');
+        toast.innerText = msg;
+        toast.style.background = isSuccess ? 'linear-gradient(135deg, #7c3aed, #a855f7)' : '#ef4444';
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 2500);
+    }
+    function showLoading(show) {
+        const loading = document.getElementById('loading');
+        if (show) loading.classList.add('active');
+        else loading.classList.remove('active');
+    }
+    function renderKeyList() {
+        const container = document.getElementById('keyList');
+        const countSpan = document.getElementById('keyListCount');
+        if (!container) return;
+        const now = Date.now();
+        let html = '';
+        generatedKeys.forEach((item) => {
+            const isExpired = item.expiryTime && now > item.expiryTime;
+            const expiredClass = isExpired ? 'expired' : '';
+            let timerText = '';
+            if (item.jenis === "PERMANEN") timerText = '<span style="color:#a855f7; font-weight:bold;">👑 PERMANEN</span>';
+            else if (isExpired) timerText = '<span class="key-timer expired">⏰ EXPIRED</span>';
+            else { const timeLeft = formatTimeRemainingShort(item.expiryTime); timerText = `<span class="key-timer">⏳ ${timeLeft}</span>`; }
+
+            html += `
+                <div class="key-item ${expiredClass}">
+                    <div class="key-value">🔑 ${item.key}</div>
+                    <div class="key-info">
+                        <span class="key-type">${item.jenis}</span>
+                        <span>${timerText}</span>
+                        <div class="key-actions">
+                            <button class="key-copy-btn" onclick="copySpecificKey('${item.key}')"><i class="fas fa-copy"></i></button>
+                            <button class="key-delete-btn" onclick="deleteGeneratedKey('${item.key}', '${item.jenis}')"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+        if (generatedKeys.length === 0) html = '<div style="text-align:center; color:#52525b; padding:1.5rem; font-size:0.85rem;">✨ Belum ada key terdeteksi ✨</div>';
+        container.innerHTML = html;
+        countSpan.innerText = `(${generatedKeys.length})`;
+        safeAOSRefresh();
+    }
+    setInterval(() => { renderKeyList(); }, 1000);
+
+    document.getElementById('generateBtn').addEventListener('click', handleGenerate);
+    document.getElementById('adminGenerateBtn').addEventListener('click', handleAdminGenerate);
+    document.getElementById('keyTypeSelect').addEventListener('change', updateGenerateButton);
+    updateGenerateButton();
+    document.getElementById('copyBtn').addEventListener('click', copyKey);
+    document.getElementById('submitPasswordBtn').addEventListener('click', checkSubmitPassword);
+    document.getElementById('cancelPasswordBtn').addEventListener('click', closePasswordModal);
+    document.getElementById('syncBtn').addEventListener('click', syncWithDatabase);
+
+    function createParticles(containerId) {
+        const container = document.getElementById(containerId);
+        if (!container) return;
+        for (let i = 0; i < 35; i++) {
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+            const size = Math.random() * 6 + 2;
+            particle.style.width = size + 'px'; particle.style.height = size + 'px';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDuration = 4 + Math.random() * 5 + 's';
+            particle.style.animationDelay = Math.random() * 4 + 's';
+            particle.style.background = `radial-gradient(circle, rgba(124,${Math.floor(58 + Math.random() * 50)},237,0.6), transparent)`;
+            container.appendChild(particle);
+        }
+    }
+    createParticles('fireBg');
+    createParticles('fireBgAuth');
+
+    // ======================== GLOBAL CHAT ========================
+    document.getElementById('chatToggle').addEventListener('click', () => {
+        const panel = document.getElementById('chatPanel');
+        const toggle = document.getElementById('chatToggle');
+        const isOpen = panel.classList.contains('open');
+        panel.classList.toggle('open', !isOpen);
+        toggle.classList.toggle('open', !isOpen);
+        if (!isOpen) {
+            loadChatMessages(true);
+            scrollChatToBottom();
+        }
+    });
+
+    document.getElementById('chatInput').addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            sendChatMessage();
+        }
+    });
+    document.getElementById('chatSendBtn').addEventListener('click', sendChatMessage);
+
+    async function sendChatMessage() {
+        const input = document.getElementById('chatInput');
+        const btn = document.getElementById('chatSendBtn');
+        const text = input.value.trim();
+
+        if (!text) return;
+        if (!currentUserKey) { showToast("⚠️ Login dulu untuk chat!", false); return; }
+        if (text.length > 300) { showToast("⚠️ Pesan maksimal 300 karakter!", false); return; }
+
+        const username = localStorage.getItem('dripUsername') || 'Anonim';
+        const msgData = {
+            user: username,
+            userKey: currentUserKey,
+            message: text,
+            time: Date.now()
+        };
+
+        btn.disabled = true;
+        input.value = '';
+
+        try {
+            const res = await fetch(CHAT_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(msgData)
+            });
+            if (!res.ok) throw new Error('Gagal kirim');
+            await loadChatMessages(false);
+            scrollChatToBottom();
+        } catch (err) {
+            showToast("❌ Gagal kirim pesan, coba lagi", false);
+            input.value = text;
+        } finally {
+            btn.disabled = false;
+            input.focus();
+        }
+    }
+
+    async function loadChatMessages(forceScroll) {
+        try {
+            const res = await fetch(CHAT_URL);
+            if (!res.ok) return;
+            const data = await res.json();
+
+            const container = document.getElementById('chatMessages');
+            const countEl = document.getElementById('chatCount');
+            if (!container) return;
+
+            if (!data) {
+                container.innerHTML = '<div class="chat-empty">💬 Belum ada pesan. Jadilah yang pertama!</div>';
+                if (countEl) countEl.innerText = '(0)';
+                return;
+            }
+
+            const messages = Object.values(data)
+                .filter(m => m && m.message && m.user)
+                .sort((a, b) => (a.time || 0) - (b.time || 0));
+
+            if (countEl) countEl.innerText = `(${messages.length})`;
+
+            if (!forceScroll && messages.length === lastRenderedChatCount) return;
+            lastRenderedChatCount = messages.length;
+
+            const recent = messages.slice(-MAX_CHAT_RENDER);
+            const myName = (localStorage.getItem('dripUsername') || '').toLowerCase();
+
+            container.innerHTML = recent.map(m => {
+                const isSelf = m.user.toLowerCase() === myName;
+                const initial = (m.user || '?').charAt(0).toUpperCase();
+                const t = new Date(m.time || Date.now());
+                const timeStr = `${t.getHours().toString().padStart(2,'0')}:${t.getMinutes().toString().padStart(2,'0')}`;
+                const safeMsg = String(m.message)
+                    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+                    .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+                const safeUser = String(m.user)
+                    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+                return `<div class="chat-msg ${isSelf ? 'self' : ''}">
+                    <div class="chat-avatar">${initial}</div>
+                    <div class="chat-bubble-wrap">
+                        <div class="chat-meta">
+                            <span class="chat-name">${isSelf ? 'Kamu' : safeUser}</span>
+                            <span class="chat-time">${timeStr}</span>
+                        </div>
+                        <div class="chat-bubble">${safeMsg}</div>
+                    </div>
+                </div>`;
+            }).join('');
+
+            if (forceScroll) scrollChatToBottom();
+        } catch (e) {}
+    }
+
+    function scrollChatToBottom() {
+        const box = document.getElementById('chatMessages');
+        if (box) box.scrollTop = box.scrollHeight;
+    }
+
+    function startChatPolling() {
+        if (chatPollingInterval) clearInterval(chatPollingInterval);
+        chatPollingInterval = setInterval(() => {
+            const panel = document.getElementById('chatPanel');
+            if (panel && panel.classList.contains('open')) {
+                loadChatMessages(false);
+            }
+        }, 3000);
+    }
+    startChatPolling();
+
+    setTimeout(() => {
+        if (currentUserKey) {
+            loadChatMessages(false);
+        }
+    }, 1500);
+
+    loadKeys();
+    loadGeneratedKeys();
+</script>
+
+</body>
+</html>
