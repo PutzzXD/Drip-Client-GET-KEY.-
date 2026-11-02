@@ -1,37 +1,10 @@
 // ==========================================
-// 🔒 SYSTEM KEAMANAN & ENKRIPSI DATABASE
-// ==========================================
-const SECRET_SALT = "PutzzDripSecret2026!";
-
-function encryptData(data) {
-    const jsonStr = JSON.stringify(data);
-    let result = "";
-    for (let i = 0; i < jsonStr.length; i++) {
-        result += String.fromCharCode(jsonStr.charCodeAt(i) ^ SECRET_SALT.charCodeAt(i % SECRET_SALT.length));
-    }
-    return btoa(encodeURIComponent(result));
-}
-
-function decryptData(encoded) {
-    try {
-        const decoded = decodeURIComponent(atob(encoded));
-        let result = "";
-        for (let i = 0; i < decoded.length; i++) {
-            result += String.fromCharCode(decoded.charCodeAt(i) ^ SECRET_SALT.charCodeAt(i % SECRET_SALT.length));
-        }
-        return JSON.parse(result);
-    } catch (e) {
-        return null;
-    }
-}
-
-// ==========================================
 // KONFIGURASI DATABASE (URL FIREBASE)
 // ==========================================
 const FB_BASE = "https://akun-dript-default-rtdb.asia-southeast1.firebasedatabase.app";
-const FB_KEYS = `${FB_BASE}/keys_enc.json`;
-const FB_USERS = `${FB_BASE}/users_enc.json`;
-const FB_NOTIF = `${FB_BASE}/global_notif.json`; 
+const FB_KEYS = `${FB_BASE}/keys.json`; // Path database key
+const FB_USERS = `${FB_BASE}/users.json`; // Path database user
+const FB_NOTIF = `${FB_BASE}/global_notif.json`; // Path notifikasi global
 
 // ==========================================
 // KONFIGURASI HARGA & SYSTEM
@@ -109,7 +82,7 @@ $('tabRegister').onclick = () => {
 };
 
 // ==========================================
-// SISTEM NOTIFIKASI GLOBAL
+// SISTEM NOTIFIKASI (GLOBAL & PER-AKUN)
 // ==========================================
 function playNotifSound() {
     try {
@@ -117,79 +90,97 @@ function playNotifSound() {
         const osc = ctx.createOscillator();
         const gain = ctx.createGain();
         osc.type = 'sine';
-        osc.frequency.setValueAtTime(880, ctx.currentTime);
-        osc.frequency.exponentialRampToValueAtTime(1760, ctx.currentTime + 0.1);
-        gain.gain.setValueAtTime(0.5, ctx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.5);
+        osc.frequency.setValueAtTime(880, ctx.currentTime); // Nada A5
+        osc.frequency.exponentialRampToValueAtTime(1760, ctx.currentTime + 0.1); // Naik ke A6
+        
+        gain.gain.setValueAtTime(0.3, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.4);
+        
         osc.connect(gain);
         gain.connect(ctx.destination);
         osc.start();
-        osc.stop(ctx.currentTime + 0.5);
+        osc.stop(ctx.currentTime + 0.4);
     } catch(e) {}
 }
 
-async function checkGlobalNotif() {
+function showPopup(title, msg, isGlobal = false) {
+    const wrapper = $('notifContainer');
+    const popup = document.createElement('div');
+    popup.className = 'notif-popup';
+    popup.innerHTML = `
+        <div class="notif-icon" style="color: ${isGlobal ? 'var(--accent)' : 'var(--success)'};">
+            <i class="fas ${isGlobal ? 'fa-bullhorn' : 'fa-envelope'}"></i>
+        </div>
+        <div class="notif-content">
+            <div class="notif-title">${title}</div>
+            <div class="notif-msg">${msg}</div>
+        </div>
+    `;
+    wrapper.appendChild(popup);
+    
+    setTimeout(() => popup.classList.add('show'), 100);
+    playNotifSound();
+
+    setTimeout(() => {
+        popup.classList.remove('show');
+        setTimeout(() => popup.remove(), 300);
+    }, 8000);
+}
+
+async function checkNotifs() {
     try {
-        const res = await fetch(FB_NOTIF);
-        const data = await res.json();
-        if (!data || !data.active) return;
+        // 1. Cek Notifikasi Global
+        const resGlobal = await fetch(FB_NOTIF);
+        const globalNotif = await resGlobal.json();
+        
+        if (globalNotif && globalNotif.active) {
+            if (lastNotifId !== globalNotif.id) {
+                lastNotifId = globalNotif.id;
+                showPopup(globalNotif.title || 'PENGUMUMAN', globalNotif.message, true);
+                
+                const banner = $('authBanner');
+                banner.innerHTML = `<i class="fas fa-bullhorn"></i> <b>${globalNotif.title}:</b> ${globalNotif.message}`;
+                banner.classList.add('show');
+            }
+        }
 
-        if (lastNotifId !== data.id) {
-            lastNotifId = data.id;
+        // 2. Cek Notifikasi Per-Akun (Koin nambah dari Admin)
+        if (curUser) {
+            const resUser = await fetch(`${FB_BASE}/users/${curUser}.json`);
+            const userData = await resUser.json();
             
-            const wrapper = $('notifContainer');
-            const popup = document.createElement('div');
-            popup.className = 'notif-popup';
-            popup.innerHTML = `
-                <div class="notif-icon"><i class="fas fa-bell"></i></div>
-                <div class="notif-content">
-                    <div class="notif-title">${data.title || 'PENGUMUMAN'}</div>
-                    <div class="notif-msg">${data.message}</div>
-                </div>
-            `;
-            wrapper.appendChild(popup);
-            
-            setTimeout(() => popup.classList.add('show'), 100);
-            playNotifSound();
-
-            setTimeout(() => {
-                popup.classList.remove('show');
-                setTimeout(() => popup.remove(), 300);
-            }, 8000);
-
-            const banner = $('authBanner');
-            banner.innerHTML = `<i class="fas fa-bullhorn"></i> <b>${data.title}:</b> ${data.message}`;
-            banner.classList.add('show');
+            if (userData && typeof userData.coins === 'number' && userData.coins !== curCoins) {
+                const diff = userData.coins - curCoins;
+                curCoins = userData.coins;
+                $('sessionCoin').textContent = curCoins.toLocaleString('id-ID');
+                
+                if (diff > 0) {
+                    showPopup('Koin Ditambahkan', `Admin menambahkan ${diff.toLocaleString('id-ID')} koin ke akun kamu!`, false);
+                }
+            }
         }
     } catch (e) { }
 }
 
-setInterval(checkGlobalNotif, 5000);
-checkGlobalNotif();
+// Jalanin cek notif tiap 5 detik
+setInterval(checkNotifs, 5000);
 
 // ==========================================
-// SISTEM DATABASE (FIREBASE ENCRYPTED)
+// SISTEM DATABASE (FIREBASE)
 // ==========================================
 async function fetchUsers() {
     try {
         const res = await fetch(FB_USERS);
         const data = await res.json();
-        if (!data) return {};
-        let decrypted = {};
-        for (let k in data) {
-            const dec = decryptData(data[k]);
-            if (dec) decrypted[k] = dec;
-        }
-        return decrypted;
+        return data || {};
     } catch (e) { return {}; }
 }
 
 async function saveUser(username, userData) {
-    const enc = encryptData(userData);
-    await fetch(`${FB_BASE}/users_enc/${username}.json`, {
+    await fetch(`${FB_BASE}/users/${username}.json`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(enc)
+        body: JSON.stringify(userData)
     });
 }
 
@@ -198,22 +189,16 @@ async function fetchKeys() {
         const res = await fetch(FB_KEYS);
         const data = await res.json();
         if (!data) return [];
-        let arr = [];
-        for (let k in data) {
-            const dec = decryptData(data[k]);
-            if (dec) arr.push(dec);
-        }
-        return arr;
+        return Object.values(data);
     } catch (e) { return []; }
 }
 
 async function saveKeyDB(keyObj) {
-    const enc = encryptData(keyObj);
     const id = "key_" + Date.now() + Math.floor(Math.random()*1000);
-    await fetch(`${FB_BASE}/keys_enc/${id}.json`, {
+    await fetch(`${FB_BASE}/keys/${id}.json`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(enc)
+        body: JSON.stringify(keyObj)
     });
 }
 
@@ -241,8 +226,19 @@ $('btnRegister').onclick = async () => {
         return showMsg('authMsg', 'Username sudah dipakai!');
     }
 
-    const newUser = { username: u, password: p, coins: INIT_COINS, lastClaim: new Date().toDateString() };
+    const newUser = { 
+        username: u, 
+        password: p, 
+        coins: INIT_COINS, 
+        lastClaim: new Date().toDateString() 
+    };
     await saveUser(uname, newUser);
+    
+    // Notifikasi Per-Akun saat berhasil daftar
+    setTimeout(() => {
+        showPopup('Akun Dibuat', `Selamat datang ${u}! Kamu dapat ${INIT_COINS} koin gratis.`, false);
+    }, 500);
+
     showLoading(false);
     showMsg('authMsg', 'Registrasi berhasil! Silakan login.', false);
     $('tabLogin').click();
@@ -273,6 +269,7 @@ $('btnLogin').onclick = async () => {
     showCard('dashCard');
     loadLocalKeys();
     checkDaily();
+    checkNotifs(); // Cek notif langsung pas login
 };
 
 $('btnLogout').onclick = () => {
